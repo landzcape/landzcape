@@ -1,0 +1,46 @@
+{
+  "contexts": [
+    {
+      "name": "surfshop",
+      "label": "My Surfshop!"
+    }
+  ],
+  "domains": [
+    {
+      "name": "surfing",
+      "label": "Surfing",
+      "context": "surfshop"
+    }
+  ],
+  "layers": [
+    {
+      "name": "es",
+      "label": "Edge Service"
+    }
+  ],
+  "components": [
+    {
+      "name": "reservation-es",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Reservation es",
+      "layer": "es",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "oauth-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    }
+  ]
+}

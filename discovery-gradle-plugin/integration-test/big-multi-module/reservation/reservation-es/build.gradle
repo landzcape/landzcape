@@ -1,0 +1,10 @@
+apply plugin: 'java'
+
+description =  'Reservation es'
+dependencies {
+    compile project(':customer:customer-cs')
+    compile project(':inventory:inventory-cs')
+    compile project(':reservation:reservation-cs')
+    compile project(':capabilities:rest-capability')
+    compile project(':capabilities:oauth-capability')
+}

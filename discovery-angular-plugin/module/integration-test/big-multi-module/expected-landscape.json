@@ -1,0 +1,111 @@
+{
+  "contexts": [
+    {
+      "name": "surfshop",
+      "label": "Surfshop"
+    }
+  ],
+  "domains": [
+    {
+      "name": "surfing",
+      "label": "My Domain",
+      "context": "surfshop"
+    }
+  ],
+  "layers": [
+    {
+      "name": "ui",
+      "label": "User Interface"
+    }
+  ],
+  "components": [
+    {
+      "name": "AppModule",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "AppModule",
+      "layer": "ui",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "APPLICATION",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "CustomerModule",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "ReservationModule",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "WeatherStationModule",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "CustomerModule",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "CustomerModule",
+      "layer": "ui",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "SharedModule",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "ReservationModule",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "ReservationModule",
+      "layer": "ui",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "SharedModule",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "SharedModule",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "SharedModule",
+      "layer": "ui",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "COMMON",
+      "interfaces": [],
+      "dependencies": []
+    },
+    {
+      "name": "WeatherStationModule",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "WeatherStationModule",
+      "layer": "ui",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": []
+    }
+  ]
+}

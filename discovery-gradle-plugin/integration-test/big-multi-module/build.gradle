@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'io.landzcape:discovery-gradle-plugin:1.0'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    group = 'com.surfshop'
+    version = '1.0'
+}
+
+apply plugin: 'io.landzcape.discovery'
+
+landscape {
+    context = 'surfshop'
+    domain = 'surfing'
+    includes = ['com.surfshop::']
+    excludes = ['com.surfshop:excluded-module:']
+
+    contexts {
+        context name: 'surfshop', label: 'My Surfshop!'
+        context name: 'kiteshop', label: 'My Kiteshop'
+    }
+
+    domains {
+        domain name: 'surfing', label: 'Surfing', context: 'surfshop'
+    }
+
+    layers {
+        layer name: 'es', label: 'Edge Service', matching: '*-es'
+        layer name: 'cs', label: 'Core Service', matching: '*-cs'
+    }
+}

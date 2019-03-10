@@ -1,0 +1,11 @@
+apply plugin: 'java'
+
+description =  'Customer es'
+
+dependencies {
+    compile project(':customer:customer-cs')
+    compile project(':advertising:advertising-cs')
+    compile project(':commons:common-domain')
+    compile project(':capabilities:rest-capability')
+    compile project(':capabilities:oauth-capability')
+}

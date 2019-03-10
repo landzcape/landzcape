@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.surfshop</groupId>
+        <artifactId>surfshop</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <groupId>com.surfshop</groupId>
+    <artifactId>weather</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0</version>
+
+    <name>Surfshop Weather</name>
+
+    <modules>
+        <module>temperature-cs</module>
+        <module>water-level-cs</module>
+        <module>weather-station-es</module>
+        <module>weather-station-es-api</module>
+        <module>other-goupid-module</module>
+        <module>excluded-module</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.landzcape</groupId>
+                <artifactId>discovery-maven-plugin</artifactId>
+                <version>1.0</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>discover</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <domain>weather</domain>
+                    <domains>
+                        <domain>
+                            <name>weather</name>
+                            <context>surfshop</context>
+                            <label>Weather</label>
+                        </domain>
+                    </domains>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

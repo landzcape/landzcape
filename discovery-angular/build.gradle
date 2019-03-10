@@ -1,0 +1,44 @@
+apply plugin: 'kotlin2js'
+
+evaluationDependsOn(':domain')
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.assertj:assertj-core:3.8.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+}
+
+compileKotlin2Js {
+    kotlinOptions.outputFile = "${buildDir}/js/landscape.js"
+    kotlinOptions.moduleKind = "umd"
+    kotlinOptions.sourceMap = true
+}
+
+task copyJsFilesFromDependencies(type: Sync) {
+    from configurations.compile.collect { File file ->
+        zipTree(file.absolutePath).asFileTree.matching{ include '*.js' }
+    }
+    into "$buildDir/js-kotlin"
+}
+
+sourceSets {
+    main.kotlin.srcDirs += "${project.projectDir}/src/generated/kotlin"
+}
+
+task importDomain(type: Sync) {
+    from project(':domain').sourceSets.main.kotlin.srcDirs
+    into "${project.projectDir}/src/generated/kotlin"
+}
+
+task assembleWeb(type: Zip, dependsOn: [classes, compileKotlin2Js, copyJsFilesFromDependencies]) {
+    destinationDir = buildDir
+    from "${buildDir}/js"
+    from "${buildDir}/js-kotlin"
+}
+
+compileJava.dependsOn(importDomain)
+build.dependsOn(assembleWeb)

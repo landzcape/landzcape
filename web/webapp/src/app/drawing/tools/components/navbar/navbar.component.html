@@ -1,0 +1,58 @@
+<div (mouseleave)="startHiding()">
+  <div class="icon-bar">
+    <a (click)="nav = LAYERS" href="javascript:void(0)">
+      <i class="fa fa-layer-group"></i>
+    </a>
+    <a (click)="nav = STRUCTURE" href="javascript:void(0)">
+      <i class="fa fa-project-diagram"></i>
+    </a>
+    <a (click)="nav = COMMONS" href="javascript:void(0)">
+      <i class="fa fa-wrench"></i>
+    </a>
+    <a (click)="nav = CAPABILTIES" href="javascript:void(0)">
+      <i class="fa fa-university"></i>
+    </a>
+    <a (click)="nav = APPLICATIONS" href="javascript:void(0)">
+      <i class="fa fa-toolbox"></i>
+    </a>
+  </div>
+  <div class="bar" *ngIf="nav">
+    <form [formGroup]="navbarFormGroup">
+      <div *ngIf="nav === CAPABILTIES">
+        <h3>Capabilities</h3>
+        <p-listbox [multiple]="true" [checkbox]="true"
+                   [options]="capabilities | async"
+                   [filter]="true"
+                   formControlName="capabilities"></p-listbox>
+      </div>
+      <div *ngIf="nav === COMMONS">
+        <h3>Commons</h3>
+        <p-listbox [multiple]="true" [checkbox]="true"
+                   [options]="commons | async"
+                   [filter]="true"
+                   formControlName="commons"></p-listbox>
+      </div>
+      <div *ngIf="nav === LAYERS">
+        <h3>Layers</h3>
+        <selectable-tree [nodes]="layers | async"
+                           (select)="selectStructureNode($event)"
+                           (unselect)="unselectStructureNode($event)"
+        ></selectable-tree>
+      </div>
+      <div *ngIf="nav === STRUCTURE">
+        <h3>Structure</h3>
+        <selectable-tree [nodes]="structures | async"
+                         (select)="selectStructureNode($event)"
+                         (unselect)="unselectStructureNode($event)"
+        ></selectable-tree>
+      </div>
+      <div *ngIf="nav === APPLICATIONS">
+        <h3>Applications</h3>
+        <selectable-tree [nodes]="applications | async"
+                         (select)="selectStructureNode($event)"
+                         (unselect)="unselectStructureNode($event)"
+        ></selectable-tree>
+      </div>
+    </form>
+  </div>
+</div>

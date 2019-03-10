@@ -1,0 +1,70 @@
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+
+task mvnBuild(type: Exec, dependsOn: [':domain:install', ':web:install']) {
+    standardOutput = new ByteArrayOutputStream()
+    errorOutput = new ByteArrayOutputStream()
+    workingDir "${projectDir}/../discovery-maven-plugin"
+    commandLine 'cmd', '/c', 'mvnw', 'clean', 'install'
+    doLast {
+        println standardOutput.toString()
+        println errorOutput.toString()
+    }
+}
+
+task integrationTestBigMultiModule(type:Exec, dependsOn: mvnBuild ) {
+    standardOutput = new ByteArrayOutputStream()
+    errorOutput = new ByteArrayOutputStream()
+    workingDir "${projectDir}/integration-test/big-multi-module"
+    commandLine 'cmd', '/c', 'mvnw', 'clean', 'install'
+    doLast {
+        println standardOutput.toString()
+        println errorOutput.toString()
+        assertLandscapeJsonIsAsExpected("big-multi-module")
+    }
+}
+
+task integrationTestMerger(type:Exec, dependsOn: mvnBuild ) {
+    standardOutput = new ByteArrayOutputStream()
+    errorOutput = new ByteArrayOutputStream()
+    workingDir "${projectDir}/integration-test/merger"
+    commandLine 'cmd', '/c', 'mvnw', 'clean', 'install'
+    doLast {
+        println standardOutput.toString()
+        println errorOutput.toString()
+        assertLandscapeJsonIsAsExpected("merger")
+    }
+}
+
+task integrationTestExtractWebApp(type:Exec, dependsOn: mvnBuild ) {
+    def targetDir = new File("${projectDir}/integration-test/extract")
+    def appDir = new File(targetDir, "the-app")
+    appDir.deleteDir()
+    appDir.mkdir()
+    standardOutput = new ByteArrayOutputStream()
+    errorOutput = new ByteArrayOutputStream()
+    workingDir "${projectDir}/integration-test/extract"
+    commandLine 'cmd', '/c', 'mvnw', 'clean', 'install'
+    doLast {
+        println standardOutput.toString()
+        println errorOutput.toString()
+        assert new File(appDir, "index.html").exists()
+    }
+}
+
+def assertLandscapeJsonIsAsExpected(mvnProjectName) {
+    def dir = "${projectDir}/integration-test/${mvnProjectName}"
+    def generatedLandscape = file("${dir}/landscape.json")
+    def expectedLandscape = file("${dir}/expected-landscape.json")
+    assert readJson(generatedLandscape) == readJson(expectedLandscape) : "${mvnProjectName}/landscape.json differs from expectation"
+}
+
+def readJson(file) {
+    def slurper = new JsonSlurper()
+    return JsonOutput.prettyPrint(JsonOutput.toJson(slurper.parse(file)))
+}
+
+test.dependsOn integrationTestBigMultiModule
+test.dependsOn integrationTestMerger
+test.dependsOn integrationTestExtractWebApp
+build.dependsOn mvnBuild

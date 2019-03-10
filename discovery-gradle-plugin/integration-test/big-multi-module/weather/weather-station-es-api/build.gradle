@@ -1,0 +1,7 @@
+apply plugin: 'java'
+
+description =  'Weather Station ES API'
+
+dependencies {
+
+}

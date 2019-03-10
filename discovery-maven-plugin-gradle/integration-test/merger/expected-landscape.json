@@ -1,0 +1,73 @@
+{
+  "contexts": [
+    {
+      "name": "surfshop",
+      "label": "My Surfshop!"
+    }
+  ],
+  "domains": [
+    {
+      "name": "surfing",
+      "label": "Surfing",
+      "context": "surfshop"
+    },
+    {
+      "name": "weather",
+      "label": "Weather",
+      "context": "surfshop"
+    }
+  ],
+  "layers": [
+    {
+      "name": "cs",
+      "label": "Core Service"
+    },
+    {
+      "name": "es",
+      "label": "Edge Service"
+    }
+  ],
+  "components": [
+    {
+      "name": "advertising-cs",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Advertising CS",
+      "layer": "cs",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "reservation-es",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Reservation es",
+      "layer": "es",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "oauth-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    }
+  ]
+}

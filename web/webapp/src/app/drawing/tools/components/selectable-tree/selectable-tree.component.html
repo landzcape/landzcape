@@ -1,0 +1,7 @@
+<p-tree [(value)]="structures"
+        selectionMode="checkbox"
+        [(selection)]="selectedStructures"
+        (onNodeExpand)="expandNode($event)"
+        (onNodeCollapse)="collapseNode($event)"
+        (onNodeSelect)="selectStructureNode($event)"
+        (onNodeUnselect)="unselectStructureNode($event)"></p-tree>

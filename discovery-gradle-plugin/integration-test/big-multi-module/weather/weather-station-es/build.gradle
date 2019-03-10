@@ -1,0 +1,10 @@
+apply plugin: 'java'
+
+description =  'Weather Station es'
+
+dependencies {
+    compile project(':capabilities:rest-capability')
+    compile project(':capabilities:oauth-capability')
+    compile project(':weather:water-level-cs')
+    compile project(':weather:temperature-cs')
+}

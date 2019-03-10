@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.surfshop</groupId>
+        <artifactId>reservation</artifactId>
+        <version>1.0</version>
+    </parent>
+    <artifactId>reservation-es</artifactId>
+
+    <name>Reservation es</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.surfshop</groupId>
+            <artifactId>customer-cs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.surfshop</groupId>
+            <artifactId>inventory-cs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.surfshop</groupId>
+            <artifactId>reservation-cs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.surfshop</groupId>
+            <artifactId>rest-capability</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.surfshop</groupId>
+            <artifactId>oauth-capability</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</project>

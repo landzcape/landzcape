@@ -1,0 +1,7 @@
+include 'server'
+include 'domain'
+include 'discovery-angular'
+include 'discovery-angular-plugin'
+include 'discovery-gradle-plugin'
+include 'discovery-maven-plugin-gradle'
+include 'web'

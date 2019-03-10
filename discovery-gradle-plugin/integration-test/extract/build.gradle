@@ -1,0 +1,18 @@
+import io.landzcape.gradle.ExtractWebAppTask
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'io.landzcape:discovery-gradle-plugin:1.0'
+    }
+}
+
+apply plugin: 'io.landzcape.discovery'
+
+task extract(type: ExtractWebAppTask) {
+    target = 'the-app'
+}

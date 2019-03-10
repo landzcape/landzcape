@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.surfshop</groupId>
+    <artifactId>surfshop</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0</version>
+    <name>Surfshop</name>
+
+    <modules>
+        <module>capabilities</module>
+        <module>commons</module>
+        <module>advertising</module>
+        <module>customer</module>
+        <module>inventory</module>
+        <module>reservation</module>
+        <module>surf-app</module>
+        <module>weather</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.landzcape</groupId>
+                <artifactId>discovery-maven-plugin</artifactId>
+                <version>1.0</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>discover</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <context>surfshop</context>
+                    <domain>surfing</domain>
+                    <includes>
+                        <include>com.surfshop::</include>
+                    </includes>
+                    <excludes>
+                        <exclude>com.surfshop:excluded-module:</exclude>
+                    </excludes>
+                    <contexts>
+                        <context>
+                            <name>surfshop</name>
+                            <label>My Surfshop!</label>
+                        </context>
+                    </contexts>
+                    <domains>
+                        <domain>
+                            <name>surfing</name>
+                            <label>Surfing</label>
+                            <context>surfshop</context>
+                        </domain>
+                    </domains>
+                    <layers>
+                        <layer>
+                            <name>es</name>
+                            <label>Edge Service</label>
+                            <matching>*-es</matching>
+                        </layer>
+                        <layer>
+                            <name>cs</name>
+                            <label>Core Service</label>
+                            <matching>*-cs</matching>
+                        </layer>
+                    </layers>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,366 @@
+{
+  "contexts": [
+    {
+      "name": "surfshop",
+      "label": "My Surfshop!"
+    }
+  ],
+  "domains": [
+    {
+      "name": "surfing",
+      "label": "Surfing",
+      "context": "surfshop"
+    },
+    {
+      "name": "weather",
+      "label": "Weather",
+      "context": "surfshop"
+    }
+  ],
+  "components": [
+    {
+      "name": "rest-capability",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "REST Capability",
+      "layer": null,
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "CAPABILITY",
+      "interfaces": [],
+      "dependencies": []
+    },
+    {
+      "name": "oauth-capability",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "OAuth Capability",
+      "layer": null,
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "CAPABILITY",
+      "interfaces": [],
+      "dependencies": []
+    },
+    {
+      "name": "common-domain",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Common Domain",
+      "layer": null,
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "COMMON",
+      "interfaces": [],
+      "dependencies": []
+    },
+    {
+      "name": "advertising-cs",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Advertising CS",
+      "layer": "cs",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "mailer-cs",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Mailer CS",
+      "layer": "cs",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "customer-cs",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Customer CS",
+      "layer": "cs",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "common-domain",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "customer-es",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Customer es",
+      "layer": "es",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "customer-cs",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "advertising-cs",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "common-domain",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "oauth-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "inventory-cs",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Inventory CS",
+      "layer": "cs",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "reservation-cs",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Reservation CS",
+      "layer": "cs",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "reservation-es",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Reservation es",
+      "layer": "es",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "customer-cs",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "inventory-cs",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "reservation-cs",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "oauth-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "surf-app",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Surf App",
+      "layer": null,
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "APPLICATION",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "temperature-cs",
+          "domain": "weather",
+          "context": "surfshop"
+        },
+        {
+          "component": "water-level-cs",
+          "domain": "weather",
+          "context": "surfshop"
+        },
+        {
+          "component": "weather-station-es",
+          "domain": "weather",
+          "context": "surfshop"
+        },
+        {
+          "component": "reservation-es",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "reservation-cs",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "inventory-cs",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "customer-cs",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "customer-es",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "advertising-cs",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "temperature-cs",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Temperature CS",
+      "layer": "cs",
+      "domain": "weather",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "water-level-cs",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Water Level CS",
+      "layer": "cs",
+      "domain": "weather",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    },
+    {
+      "name": "weather-station-es",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Weather Station es",
+      "layer": "es",
+      "domain": "weather",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "temperature-cs",
+          "domain": "weather",
+          "context": "surfshop"
+        },
+        {
+          "component": "water-level-cs",
+          "domain": "weather",
+          "context": "surfshop"
+        },
+        {
+          "component": "oauth-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "name": "es",
+      "label": "Edge Service"
+    },
+    {
+      "name": "cs",
+      "label": "Core Service"
+    }
+  ]
+}

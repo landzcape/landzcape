@@ -1,0 +1,8 @@
+apply plugin: 'java'
+
+description =  'Advertising CS'
+
+dependencies {
+    testCompile 'org.apache.commons:commons-io:1.3.2'
+    compile project(':capabilities:rest-capability')
+}

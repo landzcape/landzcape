@@ -1,0 +1,8 @@
+apply plugin: 'java'
+
+group: 'other.groupid'
+description =  'Other GroupID Module'
+
+dependencies {
+    compile project(':capabilities:rest-capability')
+}

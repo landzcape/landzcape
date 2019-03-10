@@ -1,0 +1,39 @@
+.bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 35px;
+  min-width: 250px;
+  background-color: darkred;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+.bar h3 {
+  padding-left: 10px;
+}
+
+.icon-bar {
+  font-size: 1.3em;
+  color: white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 35px;
+  background-color: darkred;
+  padding-top: 20px;
+}
+
+.icon-bar i {
+  margin: 5px;
+}
+
+a:hover {
+  color: grey;
+}
+
+a, a:visited, a:active {
+  color: white;
+}
+

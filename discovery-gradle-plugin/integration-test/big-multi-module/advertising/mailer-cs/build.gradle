@@ -1,0 +1,7 @@
+apply plugin: 'java'
+
+description =  'Mailer CS'
+
+dependencies {
+    compile project(':capabilities:rest-capability')
+}

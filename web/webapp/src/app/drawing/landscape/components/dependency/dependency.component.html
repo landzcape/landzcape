@@ -1,0 +1,23 @@
+<svg:g>
+
+  <svg:path
+            [attr.d]="stroke"
+            stroke-width="2"
+            stroke="red">
+  </svg:path>
+
+  <svg:g *ngIf="interface">
+    <svg:rect
+      [attr.width]="18"
+      [attr.height]="14"
+      [attr.y]="interface.y - 10"
+      [attr.x]="interface.x - 9"
+      rx="4"
+      ry="4"
+      fill="red"
+    ></svg:rect>
+    <svg:text  [appPosition]="interface" class="api" text-anchor="middle">api</svg:text>
+  </svg:g>
+  <polygon [attr.points]="arrow.shape" [attr.transform]="arrow.transform" style="fill:red;" />
+
+</svg:g>

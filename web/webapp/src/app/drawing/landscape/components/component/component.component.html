@@ -1,0 +1,45 @@
+<svg:g [appPosition]="box">
+  <svg:g>
+    <svg:rect
+                [attr.width]="box.width"
+                [attr.height]="box.height"
+                stroke-width="3"
+                stroke="black"
+                fill="white"
+    >
+    </svg:rect>
+    <svg:text class="module" text-anchor="middle">
+      <tspan [attr.x]="line.x" [attr.y]="line.y" *ngFor="let line of labelLines">{{line.text}}</tspan>
+    </svg:text>
+  </svg:g>
+  <svg:g *ngFor="let line of capabilityLines" [appPosition]="line">
+    <svg:rect
+      [attr.width]="line.width"
+      [attr.height]="line.height"
+      [attr.y]="-(line.height/2) - 3"
+      [attr.x]="-3"
+      rx="4"
+      ry="4"
+      fill="yellow"
+    >
+    </svg:rect>
+    <svg:text class="capability" text-anchor="start">
+      {{line.text}}
+    </svg:text>
+  </svg:g>
+  <svg:g *ngFor="let line of commonsLines" [appPosition]="line">
+    <svg:rect
+      [attr.width]="line.width"
+      [attr.height]="line.height"
+      [attr.y]="-(line.height/2) - 3"
+      [attr.x]="-3"
+      rx="4"
+      ry="4"
+      fill="blue"
+    >
+    </svg:rect>
+    <svg:text class="commons" text-anchor="start">
+      {{line.text}}
+    </svg:text>
+  </svg:g>
+</svg:g>

@@ -1,0 +1,46 @@
+{
+  "contexts": [
+    {
+      "name": "surfshop",
+      "label": "My Surfshop!"
+    }
+  ],
+  "domains": [
+    {
+      "name": "surfing",
+      "label": "Surfing",
+      "context": "surfshop"
+    },
+    {
+      "name": "weather",
+      "label": "Weather",
+      "context": "surfshop"
+    }
+  ],
+  "layers": [
+    {
+      "name": "cs",
+      "label": "Core Service"
+    }
+  ],
+  "components": [
+    {
+      "name": "advertising-cs",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "Advertising CS",
+      "layer": "cs",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": [
+        {
+          "component": "rest-capability",
+          "domain": "surfing",
+          "context": "surfshop"
+        }
+      ]
+    }
+  ]
+}

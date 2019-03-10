@@ -1,0 +1,19 @@
+apply plugin: 'java'
+
+description = 'Surf App'
+
+dependencies {
+    compile project(':weather:temperature-cs')
+    compile project(':weather:water-level-cs')
+    compile project(':weather:weather-station-es')
+    compile project(':reservation:reservation-es')
+    compile project(':reservation:reservation-cs')
+    compile project(':inventory:inventory-cs')
+    compile project(':customer:customer-cs')
+    compile project(':customer:customer-es')
+    compile project(':advertising:advertising-cs')
+}
+
+landscape {
+    type = 'application'
+}

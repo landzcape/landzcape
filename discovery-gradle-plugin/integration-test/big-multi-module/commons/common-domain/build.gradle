@@ -1,0 +1,6 @@
+apply plugin: 'java'
+
+description =  'Common Domain'
+
+dependencies {
+}

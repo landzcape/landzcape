@@ -1,0 +1,30 @@
+apply plugin: 'com.moowork.node'
+evaluationDependsOn(':discovery-angular')
+
+node {
+    version = '8.10.0'
+    npmVersion = '5.6.0'
+    yarnVersion = '1.5.1'
+    distBaseUrl = 'https://nodejs.org/dist'
+    download = true
+    workDir = file("${rootProject.buildDir}/nodejs")
+    npmWorkDir = file("${rootProject.buildDir}/npm")
+    yarnWorkDir = file("${rootProject.buildDir}/yarn")
+    nodeModulesDir = file("${project.projectDir}/module")
+}
+
+task angularTest(type: YarnTask) {
+    workingDir = file("${project.projectDir}/module")
+    args = ["test"]
+}
+
+task importDomain(type: Sync, dependsOn: project(':discovery-angular').assembleWeb) {
+    from zipTree(project(':discovery-angular').assembleWeb.outputs.files[0])
+    into "${project.projectDir}/module/discover/node_modules"
+}
+
+angularTest.dependsOn(yarn)
+yarn.dependsOn(importDomain)
+test.dependsOn(angularTest)
+build.dependsOn(yarn)
+build.dependsOn(angularTest)

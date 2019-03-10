@@ -1,0 +1,24 @@
+{
+  "name": "surfshop",
+  "group": "com.surfshop",
+  "version": "1.0",
+  "contexts": [
+    {
+      "name": "surfshop",
+      "label": "Surfshop"
+    }
+  ],
+  "layers": [
+    {
+      "name": "ui",
+      "label": "User Interface"
+    }
+  ],
+  "domains": [
+    {
+      "name": "surfing",
+      "label": "My Domain",
+      "context": "surfshop"
+    }
+  ]
+}

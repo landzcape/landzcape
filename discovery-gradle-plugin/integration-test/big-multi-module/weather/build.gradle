@@ -1,0 +1,6 @@
+landscape {
+    domain = 'weather'
+    domains {
+        domain name: 'weather', label: 'Weather', context: 'surfshop'
+    }
+}
