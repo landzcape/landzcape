@@ -1,12 +1,5 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'io.landzcape:discovery-gradle-plugin:1.0'
-    }
+plugins {
+    id 'io.landzcape.discovery'
 }
 
 allprojects {
@@ -18,8 +11,6 @@ allprojects {
     group = 'com.surfshop'
     version = '1.0'
 }
-
-apply plugin: 'io.landzcape.discovery'
 
 landscape {
     context = 'surfshop'

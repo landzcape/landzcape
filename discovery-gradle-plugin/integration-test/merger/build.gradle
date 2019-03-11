@@ -1,14 +1,7 @@
 import io.landzcape.gradle.MergeTask
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'io.landzcape:discovery-gradle-plugin:1.0'
-    }
+plugins {
+    id 'io.landzcape.discovery'
 }
 
 apply plugin: 'io.landzcape.discovery'
