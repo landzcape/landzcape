@@ -13,8 +13,8 @@ dependencies {
     testCompile 'org.assertj:assertj-core:3.8.0'
     compile "com.fasterxml.jackson.core:jackson-databind:2.9.7"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.7"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.jetbrains.kotlin:kotlin-reflect"
 }
 
 compileKotlin {
@@ -39,5 +39,4 @@ task prepareWebapp(type: Copy, dependsOn: project(':web').jar) {
 }
 
 processResources.dependsOn('prepareWebapp')
-test.dependsOn('install')
 test.dependsOn(':domain:install')
