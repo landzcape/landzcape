@@ -16,4 +16,11 @@ allprojects {
     apply plugin: 'java'
     group = 'io.landzcape'
     version = '1.0'
+
+    test {
+        testLogging {
+            events "passed", "skipped", "failed"
+            exceptionFormat "full"
+        }
+    }
 }
