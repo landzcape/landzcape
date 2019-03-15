@@ -9,8 +9,7 @@ export class LandscapeService {
   constructor(private http: HttpClient) { }
 
   getLandscape(): Observable<LandscapeDto> {
-    //return this.http.get('/assets/landscape.json') as Observable<LandscapeDto>;
-    return this.http.get('/api/landscape') as Observable<LandscapeDto>;
+    return this.http.get('/landscape.json') as Observable<LandscapeDto>;
   }
 
 }
