@@ -34,5 +34,5 @@ clean {
     delete 'webapp/dist'
     delete 'src/main/resources/landscape-web.zip'
 }
-
+yarn_build.dependsOn(yarn)
 processResources.dependsOn(addWebPackageToResources)
