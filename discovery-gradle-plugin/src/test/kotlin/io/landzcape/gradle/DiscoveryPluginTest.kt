@@ -48,8 +48,8 @@ class DiscoveryPluginTest {
                 .withFailMessage("landscape.json for ${mvnProjectName} differs from expectation")
     }
 
-    fun readJson(file: File): String {
+    fun readJson(file: File): Any {
         val slurper = JsonSlurper()
-        return JsonOutput.prettyPrint(JsonOutput.toJson(slurper.parse(file)))
+        return slurper.parse(file)
     }
 }
