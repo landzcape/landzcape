@@ -1,4 +1,6 @@
+
 # Landzcape
+[![Build Status](https://travis-ci.org/landzcape/landzcape.svg?branch=master)](https://travis-ci.org/landzcape/landzcape)
 
 **Attention:** The build/publishing process is **under construction**, the artifacts are not yet available in any Maven/NPM repositories. 
 
