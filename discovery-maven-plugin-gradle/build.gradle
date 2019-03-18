@@ -65,12 +65,14 @@ def readJson(file) {
     return JsonOutput.prettyPrint(JsonOutput.toJson(slurper.parse(file)))
 }
 
-def osAdaptiveCommand(String... commands) {
+def osAdaptiveCommand(String command, String... parameters) {
     def newCommands = []
     if (OperatingSystem.current().isWindows()) {
-        newCommands = ['cmd', '/c']
+        newCommands.addAll(['cmd', '/c', command])
+    } else {
+        newCommands.add('./'+command)
     }
-    newCommands.addAll(commands)
+    newCommands.addAll(parameters)
     return newCommands
 }
 
