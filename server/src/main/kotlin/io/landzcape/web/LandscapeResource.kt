@@ -74,7 +74,7 @@ class LandscapeResource {
                 group="com.surfshop",
                 version="1.0.0",
                 domain="inventory",
-                label="Inventory es",
+                label="Inventory ES",
                 layer = "es",
                 context="surfshop",
                 dependencies = listOf(dependencyTo(inventoryCsApi), dependencyTo(restCapability), dependencyTo(common)))
@@ -108,7 +108,7 @@ class LandscapeResource {
                 group="com.surfshop",
                 version="1.0.0",
                 domain="customer",
-                label="Customer Information es",
+                label="Customer Information ES",
                 layer = "es",
                 context = "surfshop")
         val customerEs = ComponentDto(
@@ -116,7 +116,7 @@ class LandscapeResource {
                 group="com.surfshop",
                 version="1.0.0",
                 domain="customer",
-                label="Customer es",
+                label="Customer ES",
                 layer = "es",
                 context = "surfshop",
                 dependencies = listOf(dependencyTo(customerCs), dependencyTo(restCapability), dependencyTo(common)))
@@ -143,7 +143,7 @@ class LandscapeResource {
                 group="com.kiteshop",
                 version="1.0.0",
                 domain="advert",
-                label="Kite Ad es",
+                label="Kite Ad ES",
                 layer = "es",
                 context = "kiteshop",
                 dependencies = listOf(dependencyTo(restCapability), dependencyTo(common)))
@@ -161,7 +161,7 @@ class LandscapeResource {
                 group="com.surfshop",
                 version="1.0.0",
                 domain="statistics",
-                label="Statistics es",
+                label="Statistics ES",
                 layer = "es",
                 context = "surfshop",
                 dependencies = listOf(dependencyTo(restCapability), dependencyTo(common)))
