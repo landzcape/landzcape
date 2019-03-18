@@ -1,11 +1,12 @@
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
+import org.gradle.internal.os.OperatingSystem
 
 task mvnBuild(type: Exec, dependsOn: [':domain:install', ':web:install']) {
     standardOutput = new ByteArrayOutputStream()
     errorOutput = new ByteArrayOutputStream()
     workingDir "${projectDir}/../discovery-maven-plugin"
-    commandLine 'cmd', '/c', 'mvnw', 'clean', 'install'
+    commandLine osAdaptiveCommand('mvnw', 'clean', 'install')
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()
@@ -16,7 +17,7 @@ task integrationTestBigMultiModule(type:Exec, dependsOn: mvnBuild ) {
     standardOutput = new ByteArrayOutputStream()
     errorOutput = new ByteArrayOutputStream()
     workingDir "${projectDir}/integration-test/big-multi-module"
-    commandLine 'cmd', '/c', 'mvnw', 'clean', 'install'
+    commandLine osAdaptiveCommand('mvnw', 'clean', 'install')
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()
@@ -28,7 +29,7 @@ task integrationTestMerger(type:Exec, dependsOn: mvnBuild ) {
     standardOutput = new ByteArrayOutputStream()
     errorOutput = new ByteArrayOutputStream()
     workingDir "${projectDir}/integration-test/merger"
-    commandLine 'cmd', '/c', 'mvnw', 'clean', 'install'
+    commandLine osAdaptiveCommand('mvnw', 'clean', 'install')
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()
@@ -44,7 +45,7 @@ task integrationTestExtractWebApp(type:Exec, dependsOn: mvnBuild ) {
     standardOutput = new ByteArrayOutputStream()
     errorOutput = new ByteArrayOutputStream()
     workingDir "${projectDir}/integration-test/extract"
-    commandLine 'cmd', '/c', 'mvnw', 'clean', 'install'
+    commandLine osAdaptiveCommand('mvnw', 'clean', 'install')
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()
@@ -62,6 +63,15 @@ def assertLandscapeJsonIsAsExpected(mvnProjectName) {
 def readJson(file) {
     def slurper = new JsonSlurper()
     return JsonOutput.prettyPrint(JsonOutput.toJson(slurper.parse(file)))
+}
+
+def osAdaptiveCommand(String... commands) {
+    def newCommands = []
+    if (OperatingSystem.current().isWindows()) {
+        newCommands = ['cmd', '/c']
+    }
+    newCommands.addAll(commands)
+    return newCommands
 }
 
 test.dependsOn integrationTestBigMultiModule
