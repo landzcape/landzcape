@@ -62,7 +62,7 @@ def assertLandscapeJsonIsAsExpected(mvnProjectName) {
 
 def readJson(file) {
     def slurper = new JsonSlurper()
-    return JsonOutput.prettyPrint(JsonOutput.toJson(slurper.parse(file)))
+    return slurper.parse(file)
 }
 
 def osAdaptiveCommand(String command, String... parameters) {
