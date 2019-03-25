@@ -29,14 +29,14 @@ compileTestKotlin {
 }
 
 clean {
-    delete 'src/main/resources/landscape-web.zip'
+    delete 'src/main/resources/landscape-explorer.zip'
 }
 
-task prepareWebapp(type: Copy, dependsOn: project(':web').jar) {
-    from zipTree(project(':web').jar.outputs.files[0]).asFileTree
+task prepareExplorer(type: Copy, dependsOn: project(':explorer').jar) {
+    from zipTree(project(':explorer').jar.outputs.files[0]).asFileTree
     into "$projectDir/src/main/resources"
-    include 'landscape-web.zip'
+    include 'landscape-explorer.zip'
 }
 
-processResources.dependsOn('prepareWebapp')
+processResources.dependsOn('prepareExplorer')
 test.dependsOn(':domain:install')

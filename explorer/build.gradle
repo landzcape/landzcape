@@ -18,21 +18,21 @@ task start(type: YarnTask) {
     args = ["start"]
 }
 
-task landscapeWebPackage(type: Zip, dependsOn: yarn_build) {
+task landscapeExplorerPackage(type: Zip, dependsOn: yarn_build) {
     from 'webapp/dist'
     include '*'
     include '*/*'
-    archiveName "landscape-web.zip"
+    archiveName "landscape-explorer.zip"
 }
 
-task addWebPackageToResources(type: Sync, dependsOn: landscapeWebPackage) {
-    from "$buildDir/distributions/landscape-web.zip"
+task addExplorerPackageToResources(type: Sync, dependsOn: landscapeExplorerPackage) {
+    from "$buildDir/distributions/landscape-explorer.zip"
     into "src/main/resources"
 }
 
 clean {
     delete 'webapp/dist'
-    delete 'src/main/resources/landscape-web.zip'
+    delete 'src/main/resources/landscape-explorer.zip'
 }
 yarn_build.dependsOn(yarn)
-processResources.dependsOn(addWebPackageToResources)
+processResources.dependsOn(addExplorerPackageToResources)

@@ -2,7 +2,7 @@ import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 import org.gradle.internal.os.OperatingSystem
 
-task mvnBuild(type: Exec, dependsOn: [':domain:install', ':web:install']) {
+task mvnBuild(type: Exec, dependsOn: [':domain:install', ':explorer:install']) {
     standardOutput = new ByteArrayOutputStream()
     errorOutput = new ByteArrayOutputStream()
     workingDir "${projectDir}/../discovery-maven-plugin"
@@ -37,7 +37,7 @@ task integrationTestMerger(type:Exec, dependsOn: mvnBuild ) {
     }
 }
 
-task integrationTestExtractWebApp(type:Exec, dependsOn: mvnBuild ) {
+task integrationTestExtractExplorer(type:Exec, dependsOn: mvnBuild ) {
     def targetDir = new File("${projectDir}/integration-test/extract")
     def appDir = new File(targetDir, "the-app")
     appDir.deleteDir()
@@ -78,5 +78,5 @@ def osAdaptiveCommand(String command, String... parameters) {
 
 test.dependsOn integrationTestBigMultiModule
 test.dependsOn integrationTestMerger
-test.dependsOn integrationTestExtractWebApp
+test.dependsOn integrationTestExtractExplorer
 build.dependsOn mvnBuild

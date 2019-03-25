@@ -6,3 +6,10 @@ jdk:
 
 script:
   - ./gradlew build --stacktrace
+
+deploy:
+  provider: script
+  script: ./gradlew publish -PtravisTag=$TRAVIS_TAG
+  on:
+    tags: true
+    all_branches: true

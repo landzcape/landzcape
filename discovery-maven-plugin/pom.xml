@@ -85,7 +85,7 @@
                         <fileset>
                             <directory>src/main/resources</directory>
                             <includes>
-                                <include>landscape-web.zip</include>
+                                <include>landscape-explorer.zip</include>
                             </includes>
                         </fileset>
                     </filesets>
@@ -97,7 +97,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>${project.basedir}/src/main/resources/web</directory>
+                            <directory>${project.basedir}/src/main/resources/explorer</directory>
                         </fileset>
                         <fileset>
                             <directory>${project.basedir}/src/main/resources/dist</directory>
@@ -128,7 +128,7 @@
                 <version>3.1.1</version>
                 <executions>
                     <execution>
-                        <id>unpack-web</id>
+                        <id>unpack-explorer</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>unpack</goal>
@@ -137,14 +137,14 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>io.landzcape</groupId>
-                                    <artifactId>web</artifactId>
+                                    <artifactId>explorer</artifactId>
                                     <version>${project.version}</version>
                                     <type>jar</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.basedir}/src/main/resources</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
-                            <includes>landscape-web.zip</includes>
+                            <includes>landscape-explorer.zip</includes>
                         </configuration>
                     </execution>
                 </executions>

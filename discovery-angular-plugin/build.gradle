@@ -18,8 +18,8 @@ task angularTest(type: YarnTask) {
     args = ["test"]
 }
 
-task importDomain(type: Sync, dependsOn: project(':discovery-angular').assembleWeb) {
-    from zipTree(project(':discovery-angular').assembleWeb.outputs.files[0])
+task importDomain(type: Sync, dependsOn: project(':discovery-angular').assembleExplorer) {
+    from zipTree(project(':discovery-angular').assembleExplorer.outputs.files[0])
     into "${project.projectDir}/module/discover/node_modules"
 }
 

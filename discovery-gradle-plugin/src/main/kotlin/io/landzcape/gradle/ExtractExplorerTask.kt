@@ -6,16 +6,16 @@ import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.util.zip.ZipFile
 
-open class ExtractWebAppTask : DefaultTask() {
+open class ExtractExplorerTask : DefaultTask() {
 
     @Input
-    var target: String = "landscape-web";
+    var target: String = "landscape-explorer";
 
     @TaskAction
-    fun extractWebApp() {
+    fun extractExplorer() {
         val targetFolder = getTargetFolder()
-        val tempFile = File.createTempFile("landscape-web", ".zip")
-        this.javaClass.classLoader.getResourceAsStream("landscape-web.zip")
+        val tempFile = File.createTempFile("landscape-explorer", ".zip")
+        this.javaClass.classLoader.getResourceAsStream("landscape-explorer.zip")
                 .copyTo(tempFile.outputStream())
         ZipFile(tempFile).use { zip ->
             zip.entries().toList()

@@ -13,7 +13,7 @@ plugins for Angular, Gradle and/or Maven.
 | -------------- |:------:|:-----:|:-------:|
 | Discover       | Yes    | Yes   | Yes     |
 | Merge          | Yes    | Yes   | No      |
-| ExtractWebApp  | Yes    | Yes   | No      |
+| ExtractExplorer| Yes    | Yes   | No      |
 
 
 ## Discovery
@@ -219,8 +219,9 @@ task merge(type: MergeTask) {
 ```
 ## Visualization
 
-The web-application used to visualize your landscape is bundled with the Gradle and Maven discovery plugin.
-It can be extracted and hosted using any HTTP server.
+Landzcape Explorer is a web application that visualizes your landscape.
+It is bundled with the Gradle and Maven discovery plugin. It can be extracted during the build process and then
+bundled and hosted with any HTTP server.
 
 ### Example using `nginx`
 Assuming that you already discovered your landscape and your `landscape.json` is ready.
@@ -238,7 +239,7 @@ You can either use Maven to extract the visualization application ...
                 <execution>
                     <phase>process-resources</phase>
                     <goals>
-                        <goal>extractWebApp</goal>
+                        <goal>extractExplorer</goal>
                     </goals>
                 </execution>
             </executions>
@@ -252,13 +253,13 @@ You can either use Maven to extract the visualization application ...
 
 ... or do the same with gradle ...
 ```
-import io.landzcape.gradle.ExtractWebAppTask
+import io.landzcape.gradle.ExtractExplorerTask
 
 ...
 
 apply plugin: 'io.landzcape.discovery'
 
-task extract(type: ExtractWebAppTask) {
+task extract(type: ExtractExplorerTask) {
     target = 'visualization'
 }
 ```

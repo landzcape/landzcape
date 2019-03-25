@@ -30,7 +30,7 @@ class DiscoveryPluginTest {
     }
 
     @Test
-    fun extractWebApp() {
+    fun extractExplorer() {
         File("integration-test/extract/the-app").delete()
         GradleRunner.create()
                 .withProjectDir(File("integration-test/extract"))

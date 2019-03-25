@@ -1,9 +1,9 @@
-import io.landzcape.gradle.ExtractWebAppTask
+import io.landzcape.gradle.ExtractExplorerTask
 
 plugins {
     id 'io.landzcape.discovery'
 }
 
-task extract(type: ExtractWebAppTask) {
+task extract(type: ExtractExplorerTask) {
     target = 'the-app'
 }

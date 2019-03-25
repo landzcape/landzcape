@@ -21,7 +21,7 @@
                     <execution>
                         <phase>process-resources</phase>
                         <goals>
-                            <goal>extractWebApp</goal>
+                            <goal>extractExplorer</goal>
                         </goals>
                     </execution>
                 </executions>

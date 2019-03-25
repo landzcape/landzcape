@@ -34,11 +34,11 @@ task importDomain(type: Sync) {
     into "${project.projectDir}/src/generated/kotlin"
 }
 
-task assembleWeb(type: Zip, dependsOn: [classes, compileKotlin2Js, copyJsFilesFromDependencies]) {
+task assembleExplorer(type: Zip, dependsOn: [classes, compileKotlin2Js, copyJsFilesFromDependencies]) {
     destinationDir = buildDir
     from "${buildDir}/js"
     from "${buildDir}/js-kotlin"
 }
 
 compileJava.dependsOn(importDomain)
-build.dependsOn(assembleWeb)
+build.dependsOn(assembleExplorer)

@@ -15,11 +15,11 @@ import org.apache.maven.project.MavenProject
 import java.io.File
 import java.util.zip.ZipFile
 
-@Mojo(name = "extractWebApp", inheritByDefault = false, defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
-class MavenExtractWebAppMojo : AbstractMojo() {
+@Mojo(name = "extractExplorer", inheritByDefault = false, defaultPhase = LifecyclePhase.PROCESS_RESOURCES)
+class MavenExtractExplorerMojo : AbstractMojo() {
 
     @Parameter(readonly = true)
-    private val target: String = "landscape-web"
+    private val target: String = "landscape-explorer"
 
     @Parameter(defaultValue = "\${project}", readonly = true)
     private val mavenProject: MavenProject? = null
@@ -27,8 +27,8 @@ class MavenExtractWebAppMojo : AbstractMojo() {
     @Throws(MojoExecutionException::class, MojoFailureException::class)
     override fun execute() {
         val targetFolder = getTargetFolder()
-        val tempFile = File.createTempFile("landscape-'web", ".zip")
-        this.javaClass.classLoader.getResourceAsStream("landscape-web.zip")
+        val tempFile = File.createTempFile("landscape-explorer", ".zip")
+        this.javaClass.classLoader.getResourceAsStream("landscape-explorer.zip")
                 .copyTo(tempFile.outputStream())
         ZipFile(tempFile).use { zip ->
             zip.entries().toList()
