@@ -1,19 +1,16 @@
 {
   "name": "@landzcape/discovery-angular",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Landscape Discovery for Angular",
-  "main": "index.js",
+  "main": "discover/index.js",
   "author": "Christian Ramseier",
   "license": "GPL",
   "scripts": {
     "test": "mocha -r ts-node/register test/*.spec.ts"
   },
-  "bundledDependencies": [
-    "landzcape-domain"
-  ],
   "dependencies": {
     "glob": "7.1.3",
-    "landzcape-domain": "file:./discover/node_modules/landzcape-domain",
+    "kotlin": "1.3.21",
     "ngast": "^0.2.0"
   },
   "devDependencies": {
