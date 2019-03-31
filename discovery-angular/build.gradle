@@ -13,16 +13,9 @@ dependencies {
 }
 
 compileKotlin2Js {
-    kotlinOptions.outputFile = "${buildDir}/js/landscape.js"
-    kotlinOptions.moduleKind = "umd"
+    kotlinOptions.outputFile = "${buildDir}/js/landzcape-domain.js"
+    kotlinOptions.moduleKind = "commonjs"
     kotlinOptions.sourceMap = true
-}
-
-task copyJsFilesFromDependencies(type: Sync) {
-    from configurations.compile.collect { File file ->
-        zipTree(file.absolutePath).asFileTree.matching{ include '*.js' }
-    }
-    into "$buildDir/js-kotlin"
 }
 
 sourceSets {
@@ -34,11 +27,10 @@ task importDomain(type: Sync) {
     into "${project.projectDir}/src/generated/kotlin"
 }
 
-task assembleExplorer(type: Zip, dependsOn: [classes, compileKotlin2Js, copyJsFilesFromDependencies]) {
+task assembleDiscovery(type: Zip, dependsOn: [classes, compileKotlin2Js]) {
     destinationDir = buildDir
     from "${buildDir}/js"
-    from "${buildDir}/js-kotlin"
 }
 
 compileJava.dependsOn(importDomain)
-build.dependsOn(assembleExplorer)
+build.dependsOn(assembleDiscovery)

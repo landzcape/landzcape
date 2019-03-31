@@ -7,6 +7,9 @@ jdk:
 script:
   - ./gradlew build --stacktrace
 
+before_install:
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+
 deploy:
   provider: script
   script: ./gradlew publish -PtravisTag=$TRAVIS_TAG

@@ -1,6 +1,6 @@
 {
   "name": "@landzcape/discovery-angular",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Landscape Discovery for Angular",
   "main": "discover/index.js",
   "author": "Christian Ramseier",

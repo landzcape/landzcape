@@ -18,9 +18,31 @@ task angularTest(type: YarnTask) {
     args = ["test"]
 }
 
-task importDomain(type: Sync, dependsOn: project(':discovery-angular').assembleExplorer) {
-    from zipTree(project(':discovery-angular').assembleExplorer.outputs.files[0])
-    into "${project.projectDir}/module/discover/node_modules"
+task publish(type: YarnTask, dependsOn: build) {
+    workingDir = file("${project.projectDir}/module")
+    args = ["publish","--new-version", "${->getVersion()}", "--access", "public"]
+}
+
+task unpublish(type: NpmTask) {
+    workingDir = file("${project.projectDir}/module")
+    args = ["publish","@landzcape/discovery-angular@${->getVersion()}"]
+}
+
+task pack(type: NpmTask) {
+    workingDir = file("${project.projectDir}/module")
+    args = ["pack"]
+}
+
+task importDomain(type: Sync, dependsOn: project(':discovery-angular').assembleDiscovery) {
+    from zipTree(project(':discovery-angular').assembleDiscovery.outputs.files[0])
+    into "${project.projectDir}/module/discover/domain"
+}
+
+def getVersion() {
+    if(project.hasProperty('travisTag')) {
+        return project.properties['travisTag']
+    }
+    throw new RuntimeException('A tag version must be specified')
 }
 
 angularTest.dependsOn(yarn)
