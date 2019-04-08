@@ -26,7 +26,7 @@
             <plugin>
                 <groupId>io.landzcape</groupId>
                 <artifactId>discovery-maven-plugin</artifactId>
-                <version>1.0</version>
+                <version>0.0.1-SNAPSHOT</version>
                 <inherited>false</inherited>
                 <configuration>
                     <type>capability</type>

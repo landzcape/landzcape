@@ -7,7 +7,7 @@
     <groupId>io.landzcape</groupId>
     <artifactId>discovery-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>1.0</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>Landscape Discovery Maven Plugin</name>
 
     <properties>
