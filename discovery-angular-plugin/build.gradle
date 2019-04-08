@@ -20,7 +20,7 @@ task angularTest(type: YarnTask) {
 
 task publish(type: YarnTask, dependsOn: build) {
     workingDir = file("${project.projectDir}/module")
-    args = ["publish","--new-version", "${->getVersion()}", "--access", "public"]
+    args = ["publish", "--no-git-tag-version", "--new-version", "${->getVersion()}", "--access", "public"]
 }
 
 task unpublish(type: NpmTask) {
