@@ -1,4 +1,5 @@
 apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: 'kotlin'
 apply plugin: 'java-gradle-plugin'
 
@@ -38,5 +39,60 @@ task prepareExplorer(type: Copy, dependsOn: project(':explorer').jar) {
     include 'landscape-explorer.zip'
 }
 
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
 processResources.dependsOn('prepareExplorer')
 test.dependsOn(':domain:install')
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Landzcape Discovery Gradle Plugin'
+                packaging 'jar'
+                description 'Landzcape Discovery Plugin for Gradle'
+                url 'https://www.landzcape.io'
+
+                scm {
+                    connection 'scm:git:https://github.com/landzcape/landzcape'
+                    developerConnection 'scm:git:https://github.com/landzcape/landzcape'
+                    url 'https://github.com/landzcape/landzcape'
+                }
+
+                developers {
+                    developer {
+                        id 'christian'
+                        name 'Christian Ramseier'
+                        email 'christian@landzcape.io'
+                    }
+                }
+            }
+        }
+    }
+}

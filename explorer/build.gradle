@@ -34,5 +34,12 @@ clean {
     delete 'webapp/dist'
     delete 'src/main/resources/landscape-explorer.zip'
 }
+
+yarn_build.inputs.dir 'webapp/src'
+yarn_build.inputs.dir 'webapp/e2e'
+yarn.inputs.file 'webapp/package.json'
+yarn.outputs.dir 'webapp/node_modules'
+yarn.outputs.file 'webapp/yarn.lock'
+yarn_build.outputs.dir 'webapp/dist'
 yarn_build.dependsOn(yarn)
 processResources.dependsOn(addExplorerPackageToResources)

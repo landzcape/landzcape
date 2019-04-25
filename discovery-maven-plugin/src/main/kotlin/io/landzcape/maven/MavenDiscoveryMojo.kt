@@ -92,20 +92,20 @@ class MavenDiscoveryMojo : AbstractMojo() {
         return null
     }
 
-    private fun toDomains(child: ConfigurationAccessor): List<DomainConfiguration>? {
-        return child.getChildren("domain").map { child ->
+    private fun toDomains(accessor: ConfigurationAccessor): List<DomainConfiguration>? {
+        return accessor.getChildren("domain").map { child ->
             DomainConfiguration(child.get("name"), child.get("context"), child.get("label"))
         }
     }
 
-    private fun toContexts(child: ConfigurationAccessor): List<ContextConfiguration>? {
-        return child.getChildren("context").map { child ->
+    private fun toContexts(accessor: ConfigurationAccessor): List<ContextConfiguration>? {
+        return accessor.getChildren("context").map { child ->
             ContextConfiguration(child.get("name"), child.get("label"))
         }
     }
 
-    private fun toLayers(child: ConfigurationAccessor): List<LayerConfiguration>? {
-        return child.getChildren("layer").map { child ->
+    private fun toLayers(accessor: ConfigurationAccessor): List<LayerConfiguration>? {
+        return accessor.getChildren("layer").map { child ->
             LayerConfiguration(child.get("name"), child.get("label"), child.get("matching"))
         }
     }

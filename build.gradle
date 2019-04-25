@@ -24,4 +24,20 @@ allprojects {
         }
     }
 
+    defineProperty('ossrhUsername', 'OSSRH_USERNAME')
+    defineProperty('ossrhPassword', 'OSSRH_PASSWORD')
+    defineProperty('signing.keyId', 'SIGNING_KEY_ID')
+    defineProperty('signing.secretKeyRingFile', 'SIGNING_KEY_FILE')
+    defineProperty('signing.password', 'SIGNING_PASSWORD')
+
+}
+
+def defineProperty(propertyName, environmentVariableName) {
+    if(project.hasProperty(propertyName)) {
+        ext[propertyName] = project.properties[propertyName]
+    } else if(System.getenv(environmentVariableName) != null) {
+        ext[propertyName] = System.getenv(environmentVariableName)
+    } else {
+        throw new RuntimeException("Property ${propertyName} or variable ${environmentVariableName} is not set.")
+    }
 }
