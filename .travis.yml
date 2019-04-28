@@ -8,8 +8,8 @@ script:
   - ./gradlew build --stacktrace
 
 before_install:
-  - echo "\${SIGNING_KEY_FILE_CONTENT}" | base64 -d > $TRAVIS_BUILD_DIR/signing.key
-  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+  - echo "$SIGNING_KEY_FILE_CONTENT" | base64 -d > $TRAVIS_BUILD_DIR/signing.key
+  - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
 
 deploy:
   provider: script
