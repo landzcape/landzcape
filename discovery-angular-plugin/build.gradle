@@ -20,12 +20,12 @@ task angularTest(type: YarnTask) {
 
 task publish(type: YarnTask, dependsOn: build) {
     workingDir = file("${project.projectDir}/module")
-    args = ["publish", "--no-git-tag-version", "--new-version", "${->getVersion()}", "--access", "public"]
+    args = ["publish", "--no-git-tag-version", "--new-version", "${->getNonSnapshotVersion()}", "--access", "public"]
 }
 
 task unpublish(type: NpmTask) {
     workingDir = file("${project.projectDir}/module")
-    args = ["publish","@landzcape/discovery-angular@${->getVersion()}"]
+    args = ["publish","@landzcape/discovery-angular@${->getNonSnapshotVersion()}"]
 }
 
 task pack(type: NpmTask) {
@@ -38,11 +38,11 @@ task importDomain(type: Sync, dependsOn: project(':discovery-angular').assembleD
     into "${project.projectDir}/module/discover/domain"
 }
 
-def getVersion() {
-    if(project.hasProperty('travisTag')) {
-        return project.properties['travisTag']
+def getNonSnapshotVersion() {
+    if(project.version.endsWith('SNAPSHOT')) {
+        throw new RuntimeException('A tag version must be specified')
     }
-    throw new RuntimeException('A tag version must be specified')
+    return project.version
 }
 
 angularTest.dependsOn(yarn)
