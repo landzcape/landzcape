@@ -7,11 +7,11 @@ apply plugin: 'signing'
 task updateVersion(type: Exec) {
     standardOutput = new ByteArrayOutputStream()
     errorOutput = new ByteArrayOutputStream()
-    inputs.dir "${projectDir}/../discovery-maven-plugin/src"
-    inputs.file "${projectDir}/../discovery-maven-plugin/pom.xml"
-    outputs.dir "${projectDir}/../discovery-maven-plugin/target"
     workingDir "${projectDir}/../discovery-maven-plugin"
     commandLine osAdaptiveCommand('mvnw', 'versions:set', '-DnewVersion='+project.version)
+    doFirst {
+        println "Updating version of maven plugin to ${project.version}"
+    }
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()

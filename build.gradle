@@ -15,7 +15,7 @@ allprojects {
 
     apply plugin: 'java'
     group = 'io.landzcape'
-    setProjectVersion()
+    setProjectVersion(project)
 
     test {
         testLogging {
@@ -42,9 +42,10 @@ def defineProperty(propertyName, environmentVariableName) {
     }
 }
 
-def setProjectVersion() {
+def setProjectVersion(project) {
     if(project.hasProperty('travisTag')) {
-        project.version project.properties['travisTag']
+        project.version = project.properties['travisTag']
+    } else {
+        project.version = '0.0.1-SNAPSHOT'
     }
-    project.version '0.0.1-SNAPSHOT'
 }
