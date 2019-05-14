@@ -100,8 +100,8 @@ signing {
     sign configurations.archives
 }
 
-def pluginJar = "${projectDir}/../discovery-maven-plugin/target/discovery-maven-plugin-${project.version}.jar"
-def pluginSourcesJar = "${projectDir}/../discovery-maven-plugin/target/discovery-maven-plugin-${project.version}-sources.jar"
+def pluginJar = "${projectDir}/../discovery-maven-plugin/target/discovery-maven-plugin-${->project.version}.jar"
+def pluginSourcesJar = "${projectDir}/../discovery-maven-plugin/target/discovery-maven-plugin-${->project.version}-sources.jar"
 
 configurations.archives.artifacts.clear()
 artifacts {
@@ -152,4 +152,4 @@ uploadArchives {
     }
 }
 
-task publish(dependsOn: uploadArchives) {}
+task publishMavenPlugin(dependsOn: uploadArchives) {}

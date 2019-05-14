@@ -18,12 +18,12 @@ task angularTest(type: YarnTask) {
     args = ["test"]
 }
 
-task publish(type: YarnTask, dependsOn: build) {
+task publishAngularPlugin(type: YarnTask, dependsOn: build) {
     workingDir = file("${project.projectDir}/module")
     args = ["publish", "--no-git-tag-version", "--new-version", "${->getNonSnapshotVersion()}", "--access", "public"]
 }
 
-task unpublish(type: NpmTask) {
+task unpublishAngularPlugin(type: NpmTask) {
     workingDir = file("${project.projectDir}/module")
     args = ["publish","@landzcape/discovery-angular@${->getNonSnapshotVersion()}"]
 }

@@ -14,7 +14,7 @@ before_install:
 deploy:
   provider: script
   skip_cleanup: true
-  script: ./gradlew publish -PtravisTag=$TRAVIS_TAG
+  script: ./gradlew publishAngularPlugin publishGradlePlugin publishMavenPlugin -PtravisTag=$TRAVIS_TAG
   on:
     tags: true
     all_branches: true

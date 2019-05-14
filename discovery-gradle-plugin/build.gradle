@@ -97,4 +97,4 @@ uploadArchives {
     }
 }
 
-task publish(dependsOn: uploadArchives) {}
+task publishGradlePlugin(dependsOn: uploadArchives) {}
