@@ -1,8 +1,6 @@
 
 # Landzcape
-[![Build Status](https://travis-ci.org/landzcape/landzcape.svg?branch=master)](https://travis-ci.org/landzcape/landzcape)
-
-**Attention:** The build/publishing process is **under construction**, the artifacts are not yet available in any Maven/NPM repositories. 
+[![CircleCI](https://circleci.com/gh/landzcape/landzcape.svg?style=svg)](https://circleci.com/gh/landzcape/landzcape)
 
 Landzcape visualizes components and their dependencies. This structure can be discovered using
 plugins for Angular, Gradle and/or Maven.  
