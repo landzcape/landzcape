@@ -10,6 +10,7 @@ jobs:
       - checkout
       - run: ./gradlew build --stacktrace
   deploy:
+    steps:
       - run: ./gradlew publishAngularPlugin publishGradlePlugin publishMavenPlugin -PtravisTag=$CIRCLE_TAG --stacktrace
 
 workflows:
