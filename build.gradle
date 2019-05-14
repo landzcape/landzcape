@@ -43,8 +43,8 @@ def defineProperty(propertyName, environmentVariableName) {
 }
 
 def setProjectVersion(project) {
-    if(project.hasProperty('versionTag') && project.properties['versionTag'] ==~ /v\d+\.\d+\.\d+$/) {
-        project.version = project.properties['versionTag'].substring(1)
+    if(project.hasProperty('versionTag') && project.properties['versionTag'] ==~ /^\d+\.\d+\.\d+$/) {
+        project.version = project.properties['versionTag']
     } else {
         project.version = '0.0.1-SNAPSHOT'
     }

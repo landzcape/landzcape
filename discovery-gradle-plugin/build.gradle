@@ -79,6 +79,13 @@ uploadArchives {
                 description 'Landzcape Discovery Plugin for Gradle'
                 url 'https://www.landzcape.io'
 
+                licenses {
+                    license {
+                        name 'GNU General Public License (GPLV3+)'
+                        url 'http://www.gnu.org/licenses/gpl-3.0.html'
+                    }
+                }
+
                 scm {
                     connection 'scm:git:https://github.com/landzcape/landzcape'
                     developerConnection 'scm:git:https://github.com/landzcape/landzcape'
