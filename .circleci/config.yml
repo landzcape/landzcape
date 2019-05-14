@@ -9,3 +9,29 @@ jobs:
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
       - checkout
       - run: ./gradlew build --stacktrace
+  deploy:
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+      steps:
+        - run: echo 'export SIGNING_KEY_FILE="$HOME/signing.key"' >> $BASH_ENV
+        - run: echo "$SIGNING_KEY_FILE_CONTENT" | base64 -d > $HOME/signing.key
+        - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
+        - checkout
+        - run: ./gradlew publishAngularPlugin publishGradlePlugin publishMavenPlugin -PtravisTag=$CIRCLE_TAG --stacktrace
+
+workflows:
+  version: 2
+  build-n-deploy:
+    jobs:
+      - build:
+          filters:  # required since `deploy` has tag filters AND requires `build`
+            tags:
+              only: /.*/
+      - deploy:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
