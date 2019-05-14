@@ -17,7 +17,7 @@ jobs:
       - run: echo "$SIGNING_KEY_FILE_CONTENT" | base64 -d > $HOME/signing.key
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > $HOME/.npmrc
       - checkout
-      - run: ./gradlew publishAngularPlugin publishGradlePlugin publishMavenPlugin -PtravisTag=$CIRCLE_TAG --stacktrace
+      - run: ./gradlew publishAngularPlugin publishGradlePlugin publishMavenPlugin -PversionTag=$CIRCLE_TAG --stacktrace
 
 workflows:
   version: 2
