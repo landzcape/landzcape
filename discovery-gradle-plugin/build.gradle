@@ -96,3 +96,5 @@ uploadArchives {
         }
     }
 }
+
+task publish(dependsOn: uploadArchives) {}
