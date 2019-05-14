@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
-      - run: "$SIGNING_KEY_FILE_CONTENT" | base64 -d > ~/signing.key
-      - run: "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+      - run: echo "$SIGNING_KEY_FILE_CONTENT" | base64 -d > ~/signing.key
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
       - checkout
       - run: ./gradlew build --stacktrace
