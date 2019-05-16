@@ -242,7 +242,7 @@ You can either use Maven to extract the visualization application ...
                 </execution>
             </executions>
             <configuration>
-                <target>visualization</target>
+                <target>explorer</target>
             </configuration>
         </plugin>
     </plugins>
@@ -258,7 +258,7 @@ import io.landzcape.gradle.ExtractExplorerTask
 apply plugin: 'io.landzcape.discovery'
 
 task extract(type: ExtractExplorerTask) {
-    target = 'visualization'
+    target = 'explorer'
 }
 ```
 
@@ -266,7 +266,7 @@ task extract(type: ExtractExplorerTask) {
 
 ```
 FROM nginx
-COPY visualization /usr/share/nginx/html
+COPY explorer /usr/share/nginx/html
 COPY landscape.json /usr/share/nginx/html
 ```
 
