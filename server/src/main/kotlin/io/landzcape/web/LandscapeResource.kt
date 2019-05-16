@@ -19,11 +19,11 @@ class LandscapeResource {
         val mailDomain = DomainDto("mail", "Mailer", "kiteshop")
         val advertDomain = DomainDto("advert", "Advertizing", "kiteshop")
         val statisticsDomain = DomainDto("statistics", "Statistics", "surfshop")
-        var surfContext = ContextDto("surfshop", "The surf shop")
-        var kiteContext = ContextDto("kiteshop", "The kite shop")
-        val ui = LayerDto("ui", "User Interface")
-        val Es = LayerDto("es", "Edge Service")
-        val cs = LayerDto("cs", "Core Service")
+        val surfContext = ContextDto("surfshop", "The surf shop")
+        val kiteContext = ContextDto("kiteshop", "The kite shop")
+        val userInterface = LayerDto("ui", "User Interface")
+        val edgeService = LayerDto("es", "Edge Service")
+        val coreService = LayerDto("cs", "Core Service")
 
         val common = ComponentDto(
                 name = "common",
@@ -199,7 +199,7 @@ class LandscapeResource {
                 contexts = listOf(surfContext, kiteContext),
                 domains = listOf(statisticsDomain, creditcheckDomain, inventoryDomain, reservationDomain, customerDomain, dashboardDomain, mailDomain, advertDomain),
                 components = listOf(surfshopApp, kiteApp, common, restCapability, securityCapability, statisticsEs, customerInformationEs, kiteadUi, kiteadEs, kitemailerCs, dashboardUi, inventoryEs, inventoryCs, inventoryCsApi, reservationUi, reservationCs, customerCs, customerEs, creditcheckCs),
-                layers = listOf(ui, Es, cs)
+                layers = listOf(userInterface, edgeService, coreService)
         )
 
     }
