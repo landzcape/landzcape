@@ -37,8 +37,6 @@ export class LandscapeComponent implements OnInit {
         const centerY = window.innerHeight / 2;
         const x = centerX - (landscapeSize.width / 2);
         const y = centerY - (landscapeSize.height / 2);
-        console.log(centerX, landscapeSize);
-        console.log(centerY, landscapeSize);
         this.center = new Position(x, y);
       }
     });
