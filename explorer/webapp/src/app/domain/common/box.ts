@@ -99,6 +99,37 @@ export class Box {
     }
     return PositionFactory.fromCoordinates(point[0], point[1]);
   }
+
+  withMargin(number: number): Box {
+    return new Box({
+      x: this.x - number,
+      y: this.y - number,
+      width: this.width + 2 * number,
+      height: this.height + 2 * number
+    });
+  }
+
+  withMarginOf(margins: BoxMarginParameters) : Box {
+    const left = margins.left ? margins.left : 0;
+    const right = margins.right ? margins.right : 0;
+    const top = margins.top ? margins.top : 0;
+    const bottom = margins.bottom ? margins.bottom : 0;
+    return new Box({
+      x: this.x - left,
+      y: this.y - top,
+      width: this.width + left + right,
+      height: this.height + top + bottom
+    });
+  }
+
+  static borderOf(boxes: Box[]): Box {
+    const x = Math.min(...boxes.map(m => m.x));
+    const width = Math.max(...boxes.map(m => m.x + m.width)) - x;
+    const y = Math.min(...boxes.map(m => m.y));
+    const height = Math.max(...boxes.map(m => m.y + m.height)) - y;
+    return new Box({x: x, y: y, width: width, height: height});
+  }
+
 }
 
 export interface BoxParameters {
@@ -106,4 +137,11 @@ export interface BoxParameters {
   y: number;
   width: number;
   height: number;
+}
+
+export interface BoxMarginParameters {
+  left?: number,
+  right?: number,
+  top?: number,
+  bottom?: number
 }

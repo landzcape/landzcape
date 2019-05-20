@@ -3,6 +3,9 @@
     <svg:g [appZoomableOf]="svg">
       <svg:g [appPosition]="center">
         <svg:g>
+          <svg:g *ngFor="let layer of (landscape | async)?.layers" [appLayer]="layer" data-type="layer"></svg:g>
+        </svg:g>
+        <svg:g>
           <svg:g *ngFor="let context of (landscape | async)?.contexts" [appContext]="context" data-type="context"></svg:g>
         </svg:g>
         <svg:g>

@@ -1,6 +1,7 @@
 import {Box, BoxParameters} from '../../../domain/common/box';
 import {ComponentId} from '../../../domain/model/component-id';
 import {ComponentLabelLo} from './component-label.lo';
+import {ComponentLayerLo} from "./component-layer.lo";
 
 export class ComponentLo {
 
@@ -21,7 +22,7 @@ export class ComponentLo {
   name: string;
   version: string;
   label: string;
-  layer: string;
+  layer: ComponentLayerLo;
   type: string;
   capabilities: ComponentLabelLo[];
   commons: ComponentLabelLo[];
@@ -33,7 +34,7 @@ export interface ComponentLoParameters {
   name: string;
   version: string;
   label: string;
-  layer: string;
+  layer: ComponentLayerLo;
   type: string;
   box: BoxParameters;
   capabilities: ComponentLabelLo[];

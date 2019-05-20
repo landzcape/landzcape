@@ -3,6 +3,7 @@ import {DependencyLo} from './dependency.lo';
 import {DomainLo} from './domain.lo';
 import {ComponentLo} from './component.lo';
 import {Size} from '../../../domain/common/size';
+import {LayerLo} from "./layer.lo";
 
 export class LandscapeLo {
 
@@ -11,8 +12,10 @@ export class LandscapeLo {
     this.dependencies = landscape.dependencies;
     this.components = landscape.components;
     this.domains = landscape.domains;
+    this.layers = landscape.layers;
   }
 
+  layers: LayerLo[];
   contexts: ContextLo[];
   dependencies: DependencyLo[];
   domains: DomainLo[];
@@ -38,4 +41,5 @@ class LandscapeLoParameters {
   dependencies: DependencyLo[];
   domains: DomainLo[];
   components: ComponentLo[];
+  layers: LayerLo[];
 }

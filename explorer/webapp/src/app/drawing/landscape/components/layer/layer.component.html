@@ -1,0 +1,13 @@
+<svg:g [appPosition]="box">
+  <svg:text writing-mode="vertical-lr"
+            text-anchor="middle"
+            font-size="13"
+            [appPosition]="labelPosition">{{label}}</svg:text>
+  <svg:rect class="layer-box"
+            [attr.width]="box.width"
+            [attr.height]="box.height"
+            [attr.fill]="color"
+            [attr.fill-opacity]="0.2"
+  >
+  </svg:rect>
+</svg:g>

@@ -45,7 +45,7 @@ export class RelaxingLayout {
     if (relaxation.delta === 0) {
       this.zeroSteps++;
     } else if (isNaN(relaxation.force)) {
-      throw new Error(`Relaxation force is NaN for ${candidate.value.id.name}`);
+      throw new Error(`Relaxation force is NaN for ${candidate.value.name.name}`);
     } else {
       // console.log(`relaxed from ${relaxation.force + relaxation.delta} to ${relaxation.force} in ${this.zeroSteps} steps`);
       this.zeroSteps = 0;

@@ -8,8 +8,11 @@ import {ComponentLo} from '../../drawing/landscape/model/component.lo';
 import {DependencyLo} from '../../drawing/landscape/model/dependency.lo';
 import {DomainLo} from '../../drawing/landscape/model/domain.lo';
 import {ContextLo} from '../../drawing/landscape/model/context.lo';
-import {Box, BoxParameters} from '../common/box';
+import {Box} from '../common/box';
 import {Position} from '../common/position';
+import {LayerLo} from "../../drawing/landscape/model/layer.lo";
+import {Layer} from "../model/layer";
+import {Maps} from "../util/maps";
 
 export class Polygraph {
 
@@ -40,32 +43,33 @@ export class Polygraph {
       .filter(c => domainLos.some(d => d.id.contextId === c.id))
       .map(c => this.layoutContext(c, domainLos.filter(d => d.id.contextId === c.id)));
     const dependencyLos: DependencyLo[] = [];
-
+    const layoutLos: LayerLo[] = this.layoutLayers(this.landscape.layers, componentLos);
     componentMap.forEach((componentLo, component) => {
       const componentDependencies = component.getDependenciesIncludingInterfaces()
         .filter(dependency => componentMap.has(dependency))
         .map(dependency => {
           const isInterface = component.getInterfaceDependencies().includes(dependency);
           return new DependencyLo({
-          from: componentLo,
-          to: componentMap.get(dependency),
-          interface: isInterface
+            from: componentLo,
+            to: componentMap.get(dependency),
+            interface: isInterface
+          });
         });
-      });
       dependencyLos.push(...componentDependencies);
     });
     const landscapeLo = new LandscapeLo({
       contexts: contextLos,
       domains: domainLos,
       components: componentLos,
-      dependencies: dependencyLos
+      dependencies: dependencyLos,
+      layers: layoutLos
     });
     return landscapeLo;
   }
 
   private layoutComponents(positions: Map<Component, Position>,
-                        capabilities: Map<Component, Component[]>,
-                        commons: Map<Component, Component[]>): Map<Component, ComponentLo> {
+                           capabilities: Map<Component, Component[]>,
+                           commons: Map<Component, Component[]>): Map<Component, ComponentLo> {
     const componentMap = new Map<Component, ComponentLo>();
     positions.forEach((position, component) => {
       const componentLo = new ComponentLo({
@@ -73,7 +77,7 @@ export class Polygraph {
         name: component.name,
         version: component.version,
         label: component.label,
-        layer: component.layer ? component.layer.label : '',
+        layer: component.layer ? {name: component.layer.name, label: component.layer.label} : undefined,
         type: component.type.toString(),
         box: {
           x: position.x * 115,
@@ -119,17 +123,8 @@ export class Polygraph {
     });
   }
 
-  private getBorder(drawables: Box[], margin: number = 7): BoxParameters {
-    const x = Math.min(...drawables.map(m => m.x));
-    const width = Math.max(...drawables.map(m => m.x + m.width)) - x;
-    const y = Math.min(...drawables.map(m => m.y));
-    const height = Math.max(...drawables.map(m => m.y + m.height)) - y;
-    return {
-      x: x - margin,
-      y: y - margin,
-      width: width + 2 * margin,
-      height: height + 2 * margin
-    };
+  private getBorder(drawables: Box[], margin: number = 7): Box {
+    return Box.borderOf(drawables).withMargin(margin);
   }
 
   private getCapabilities(): Map<Component, Component[]> {
@@ -150,5 +145,27 @@ export class Polygraph {
       map.set(component, capabilities);
     });
     return map;
+  }
+
+  private layoutLayers(layers: Layer[], componentLos: ComponentLo[]): LayerLo[] {
+    const fullWidthBorder = Box.borderOf(componentLos.map(c => c.box));
+    const componentsByLayer = Maps.groupBy(componentLos, c => c.layer ? c.layer.name : undefined);
+    return layers
+      .filter(layer => componentsByLayer.has(layer.name))
+      .map(layer => {
+        const layerBorder = Box.borderOf(componentsByLayer.get(layer.name).map(c => c.box));
+        const box = new Box({
+          x: fullWidthBorder.x,
+          y: layerBorder.y,
+          width: fullWidthBorder.width,
+          height: layerBorder.height
+        });
+        return new LayerLo({
+          name: layer.name,
+          label: layer.label,
+          box: box.withMargin(10)
+        })
+      });
+
   }
 }

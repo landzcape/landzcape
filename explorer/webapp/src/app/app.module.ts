@@ -20,10 +20,12 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ListboxModule} from 'primeng/listbox';
 import {TreeModule} from 'primeng/tree';
 import {SelectableTreeComponent} from './drawing/tools/components/selectable-tree/selectable-tree.component';
+import {LayerComponent} from "./drawing/landscape/components/layer/layer.component";
 
 @NgModule({
   declarations: [
     AppComponent,
+    LayerComponent,
     ComponentComponent,
     DependencyComponent,
     LandscapeComponent,

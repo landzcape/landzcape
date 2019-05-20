@@ -4,7 +4,7 @@ import {DomainId} from '../../../domain/model/domain-id';
 export class DomainLo {
 
   constructor(parameters: DomainLoParameters) {
-    this.box = new Box(parameters.box);
+    this.box = parameters.box;
     this.id = parameters.id;
     this.name = parameters.name;
     this.label = parameters.label;
@@ -20,5 +20,5 @@ export interface DomainLoParameters {
   id: DomainId;
   name: string;
   label: string;
-  box: BoxParameters;
+  box: Box;
 }
