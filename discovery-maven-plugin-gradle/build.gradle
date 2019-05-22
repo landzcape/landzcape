@@ -2,6 +2,7 @@ import groovy.json.JsonSlurper
 import org.gradle.internal.os.OperatingSystem
 
 apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
 task updateVersion(type: Exec) {
@@ -18,7 +19,7 @@ task updateVersion(type: Exec) {
     }
 }
 
-task mvnBuild(type: Exec, dependsOn: [':domain:install', ':explorer:install', updateVersion]) {
+task mvnBuild(type: Exec, dependsOn: [':discovery-domain:install', ':explorer:install', updateVersion]) {
     standardOutput = new ByteArrayOutputStream()
     errorOutput = new ByteArrayOutputStream()
     inputs.dir "${projectDir}/../discovery-maven-plugin/src"
@@ -96,64 +97,98 @@ def osAdaptiveCommand(String command, String... parameters) {
 }
 
 
-signing {
-    sign configurations.archives
-}
-
 def pluginJar = "${projectDir}/../discovery-maven-plugin/target/discovery-maven-plugin-${->project.version}.jar"
 def pluginJavadocJar = "${projectDir}/../discovery-maven-plugin/target/discovery-maven-plugin-${->project.version}-javadoc.jar"
 def pluginSourcesJar = "${projectDir}/../discovery-maven-plugin/target/discovery-maven-plugin-${->project.version}-sources.jar"
-
-configurations.archives.artifacts.clear()
-artifacts {
-    archives file: file(pluginJar), name: 'discovery-maven-plugin', builtBy: mvnBuild
-    archives file: file(pluginJavadocJar), name: 'discovery-maven-plugin', classifier: 'javadoc', builtBy: mvnBuild
-    archives file: file(pluginSourcesJar), name: 'discovery-maven-plugin', classifier: 'sources', builtBy: mvnBuild
-}
 
 test.dependsOn integrationTestBigMultiModule
 test.dependsOn integrationTestMerger
 test.dependsOn integrationTestExtractExplorer
 build.dependsOn mvnBuild
 
-uploadArchives {
+def pluginArchive = artifacts.add('archives', file(pluginJar)) {
+    name 'discovery-maven-plugin'
+    builtBy mvnBuild
+}
+def sourcesArchive = artifacts.add('archives', file(pluginSourcesJar)) {
+    name 'discovery-maven-plugin'
+    classifier 'sources'
+    builtBy mvnBuild
+}
+def javadocArchive =  artifacts.add('archives', file(pluginJavadocJar)) {
+    name 'discovery-maven-plugin'
+    classifier 'javadoc'
+    builtBy mvnBuild
+}
+
+def pluginDependencies = [
+    "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+    'org.apache.maven:maven-core:3.5.2',
+    'org.apache.maven:maven-plugin-api:3.5.2',
+    'org.apache.maven.shared:maven-dependency-tree:3.0.1',
+    'org.apache.maven.shared:maven-common-artifact-filters:3.0.1',
+    'org.apache.maven.plugin-tools:maven-plugin-annotations:3.4',
+    'com.fasterxml.jackson.core:jackson-databind:2.9.8',
+    'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8',
+    "io.landzcape:domain:$project.version"
+]
+
+publishing {
     repositories {
-        mavenDeployer {
-
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
+        maven {
+            credentials {
+                username ossrhUsername
+                password ossrhPassword
             }
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+    publications {
+        discoveryMavenPlugin(MavenPublication) {
+            artifact pluginArchive
+            artifact sourcesArchive
+            artifact javadocArchive
+            pom {
+                artifactId = 'discovery-maven-plugin'
+                name = 'Landzcape Discovery Maven Plugin'
+                artifactId = 'discovery-maven-plugin'
 
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name 'Landzcape Discovery Maven Plugin'
-                packaging 'jar'
-                description 'Landzcape Discovery Plugin for Maven'
-                url 'https://www.landzcape.io'
+                packaging = 'jar'
+                description = 'Landzcape Discovery Plugin for Maven'
+                url = 'https://www.landzcape.io'
 
                 licenses {
                     license {
-                        name 'GNU General Public License (GPLV3+)'
-                        url 'http://www.gnu.org/licenses/gpl-3.0.html'
+                        name = 'GNU General Public License (GPLV3+)'
+                        url = 'http://www.gnu.org/licenses/gpl-3.0.html'
                     }
                 }
 
                 scm {
-                    connection 'scm:git:https://github.com/landzcape/landzcape'
-                    developerConnection 'scm:git:https://github.com/landzcape/landzcape'
-                    url 'https://github.com/landzcape/landzcape'
+                    connection = 'scm:git:https://github.com/landzcape/landzcape'
+                    developerConnection = 'scm:git:https://github.com/landzcape/landzcape'
+                    url = 'https://github.com/landzcape/landzcape'
                 }
 
                 developers {
                     developer {
-                        id 'christian'
-                        name 'Christian Ramseier'
-                        email 'christian@landzcape.io'
+                        id = 'christian'
+                        name = 'Christian Ramseier'
+                        email = 'christian@landzcape.io'
+                    }
+                }
+            }
+            afterEvaluate {
+                pom.withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    pluginDependencies.forEach { dependency ->
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        def dependencyElements = dependency.split(":")
+                        dependencyNode.appendNode('groupId', dependencyElements[0])
+                        dependencyNode.appendNode('artifactId', dependencyElements[1])
+                        dependencyNode.appendNode('version', dependencyElements[2])
                     }
                 }
             }
@@ -161,4 +196,9 @@ uploadArchives {
     }
 }
 
-task publishMavenPlugin(dependsOn: uploadArchives) {}
+signing {
+    sign publishing.publications.discoveryMavenPlugin
+}
+
+
+task publishMavenPlugin(dependsOn: publishDiscoveryMavenPluginPublicationToMavenRepository) {}

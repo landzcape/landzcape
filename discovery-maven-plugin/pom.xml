@@ -56,7 +56,7 @@
         </dependency>
         <dependency>
             <groupId>io.landzcape</groupId>
-            <artifactId>domain</artifactId>
+            <artifactId>discovery-domain</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
@@ -88,14 +88,6 @@
                                 <include>landscape-explorer.zip</include>
                             </includes>
                         </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <filesets>
                         <fileset>
                             <directory>${project.basedir}/src/main/resources/explorer</directory>
                         </fileset>

@@ -1,6 +1,6 @@
 apply plugin: 'kotlin2js'
 
-evaluationDependsOn(':domain')
+evaluationDependsOn(':discovery-domain')
 
 repositories {
     mavenCentral()
@@ -23,7 +23,7 @@ sourceSets {
 }
 
 task importDomain(type: Sync) {
-    from project(':domain').sourceSets.main.kotlin.srcDirs
+    from project(':discovery-domain').sourceSets.main.kotlin.srcDirs
     into "${project.projectDir}/src/generated/kotlin"
 }
 

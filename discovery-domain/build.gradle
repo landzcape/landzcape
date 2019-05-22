@@ -1,8 +1,7 @@
+apply plugin: 'kotlin'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
-apply plugin: 'kotlin'
-apply plugin: 'java-gradle-plugin'
 
 repositories {
     mavenLocal()
@@ -10,11 +9,8 @@ repositories {
 }
 
 dependencies {
-    compile project(':discovery-domain')
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
-    compile "com.fasterxml.jackson.core:jackson-databind:2.9.8"
-    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.7"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile "org.jetbrains.kotlin:kotlin-reflect"
 }
@@ -30,16 +26,6 @@ compileTestKotlin {
     }
 }
 
-clean {
-    delete 'src/main/resources/landscape-explorer.zip'
-}
-
-task prepareExplorer(type: Copy, dependsOn: project(':explorer').jar) {
-    from zipTree(project(':explorer').jar.outputs.files[0]).asFileTree
-    into "$projectDir/src/main/resources"
-    include 'landscape-explorer.zip'
-}
-
 task javadocJar(type: Jar) {
     classifier = 'javadoc'
     from javadoc
@@ -49,9 +35,6 @@ task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
-
-processResources.dependsOn('prepareExplorer')
-test.dependsOn(':discovery-domain:install')
 
 publishing {
     repositories {
@@ -66,14 +49,14 @@ publishing {
         }
     }
     publications {
-        discoveryGradlePlugin(MavenPublication) {
+        discoveryDomain(MavenPublication) {
             from components.java
             artifact sourcesJar
             artifact javadocJar
             pom {
-                name = 'Landzcape Discovery Gradle Plugin'
+                name = 'Landzcape Discovery Domain'
                 packaging = 'jar'
-                description = 'Landzcape Discovery Plugin for Gradle'
+                description = 'Landzcape Discovery Domain'
                 url = 'https://www.landzcape.io'
 
                 licenses {
@@ -102,7 +85,7 @@ publishing {
 }
 
 signing {
-    sign publishing.publications.discoveryGradlePlugin
+    sign publishing.publications.discoveryDomain
 }
 
-task publishGradlePlugin(dependsOn: publishDiscoveryGradlePluginPublicationToMavenRepository) {}
+task publishDiscoveryDomain(dependsOn: publishDiscoveryDomainPublicationToMavenRepository) {}

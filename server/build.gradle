@@ -10,7 +10,7 @@ repositories {
 
 
 dependencies {
-    compile project(':domain')
+    compile project(':discovery-domain')
     compile 'org.springframework.boot:spring-boot-starter-webflux:2.0.0.RELEASE'
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.4.0'
     compileOnly 'org.projectlombok:lombok:1.16.18'

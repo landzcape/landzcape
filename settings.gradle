@@ -1,5 +1,5 @@
 include 'server'
-include 'domain'
+include 'discovery-domain'
 include 'discovery-angular'
 include 'discovery-angular-plugin'
 include 'discovery-gradle-plugin'
