@@ -11,13 +11,13 @@
     <name>Landscape Discovery Maven Plugin</name>
 
     <properties>
-        <kotlin.version>1.3.21</kotlin.version>
+        <kotlin_version>1.3.21</kotlin_version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
-            <version>${kotlin.version}</version>
+            <version>${kotlin_version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -100,7 +100,7 @@
             <plugin>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <groupId>org.jetbrains.kotlin</groupId>
-                <version>${kotlin.version}</version>
+                <version>${kotlin_version}</version>
 
                 <executions>
                     <execution>

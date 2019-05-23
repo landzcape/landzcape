@@ -26,18 +26,18 @@ task mvnBuild(type: Exec, dependsOn: [':discovery-domain:install', ':explorer:in
     inputs.file "${projectDir}/../discovery-maven-plugin/pom.xml"
     outputs.dir "${projectDir}/../discovery-maven-plugin/target"
     workingDir "${projectDir}/../discovery-maven-plugin"
-    commandLine osAdaptiveCommand('mvnw', 'clean', 'install')
+    commandLine osAdaptiveCommand('mvnw', 'clean', 'verify')
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()
     }
 }
 
-task integrationTestBigMultiModule(type:Exec, dependsOn: mvnBuild ) {
+task integrationTestBigMultiModule(type:Exec, dependsOn: publishToMavenLocal ) {
     standardOutput = new ByteArrayOutputStream()
     errorOutput = new ByteArrayOutputStream()
     workingDir "${projectDir}/integration-test/big-multi-module"
-    commandLine osAdaptiveCommand('mvnw', 'clean', 'install')
+    commandLine osAdaptiveCommand('mvnw', 'clean', 'verify')
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()
@@ -45,11 +45,11 @@ task integrationTestBigMultiModule(type:Exec, dependsOn: mvnBuild ) {
     }
 }
 
-task integrationTestMerger(type:Exec, dependsOn: mvnBuild ) {
+task integrationTestMerger(type:Exec, dependsOn: publishToMavenLocal ) {
     standardOutput = new ByteArrayOutputStream()
     errorOutput = new ByteArrayOutputStream()
     workingDir "${projectDir}/integration-test/merger"
-    commandLine osAdaptiveCommand('mvnw', 'clean', 'install')
+    commandLine osAdaptiveCommand('mvnw', 'clean', 'verify')
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()
@@ -57,7 +57,7 @@ task integrationTestMerger(type:Exec, dependsOn: mvnBuild ) {
     }
 }
 
-task integrationTestExtractExplorer(type:Exec, dependsOn: mvnBuild ) {
+task integrationTestExtractExplorer(type:Exec, dependsOn: publishToMavenLocal ) {
     def targetDir = new File("${projectDir}/integration-test/extract")
     def appDir = new File(targetDir, "the-app")
     appDir.deleteDir()
@@ -65,7 +65,7 @@ task integrationTestExtractExplorer(type:Exec, dependsOn: mvnBuild ) {
     standardOutput = new ByteArrayOutputStream()
     errorOutput = new ByteArrayOutputStream()
     workingDir "${projectDir}/integration-test/extract"
-    commandLine osAdaptiveCommand('mvnw', 'clean', 'install')
+    commandLine osAdaptiveCommand('mvnw', 'clean', 'verify')
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()
@@ -121,17 +121,19 @@ def javadocArchive =  artifacts.add('archives', file(pluginJavadocJar)) {
     builtBy mvnBuild
 }
 
-def pluginDependencies = [
-    "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
-    'org.apache.maven:maven-core:3.5.2',
-    'org.apache.maven:maven-plugin-api:3.5.2',
-    'org.apache.maven.shared:maven-dependency-tree:3.0.1',
-    'org.apache.maven.shared:maven-common-artifact-filters:3.0.1',
-    'org.apache.maven.plugin-tools:maven-plugin-annotations:3.4',
-    'com.fasterxml.jackson.core:jackson-databind:2.9.8',
-    'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8',
-    "io.landzcape:domain:$project.version"
-]
+def rootNode = new XmlSlurper().parse(file("${projectDir}/../discovery-maven-plugin/pom.xml"))
+def pluginDependencies = []
+rootNode.dependencies.children()
+        .each {
+            if(['','compile'].contains(it.scope.text())) {
+                def groupId = it.groupId.text()
+                def artifactId = it.artifactId.text()
+                def version = it.version.text()
+                        .replace('${kotlin_version}', "$kotlin_version")
+                        .replace('${project.version}', "$project.version")
+                pluginDependencies.push("$groupId:$artifactId:$version")
+            }
+        }
 
 publishing {
     repositories {
