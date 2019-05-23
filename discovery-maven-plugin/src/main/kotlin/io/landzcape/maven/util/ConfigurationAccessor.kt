@@ -1,6 +1,5 @@
 package io.landzcape.maven.util
 
-import com.google.common.collect.Lists
 import org.apache.maven.project.MavenProject
 import org.codehaus.plexus.util.xml.Xpp3Dom
 
@@ -33,7 +32,7 @@ class ConfigurationAccessor(val root: Xpp3Dom?) {
                 return children.map { child -> ConfigurationAccessor(child) }
             }
         }
-        return Lists.newArrayList()
+        return listOf()
     }
 
     fun getChild(propertyName: String): ConfigurationAccessor {
