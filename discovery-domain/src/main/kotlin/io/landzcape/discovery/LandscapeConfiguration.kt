@@ -102,31 +102,44 @@ data class LandscapeConfiguration(
     }
 
     fun isIncluded(): Boolean {
-        return isOnInclusionList() && !isOnExclusionList()
+        return isIncludedOrNotExcluded(id)
     }
 
-    private fun isOnInclusionList(): Boolean {
+    fun getIncludedDependencies(): List<DependencyConfiguration> {
+        return dependencies.filter { isIncludedOrNotExcluded(it.artifactId) }
+    }
+
+    fun getIncludedInterfaces(): List<DependencyConfiguration> {
+        return interfaces.filter { isIncludedOrNotExcluded(it.artifactId) }
+    }
+
+
+    private fun isIncludedOrNotExcluded(artifactId: ArtifactId): Boolean {
+        return isOnInclusionList(artifactId) && !isOnExclusionList(artifactId)
+    }
+
+    private fun isOnInclusionList(artifactId: ArtifactId): Boolean {
         val includeList = getIncludeList()
         if(includeList!=null) {
-            return includeList.any { idMatchingGlob(it) }
+            return includeList.any { idMatchingGlob(artifactId, it) }
         }
         return true
     }
 
-    private fun isOnExclusionList(): Boolean {
+    private fun isOnExclusionList(artifactId: ArtifactId): Boolean {
         val excludeList = getExcludeList()
         if(excludeList!=null) {
-            return excludeList.any { idMatchingGlob(it) }
+            return excludeList.any { idMatchingGlob(artifactId, it) }
         }
         return false
     }
 
-    private fun idMatchingGlob(artifactGlob: String): Boolean {
+    private fun idMatchingGlob(artifactId: ArtifactId, artifactGlob: String): Boolean {
         val split = artifactGlob.split(":")
         if(split.size == 3) {
-            return matchesGlob(split.get(0), id.group)
-                    && matchesGlob(split.get(1), id.name)
-                    && matchesGlob(split.get(2), id.version);
+            return matchesGlob(split.get(0), artifactId.group)
+                    && matchesGlob(split.get(1), artifactId.name)
+                    && matchesGlob(split.get(2), artifactId.version);
         }
         return false
     }
@@ -199,5 +212,6 @@ data class LandscapeConfiguration(
     fun getComponentId(): ComponentId {
         return ComponentId(getComponentName(), getComponentGroup(), getComponentVersion(), getDomainId())
     }
+
 
 }

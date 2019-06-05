@@ -74,6 +74,7 @@ class MavenDiscoveryMojo : AbstractMojo() {
             val landscape = builder.build()
             val dto = landscape.toDto()
             val objectMapper = ObjectMapper()
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
             val serialized = objectMapper.writeValueAsString(dto)
             File("landscape.json").printWriter().use { out ->
                 out.print(serialized)

@@ -1,5 +1,6 @@
 package io.landzcape.gradle
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import io.landzcape.discovery.*
 import io.landzcape.mapper.toDto
 import org.gradle.api.DefaultTask
@@ -57,6 +58,7 @@ open class DiscoveryTask : DefaultTask() {
         val landscape = builder.build()
         val dto = landscape.toDto()
         val objectMapper = ObjectMapper()
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         val serialized = objectMapper.writeValueAsString(dto)
         File(project.projectDir,"landscape.json").printWriter().use { out ->
             out.print(serialized)

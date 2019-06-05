@@ -53,7 +53,7 @@ class LandscapeBuilder(val configurations: List<LandscapeConfiguration>) {
         configurations.forEach { configuration ->
             val component: Component? = componentsByArtifactId[configuration.id]
             if(component!==null) {
-                val dependencies = configuration.dependencies
+                val dependencies = configuration.getIncludedDependencies()
                         .filterNot { it.structural }
                         .filterNot { it.test }
                 dependencies
@@ -65,12 +65,13 @@ class LandscapeBuilder(val configurations: List<LandscapeConfiguration>) {
                         .filterNot { componentsByArtifactId.containsKey(it.artifactId)}
                         .sortedBy { it.artifactId.name }
                         .forEach { component.addExternalDependency(it.artifactId) }
-                if(configuration.interfaces.size > 0) {
-                    configuration.interfaces
+                val interfaces = configuration.getIncludedInterfaces()
+                if(interfaces.size > 0) {
+                    interfaces
                             .map { componentsByArtifactId[it.artifactId] }
                             .filterNotNull()
                             .forEach { component.addInterface(it) }
-                    configuration.interfaces
+                    interfaces
                             .filterNot { componentsByArtifactId.containsKey(it.artifactId) }
                             .forEach { component.addExternalInterface(it.artifactId) }
                 } else {
