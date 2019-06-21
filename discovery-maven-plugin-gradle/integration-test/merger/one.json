@@ -20,7 +20,8 @@
   "layers": [
     {
       "name": "cs",
-      "label": "Core Service"
+      "label": "Core Service",
+      "order": 42
     }
   ],
   "components": [

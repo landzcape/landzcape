@@ -65,11 +65,13 @@ The discovery plugin needs to be run in the root `pom.xml` of your multi-module 
                         <name>es</name>
                         <label>Edge Service</label>
                         <matching>*-es</matching>
+                        <order>1</order>
                     </layer>
                     <layer>
                         <name>cs</name>
                         <label>Core Service</label>
                         <matching>*-cs</matching>
+                        <order>2</order>
                     </layer>
                 </layers>
             </configuration>
@@ -131,8 +133,8 @@ landscape {
     }
 
     layers {
-        layer name: 'es', label: 'Edge Service', matching: '*-es'
-        layer name: 'cs', label: 'Core Service', matching: '*-cs'
+        layer name: 'es', label: 'Edge Service', matching: '*-es', order: 1
+        layer name: 'cs', label: 'Core Service', matching: '*-cs', order: 2
     }
 }
 ```
@@ -218,8 +220,8 @@ task merge(type: MergeTask) {
 ## Visualization
 
 Landzcape Explorer is a web application that visualizes your landscape.
-It is bundled with the Gradle and Maven discovery plugin. It can be extracted during the build process and then
-bundled and hosted with any HTTP server.
+It is bundled with the Gradle and Maven discovery plugin. It can be extracted
+during the build process and deployed with any HTTP server.
 
 ### Example using `nginx`
 Assuming that you already discovered your landscape and your `landscape.json` is ready.
@@ -248,7 +250,6 @@ You can either use Maven to extract the visualization application ...
     </plugins>
 </build>
 ```
-
 ... or do the same with gradle ...
 ```
 import io.landzcape.gradle.ExtractExplorerTask

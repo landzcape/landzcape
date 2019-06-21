@@ -16,7 +16,7 @@ class LandscapeMergerTest {
                                 ContextDto(name = "kiteshop", label = "Kiteshop")
                         ),
                         layers = listOf(
-                                LayerDto(name = "ui", label = "User Interface")
+                                LayerDto(name = "ui", label = "User Interface", order = 0)
                         ),
                         domains = listOf(
                                 DomainDto(name = "inventory", label = "Inventory", context = "surfshop"),
@@ -49,9 +49,9 @@ class LandscapeMergerTest {
                                 ContextDto(name = "kiteshop", label = "Kiteshop")
                         ),
                         layers = listOf(
-                                LayerDto(name = "ui", label = "Ignored ui label"),
-                                LayerDto(name = "es", label = "Edge Service"),
-                                LayerDto(name = "cs", label = "Core Service")
+                                LayerDto(name = "ui", label = "Ignored ui label", order=42),
+                                LayerDto(name = "es", label = "Edge Service", order = 1),
+                                LayerDto(name = "cs", label = "Core Service", order = 2)
                         ),
                         domains = listOf(
                                 DomainDto(name = "inventory", label = "Ignored inventory label", context = "surfshop")
@@ -89,9 +89,9 @@ class LandscapeMergerTest {
                                 ContextDto(name = "kiteshop", label = "Kiteshop")
                         ),
                         layers = listOf(
-                                LayerDto(name = "ui", label = "User Interface"),
-                                LayerDto(name = "es", label = "Edge Service"),
-                                LayerDto(name = "cs", label = "Core Service")
+                                LayerDto(name = "ui", label = "User Interface", order =  0),
+                                LayerDto(name = "es", label = "Edge Service", order = 1),
+                                LayerDto(name = "cs", label = "Core Service", order = 2)
                         ),
                         domains = listOf(
                                 DomainDto(name = "inventory", label = "Inventory", context = "surfshop"),

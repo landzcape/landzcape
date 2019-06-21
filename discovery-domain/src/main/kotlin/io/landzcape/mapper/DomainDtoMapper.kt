@@ -37,7 +37,8 @@ fun Domain.toDto(context: Context) : DomainDto {
 fun Layer.toDto() : LayerDto {
     return LayerDto(
             name = this.id.name,
-            label = this.label
+            label = this.label,
+            order = this.order
     )
 }
 

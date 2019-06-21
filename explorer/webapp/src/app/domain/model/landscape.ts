@@ -12,6 +12,7 @@ export class Landscape {
     public readonly contexts: Context[],
     public readonly layers: Layer[]
   ) {
+    this.layers.sort((a,b) => a.order - b.order);
   }
 
   getComponent(componentId: ComponentId): Component {

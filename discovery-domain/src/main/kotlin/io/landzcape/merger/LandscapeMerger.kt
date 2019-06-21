@@ -46,7 +46,8 @@ class LandscapeMerger {
     private fun mergeLayers(layers: List<LayerDto>): LayerDto {
         val name = layers.first().name
         val label = layers.first().label
-        return LayerDto(name, label)
+        val order = layers.first().order
+        return LayerDto(name, label, order)
     }
 
     private fun mergeDomains(domains: List<DomainDto>): DomainDto {

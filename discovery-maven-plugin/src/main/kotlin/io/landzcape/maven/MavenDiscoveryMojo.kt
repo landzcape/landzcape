@@ -107,7 +107,12 @@ class MavenDiscoveryMojo : AbstractMojo() {
 
     private fun toLayers(accessor: ConfigurationAccessor): List<LayerConfiguration>? {
         return accessor.getChildren("layer").map { child ->
-            LayerConfiguration(child.get("name"), child.get("label"), child.get("matching"))
+            LayerConfiguration(
+                    name = child.get("name"),
+                    label = child.get("label"),
+                    matching = child.get("matching"),
+                    order = child.get("order")
+            )
         }
     }
 

@@ -189,12 +189,24 @@ data class LandscapeConfiguration(
         throw IllegalArgumentException(message)
     }
 
+    private fun getNumberOrZero(value: String?, message: String): Int {
+        if (value == null) {
+            return 0
+        }
+        val number = value.toIntOrNull()
+        if (number == null) {
+            throw IllegalArgumentException(message)
+        }
+        return number
+    }
+
     fun getLayerDeclarations(): List<LayerWithMatcher> {
         if(layers != null) {
             return layers.map { configuration ->
                 val layer = Layer(
                         id = LayerId(getValue(configuration.name, "No layer name specified")),
-                        label = getValue(configuration.label, "No layer name specified")
+                        label = getValue(configuration.label, "No layer name specified"),
+                        order = getNumberOrZero(configuration.order, "Invalid layer order")
                 )
                 LayerWithMatcher(layer, configuration.matching)
             }

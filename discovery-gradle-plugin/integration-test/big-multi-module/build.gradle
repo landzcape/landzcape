@@ -29,6 +29,6 @@ landscape {
 
     layers {
         layer name: 'es', label: 'Edge Service', matching: '*-es'
-        layer name: 'cs', label: 'Core Service', matching: '*-cs'
+        layer name: 'cs', label: 'Core Service', matching: '*-cs', order: 42
     }
 }

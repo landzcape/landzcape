@@ -147,7 +147,7 @@ class AngularDiscovery {
         if (!layers) {
             return emptyList()
         }
-        return (layers as Array<dynamic>).map { LayerConfiguration(it.name, it.label, it.matching) }
+        return (layers as Array<dynamic>).map { LayerConfiguration(it.name, it.label, it.matching, it.order) }
     }
 
     private fun toInterfaces(interfaces: dynamic): List<DependencyConfiguration> {

@@ -15,7 +15,8 @@
   "layers": [
     {
       "name": "es",
-      "label": "Edge Service"
+      "label": "Edge Service",
+      "order": 0
     }
   ],
   "components": [

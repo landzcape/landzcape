@@ -20,11 +20,13 @@
   "layers": [
     {
       "name": "cs",
-      "label": "Core Service"
+      "label": "Core Service",
+      "order": 42
     },
     {
       "name": "es",
-      "label": "Edge Service"
+      "label": "Edge Service",
+      "order": 0
     }
   ],
   "components": [

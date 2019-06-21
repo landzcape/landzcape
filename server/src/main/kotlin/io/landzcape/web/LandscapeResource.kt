@@ -21,9 +21,9 @@ class LandscapeResource {
         val statisticsDomain = DomainDto("statistics", "Statistics", "surfshop")
         val surfContext = ContextDto("surfshop", "The surf shop")
         val kiteContext = ContextDto("kiteshop", "The kite shop")
-        val userInterface = LayerDto("ui", "User Interface")
-        val edgeService = LayerDto("es", "Edge Service")
-        val coreService = LayerDto("cs", "Core Service")
+        val userInterface = LayerDto("ui", "User Interface", order = 1)
+        val edgeService = LayerDto("es", "Edge Service", order = 2)
+        val coreService = LayerDto("cs", "Core Service", order = 3)
 
         val common = ComponentDto(
                 name = "common",

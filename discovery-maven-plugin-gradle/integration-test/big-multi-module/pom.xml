@@ -72,6 +72,7 @@
                             <name>es</name>
                             <label>Edge Service</label>
                             <matching>*-es</matching>
+                            <order>42</order>
                         </layer>
                         <layer>
                             <name>cs</name>

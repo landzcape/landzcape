@@ -28,7 +28,8 @@ open class LandscapeExtension {
         val label = params.get("label")?.toString()
         val matching = params.get("matching")?.toString()
         val name = params.get("name")?.toString()
-        layers?.add(LayerConfiguration(name, label, matching))
+        val order = params.get("order")?.toString()
+        layers?.add(LayerConfiguration(name, label, matching, order))
     }
 
     fun domains(closure: Closure<LandscapeExtension>) {
