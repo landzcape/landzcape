@@ -24,4 +24,20 @@ export class D3Service {
     const d3element = d3.select(element.nativeElement);
     d3element.attr('transform', `translate(${x},${y})`);
   }
+
+  onMouseOver(element: ElementRef, action: (event) => void) {
+    d3.select(element.nativeElement).on('mouseover', action);
+  }
+
+  onMouseOut(element: ElementRef, action: (event) => void) {
+    d3.select(element.nativeElement).on('mouseout', action);
+  }
+
+  onMouseEnter(element: ElementRef, action: (event) => void) {
+    d3.select(element.nativeElement).on('mouseenter', action);
+  }
+
+  onMouseLeave(element: ElementRef, action: (event) => void) {
+    d3.select(element.nativeElement).on('mouseleave', action);
+  }
 }

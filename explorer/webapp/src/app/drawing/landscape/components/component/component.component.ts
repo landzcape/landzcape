@@ -3,6 +3,13 @@ import {ComponentLo} from '../../model/component.lo';
 import {Box} from '../../../../domain/common/box';
 import {SvgHelper} from '../../../svg-helper';
 import {ComponentLabelLo} from '../../model/component-label.lo';
+import {Store} from "@ngrx/store";
+import {LandscapeState} from "../../../../landscape.reducer";
+import {
+  ActiveComponentsAction,
+  DeactivateComponentsAction, PinComponentsAction,
+  UnpinComponentsAction
+} from "../../../../landscape.actions";
 
 @Component({
   selector: '[appComponent]',
@@ -11,18 +18,22 @@ import {ComponentLabelLo} from '../../model/component-label.lo';
 })
 export class ComponentComponent implements OnInit {
 
+  constructor(private store: Store<LandscapeState>) {
+  }
+
   @Input()
   appComponent: ComponentLo;
   box: Box;
   capabilityLines = [];
   commonsLines = [];
   labelLines = [];
+  borderColor: string;
 
   ngOnInit(): void {
     this.box = this.appComponent.box;
     this.capabilityLines = this.mapLabels(this.appComponent.capabilities, x => -10 + (30 - x))
     this.commonsLines = this.mapLabels(this.appComponent.commons, x => 30 + x);
-
+    this.borderColor = this.getBorderColor();
     const words = this.appComponent.label.split(' ');
     const yStart = - (words.length / 2) + 0.5;
     this.labelLines = words.map((label, index) => {
@@ -49,4 +60,27 @@ export class ComponentComponent implements OnInit {
   }
 
 
+  activateComponents() {
+    this.store.dispatch(new ActiveComponentsAction([this.appComponent.id]))
+  }
+
+  deactivateComponents() {
+    this.store.dispatch(new DeactivateComponentsAction([this.appComponent.id]))
+  }
+
+  togglePinComponents() {
+    console.log(this.appComponent);
+    if (this.appComponent.pinned) {
+      this.store.dispatch(new UnpinComponentsAction([this.appComponent.id]));
+    } else {
+      this.store.dispatch(new PinComponentsAction([this.appComponent.id]));
+    }
+  }
+
+  private getBorderColor() {
+    if (this.appComponent.pinned) {
+      return 'red';
+    }
+    return 'black';
+  }
 }

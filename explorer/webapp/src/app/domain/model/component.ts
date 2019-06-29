@@ -4,7 +4,9 @@ import {ComponentId} from './component-id';
 
 export class Component {
 
+  active: boolean;
   visible: boolean;
+  pinned: boolean;
 
   readonly id: ComponentId;
   readonly name: string;
@@ -12,6 +14,7 @@ export class Component {
   readonly version: string;
   readonly label: string;
   readonly layer: Layer;
+
   readonly type: ComponentType;
 
   readonly dependencies: Component[] = [];
@@ -27,6 +30,8 @@ export class Component {
     this.layer = component.layer;
     this.type = component.type;
     this.visible = component.visible === undefined ? false : component.visible;
+    this.active = component.active === undefined ? false : component.active;
+    this.pinned = component.pinned === undefined ? false : component.pinned;
   }
 
   hide(): any {
@@ -69,6 +74,22 @@ export class Component {
     return this.getTransitiveDependencies(ComponentType.COMMON);
   }
 
+  activate(): void {
+    this.active = true;
+  }
+
+  deactivate(): void {
+    this.active = false;
+  }
+
+  pin(): void {
+    this.pinned = true;
+  }
+
+  unpin(): void {
+    this.pinned = false;
+  }
+
   private getTransitiveDependencies(type: ComponentType) {
     const transitive = new Set<Component>();
     this.dependencies
@@ -92,4 +113,6 @@ export interface ComponentParameters {
   layer: Layer;
   type: ComponentType;
   visible?: boolean;
+  active?: boolean;
+  pinned?: boolean;
 }

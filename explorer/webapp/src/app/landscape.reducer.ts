@@ -15,7 +15,7 @@ export interface ToolsState {
 }
 
 export interface LandscapeState {
-  landscape?: Landscape;
+  polygraph?: Polygraph;
   layout?: LandscapeLo;
   tools: ToolsState;
 }
@@ -30,72 +30,49 @@ export function reducer(
 ): LandscapeState {
   switch (action.type) {
     case LandscapeActionTypes.InitializeLandscapeAction:
-      const loadedLandscapeLo = new Polygraph(action.landscape).layout();
-      return {
-        landscape: action.landscape,
-        tools: OptionMapper.toToolsState(action.landscape),
-        layout: loadedLandscapeLo,
-      };
-
+      return layout(new Polygraph(action.landscape));
     case LandscapeActionTypes.ShowContextAction:
-      state.landscape.getContext(action.contextId).show();
-      const showContextLandscapeLo = new Polygraph(state.landscape).layout();
-      return {
-        landscape: state.landscape,
-        tools: OptionMapper.toToolsState(state.landscape),
-        layout: showContextLandscapeLo,
-      };
-
+      state.polygraph.showContext(action.contextId);
+      return layout(state.polygraph, state.layout);
     case LandscapeActionTypes.ShowDomainAction:
-      state.landscape.getDomain(action.domainId).show();
-      const showDomainLandscapeLo = new Polygraph(state.landscape).layout();
-      return {
-        landscape: state.landscape,
-        tools: OptionMapper.toToolsState(state.landscape),
-        layout: showDomainLandscapeLo,
-      };
-
+      state.polygraph.showDomain(action.domainId);
+      return layout(state.polygraph, state.layout);
     case LandscapeActionTypes.HideComponentsAction:
-      action.componentIds.forEach(componentId => {
-        state.landscape.getComponent(componentId).hide();
-      });
-      const hiddenComponentsLandscapeLo = new Polygraph(state.landscape).layout();
-      return {
-        landscape: state.landscape,
-        tools: OptionMapper.toToolsState(state.landscape),
-        layout: hiddenComponentsLandscapeLo
-      };
+      state.polygraph.hideComponents(action.componentIds);
+      return layout(state.polygraph, state.layout);
     case LandscapeActionTypes.ShowComponentsAction:
-      action.componentIds.forEach(componentId => {
-        state.landscape.getComponent(componentId).show();
-      });
-      const shownComponentsLandscapeLo = new Polygraph(state.landscape).layout();
-      return {
-        landscape: state.landscape,
-        tools: OptionMapper.toToolsState(state.landscape),
-        layout: shownComponentsLandscapeLo
-      };
+      state.polygraph.showComponents(action.componentIds);
+      return layout(state.polygraph, state.layout);
     case LandscapeActionTypes.ShowCapabilitiesAction:
-      state.landscape.getCapabilities()
-        .forEach(c => c.visible = action.componentIds.includes(c.id));
-      const capabilityComponentLandscapeLo = new Polygraph(state.landscape).layout();
-      return {
-        landscape: state.landscape,
-        tools: OptionMapper.toToolsState(state.landscape),
-        layout: capabilityComponentLandscapeLo
-      };
+      state.polygraph.showCapabilities(action.componentIds);
+      return layout(state.polygraph, state.layout);
     case LandscapeActionTypes.ShowCommonsAction:
-      state.landscape.getCommons()
-        .forEach(c => c.visible = action.componentIds.includes(c.id));
-      const commonComponentsLandscapeLo = new Polygraph(state.landscape).layout();
-      return {
-        landscape: state.landscape,
-        tools: OptionMapper.toToolsState(state.landscape),
-        layout: commonComponentsLandscapeLo
-      };
+      state.polygraph.showCommons(action.componentIds);
+      return layout(state.polygraph, state.layout);
+    case LandscapeActionTypes.ActivateComponentsAction:
+      state.polygraph.activateComponents(action.componentIds);
+      return layout(state.polygraph, state.layout);
+    case LandscapeActionTypes.DeactivateComponentsAction:
+      state.polygraph.deactivateComponents(action.componentIds);
+      return layout(state.polygraph, state.layout);
+    case LandscapeActionTypes.PinComponentsAction:
+      state.polygraph.pinDependencies(action.componentIds);
+      return layout(state.polygraph, state.layout);
+    case LandscapeActionTypes.UnpinComponentsAction:
+      state.polygraph.unpinDependencies(action.componentIds);
+      return layout(state.polygraph, state.layout);
     default:
       return state;
   }
+}
+
+const layout = (polygraph: Polygraph, existingLayout: LandscapeLo = undefined): LandscapeState => {
+  const newLayout = polygraph.layout(existingLayout);
+  return {
+    polygraph: polygraph,
+    tools: OptionMapper.toToolsState(polygraph.landscape),
+    layout: newLayout
+  };
 }
 
 

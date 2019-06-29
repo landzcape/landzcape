@@ -8,11 +8,11 @@ import {LayerLo} from "./layer.lo";
 export class LandscapeLo {
 
   constructor(landscape: LandscapeLoParameters) {
-    this.contexts = landscape.contexts;
-    this.dependencies = landscape.dependencies;
-    this.components = landscape.components;
-    this.domains = landscape.domains;
     this.layers = landscape.layers;
+    this.contexts = landscape.contexts;
+    this.domains = landscape.domains;
+    this.components = landscape.components;
+    this.dependencies = landscape.dependencies;
   }
 
   layers: LayerLo[];

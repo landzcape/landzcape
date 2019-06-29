@@ -4,7 +4,7 @@
                 [attr.width]="box.width"
                 [attr.height]="box.height"
                 stroke-width="3"
-                stroke="black"
+                [attr.stroke]="borderColor"
                 fill="white"
     >
     </svg:rect>
@@ -43,3 +43,14 @@
     </svg:text>
   </svg:g>
 </svg:g>
+<svg:rect appMouseEvent [appPosition]="box"
+          (mouseEnter)="activateComponents()"
+          (mouseOut)="deactivateComponents()"
+          (click)="togglePinComponents()"
+          [attr.width]="box.width"
+          [attr.height]="box.height"
+          stroke-width="3"
+          stroke="transparent"
+          fill="transparent"
+>
+</svg:rect>

@@ -15,6 +15,8 @@ export class ComponentLo {
     this.type = parameters.type;
     this.capabilities = parameters.capabilities;
     this.commons = parameters.commons;
+    this.active = parameters.active;
+    this.pinned = parameters.pinned;
   }
 
   box: Box;
@@ -26,6 +28,8 @@ export class ComponentLo {
   type: string;
   capabilities: ComponentLabelLo[];
   commons: ComponentLabelLo[];
+  pinned: boolean;
+  active: boolean;
 
 }
 
@@ -39,5 +43,7 @@ export interface ComponentLoParameters {
   box: BoxParameters;
   capabilities: ComponentLabelLo[];
   commons: ComponentLabelLo[];
+  active: boolean;
+  pinned: boolean;
 }
 

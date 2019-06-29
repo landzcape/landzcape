@@ -1,171 +1,109 @@
-import {Landscape} from '../model/landscape';
-import {Context} from '../model/context';
-import {Domain} from '../model/domain';
-import {Component} from '../model/component';
-import {ElasticInsertPositionFinder} from './elastic-insert/elastic-insert-position-finder';
-import {LandscapeLo} from '../../drawing/landscape/model/landscape.lo';
-import {ComponentLo} from '../../drawing/landscape/model/component.lo';
-import {DependencyLo} from '../../drawing/landscape/model/dependency.lo';
-import {DomainLo} from '../../drawing/landscape/model/domain.lo';
-import {ContextLo} from '../../drawing/landscape/model/context.lo';
-import {Box} from '../common/box';
-import {Position} from '../common/position';
-import {LayerLo} from "../../drawing/landscape/model/layer.lo";
-import {Layer} from "../model/layer";
-import {Maps} from "../util/maps";
+import {Layouter} from "./layouter";
+import {Landscape} from "../model/landscape";
+import {ContextId} from "../model/context-id";
+import {DomainId} from "../model/domain-id";
+import {ComponentId} from "../model/component-id";
+import {LandscapeLo} from "../../drawing/landscape/model/landscape.lo";
 
 export class Polygraph {
 
-  private finder: ElasticInsertPositionFinder;
+  readonly landscape: Landscape;
+  private layouter: Layouter;
 
-  constructor(private landscape: Landscape) {
-    this.finder = new ElasticInsertPositionFinder(landscape);
-    this.finder.relax();
+  private structureTouched = true;
+  private dependenciesTouched = true;
+
+  constructor(landscape: Landscape) {
+    this.landscape = landscape;
+    this.layouter = new Layouter(landscape);
   }
 
-  public relax(): void {
-    this.finder.relax();
-  }
-
-  public layout() {
-    const positions = this.finder.getPositions();
-    const capabilities = this.getCapabilities();
-    const commons = this.getCommons();
-    const componentMap = this.layoutComponents(positions, capabilities, commons);
-    const componentLos: ComponentLo[] = Array.from(componentMap.values());
-    const domainLos: DomainLo[] = this.landscape
-      .contexts.map(c => c.domains)
-      .reduce((a, b) => a.concat(b), [])
-      .filter(d => componentLos.some(m => m.id.domainId === d.id))
-      .map(d => this.layoutDomain(d, componentLos.filter(m => m.id.domainId === d.id)));
-
-    const contextLos: ContextLo[] = this.landscape.contexts
-      .filter(c => domainLos.some(d => d.id.contextId === c.id))
-      .map(c => this.layoutContext(c, domainLos.filter(d => d.id.contextId === c.id)));
-    const dependencyLos: DependencyLo[] = [];
-    const layoutLos: LayerLo[] = this.layoutLayers(this.landscape.layers, componentLos);
-    componentMap.forEach((componentLo, component) => {
-      const componentDependencies = component.getDependenciesIncludingInterfaces()
-        .filter(dependency => componentMap.has(dependency))
-        .map(dependency => {
-          const isInterface = component.getInterfaceDependencies().includes(dependency);
-          return new DependencyLo({
-            from: componentLo,
-            to: componentMap.get(dependency),
-            interface: isInterface
-          });
-        });
-      dependencyLos.push(...componentDependencies);
+  layout(existing: LandscapeLo): LandscapeLo {
+    if (this.structureTouched) {
+      this.layouter.recomputePositions();
+    }
+    const newLayout = this.layouter.layout();
+    const mergedLayout = new LandscapeLo({
+      layers: this.structureTouched ? newLayout.layers : existing.layers,
+      components: this.structureTouched ? newLayout.components : existing.components,
+      contexts: this.structureTouched ? newLayout.contexts : existing.contexts,
+      domains: this.structureTouched ? newLayout.domains : existing.domains,
+      dependencies: this.dependenciesTouched ? newLayout.dependencies : existing.dependencies
     });
-    const landscapeLo = new LandscapeLo({
-      contexts: contextLos,
-      domains: domainLos,
-      components: componentLos,
-      dependencies: dependencyLos,
-      layers: layoutLos
+    this.structureTouched = false;
+    this.dependenciesTouched = false;
+    return mergedLayout;
+  }
+
+  showContext(contextId: ContextId) {
+    this.landscape.getContext(contextId).show();
+    this.structureTouched = true;
+    this.dependenciesTouched = true;
+  }
+
+  showDomain(domainId: DomainId) {
+    this.landscape.getDomain(domainId).show();
+    this.structureTouched = true;
+    this.dependenciesTouched = true;
+  }
+
+  hideComponents(componentIds: ComponentId[]) {
+    componentIds.forEach(componentId => {
+      this.landscape.getComponent(componentId).hide();
     });
-    return landscapeLo;
+    this.structureTouched = true;
+    this.dependenciesTouched = true;
   }
 
-  private layoutComponents(positions: Map<Component, Position>,
-                           capabilities: Map<Component, Component[]>,
-                           commons: Map<Component, Component[]>): Map<Component, ComponentLo> {
-    const componentMap = new Map<Component, ComponentLo>();
-    positions.forEach((position, component) => {
-      const componentLo = new ComponentLo({
-        id: component.id,
-        name: component.name,
-        version: component.version,
-        label: component.label,
-        layer: component.layer ? {name: component.layer.name, label: component.layer.label} : undefined,
-        type: component.type.toString(),
-        box: {
-          x: position.x * 115,
-          y: position.y * 115,
-          width: 80,
-          height: 80,
-        },
-        capabilities: capabilities.get(component).map(d => {
-          return {
-            id: d.id,
-            label: d.label
-          };
-        }),
-        commons: commons.get(component).map(d => {
-          return {
-            id: d.id,
-            label: d.label
-          };
-        })
-      });
-      componentMap.set(component, componentLo);
+  showComponents(componentIds: ComponentId[]) {
+    componentIds.forEach(componentId => {
+      this.landscape.getComponent(componentId).show();
     });
-    return componentMap;
+    this.structureTouched = true;
+    this.dependenciesTouched = true;
   }
 
-  private layoutDomain(domain: Domain, componentsLo: ComponentLo[]): DomainLo {
-    const border = this.getBorder(componentsLo.map(m => m.box));
-    return new DomainLo({
-      box: border,
-      id: domain.id,
-      name: domain.name,
-      label: domain.label,
+  showCapabilities(componentIds: ComponentId[]) {
+    this.landscape.getCapabilities()
+      .forEach(c => c.visible = componentIds.includes(c.id));
+    this.structureTouched = true;
+  }
+
+  showCommons(componentIds: ComponentId[]) {
+    this.landscape.getCommons()
+      .forEach(c => c.visible = componentIds.includes(c.id));
+    this.structureTouched = true;
+  }
+
+  activateComponents(componentIds: ComponentId[]) {
+    componentIds.forEach(id => {
+      this.landscape.getComponent(id).activate();
     });
+    this.dependenciesTouched = true;
   }
 
-  private layoutContext(context: Context, domains: DomainLo[]): ContextLo {
-    const border = this.getBorder(domains.map(d => d.box));
-    return new ContextLo({
-      box: border,
-      id: context.id,
-      name: context.name,
-      label: context.label
+  deactivateComponents(componentIds: ComponentId[]) {
+    componentIds.forEach(id => {
+      this.landscape.getComponent(id).deactivate();
     });
+    this.dependenciesTouched = true;
   }
 
-  private getBorder(drawables: Box[], margin: number = 7): Box {
-    return Box.borderOf(drawables).withMargin(margin);
-  }
-
-  private getCapabilities(): Map<Component, Component[]> {
-    const map = new Map<Component, Component[]>();
-    this.landscape.getBusinessComponents().forEach(component => {
-      const capabilities = component.getCapabilities()
-        .filter(c => c.visible);
-      map.set(component, capabilities);
+  pinDependencies(componentIds: ComponentId[]) {
+    componentIds.forEach(id => {
+      this.landscape.getComponent(id).pin();
     });
-    return map;
+    this.structureTouched = true;
+    this.dependenciesTouched = true;
   }
 
-  private getCommons(): Map<Component, Component[]> {
-    const map = new Map<Component, Component[]>();
-    this.landscape.getBusinessComponents().forEach(component => {
-      const capabilities = component.getCommons()
-        .filter(c => c.visible);
-      map.set(component, capabilities);
+  unpinDependencies(componentIds: ComponentId[]) {
+    componentIds.forEach(id => {
+      this.landscape.getComponent(id).unpin();
     });
-    return map;
+    this.structureTouched = true;
+    this.dependenciesTouched = true;
   }
 
-  private layoutLayers(layers: Layer[], componentLos: ComponentLo[]): LayerLo[] {
-    const fullWidthBorder = Box.borderOf(componentLos.map(c => c.box));
-    const componentsByLayer = Maps.groupBy(componentLos, c => c.layer ? c.layer.name : undefined);
-    return layers
-      .filter(layer => componentsByLayer.has(layer.name))
-      .map(layer => {
-        const layerBorder = Box.borderOf(componentsByLayer.get(layer.name).map(c => c.box));
-        const box = new Box({
-          x: fullWidthBorder.x,
-          y: layerBorder.y,
-          width: fullWidthBorder.width,
-          height: layerBorder.height
-        });
-        return new LayerLo({
-          name: layer.name,
-          label: layer.label,
-          box: box.withMargin(10)
-        })
-      });
 
-  }
 }

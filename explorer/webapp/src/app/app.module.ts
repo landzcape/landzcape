@@ -21,6 +21,7 @@ import {ListboxModule} from 'primeng/listbox';
 import {TreeModule} from 'primeng/tree';
 import {SelectableTreeComponent} from './drawing/tools/components/selectable-tree/selectable-tree.component';
 import {LayerComponent} from "./drawing/landscape/components/layer/layer.component";
+import {MouseEventDirective} from "./drawing/directives/mouse-event.directive";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {LayerComponent} from "./drawing/landscape/components/layer/layer.compone
     LandscapeComponent,
     ZoomableDirective,
     PositionDirective,
+    MouseEventDirective,
     DomainComponent,
     ContextComponent,
     NavbarComponent,
