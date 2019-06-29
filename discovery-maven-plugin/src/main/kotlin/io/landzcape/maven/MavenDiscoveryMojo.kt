@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.landzcape.discovery.*
 import io.landzcape.mapper.toDto
+import io.landzcape.maven.configuration.MavenContext
+import io.landzcape.maven.configuration.MavenDomain
+import io.landzcape.maven.configuration.MavenLayer
 import io.landzcape.maven.util.ConfigurationAccessor
 import org.apache.maven.model.Dependency
 import org.apache.maven.plugin.AbstractMojo
@@ -119,4 +122,25 @@ class MavenDiscoveryMojo : AbstractMojo() {
     private fun isStructural(type: String): Boolean {
         return type == "pom"
     }
+
+    // for maven documentation, needs to be in sync with extraction above
+    @Parameter
+    private val context: String? = null
+    @Parameter
+    private val domain: String? = null
+    @Parameter
+    private val type: String? = null
+    @Parameter
+    private val layer: String? = null
+    @Parameter
+    private val includes: List<String>? = null
+    @Parameter
+    private val excludes: List<String>? = null
+    @Parameter
+    private val layers: List<MavenLayer>? = null
+    @Parameter
+    private val domains: List<MavenDomain>? = null
+    @Parameter
+    private val contexts: List<MavenContext>? = null
+
 }
