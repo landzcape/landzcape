@@ -32,7 +32,7 @@ export class ComponentComponent implements OnInit {
   ngOnInit(): void {
     this.box = this.appComponent.box;
     this.capabilityLines = this.mapLabels(this.appComponent.capabilities, x => -10 + (30 - x))
-    this.commonsLines = this.mapLabels(this.appComponent.commons, x => 30 + x);
+    this.commonsLines = this.mapLabels(this.appComponent.commons, x => 60);
     this.borderColor = this.getBorderColor();
     const words = this.appComponent.label.split(' ');
     const yStart = - (words.length / 2) + 0.5;

@@ -33,6 +33,14 @@ class LandscapeResource {
                 context = "surfshop",
                 type = ComponentTypeDto.COMMON.name
         )
+        val commonTest = ComponentDto(
+                name = "common-test",
+                group = "com.sufshop",
+                version = "1.0.0",
+                label = "Common Test",
+                context = "surfshop",
+                type = ComponentTypeDto.COMMON.name
+        )
         val securityCapability = ComponentDto(
                 name="security-capabililty",
                 group="com.surfshop",
@@ -77,7 +85,7 @@ class LandscapeResource {
                 label="Inventory ES",
                 layer = "es",
                 context="surfshop",
-                dependencies = listOf(dependencyTo(inventoryCsApi), dependencyTo(restCapability), dependencyTo(common)))
+                dependencies = listOf(dependencyTo(inventoryCsApi), dependencyTo(restCapability), dependencyTo(common), dependencyTo(commonTest)))
         val creditcheckCs = ComponentDto(
                 name="creditcheck-cs",
                 group="com.surfshop",
@@ -86,7 +94,7 @@ class LandscapeResource {
                 label="Credit Check CS",
                 layer = "cs",
                 context = "surfshop",
-                dependencies = listOf(dependencyTo(common)))
+                dependencies = listOf(dependencyTo(common), dependencyTo(commonTest)))
         val reservationCs = ComponentDto(
                 name="reservation-cs",
                 group="com.surfshop",
@@ -198,7 +206,7 @@ class LandscapeResource {
         return LandscapeDto(
                 contexts = listOf(surfContext, kiteContext),
                 domains = listOf(statisticsDomain, creditcheckDomain, inventoryDomain, reservationDomain, customerDomain, dashboardDomain, mailDomain, advertDomain),
-                components = listOf(surfshopApp, kiteApp, common, restCapability, securityCapability, statisticsEs, customerInformationEs, kiteadUi, kiteadEs, kitemailerCs, dashboardUi, inventoryEs, inventoryCs, inventoryCsApi, reservationUi, reservationCs, customerCs, customerEs, creditcheckCs),
+                components = listOf(surfshopApp, kiteApp, common, commonTest, restCapability, securityCapability, statisticsEs, customerInformationEs, kiteadUi, kiteadEs, kitemailerCs, dashboardUi, inventoryEs, inventoryCs, inventoryCsApi, reservationUi, reservationCs, customerCs, customerEs, creditcheckCs),
                 layers = listOf(userInterface, edgeService, coreService)
         )
 
