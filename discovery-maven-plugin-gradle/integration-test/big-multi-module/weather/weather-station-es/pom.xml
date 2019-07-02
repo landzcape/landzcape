@@ -11,7 +11,7 @@
 
     <artifactId>weather-station-es</artifactId>
 
-    <name>Weather Station es</name>
+    <name>Weather Station ES</name>
 
     <dependencies>
         <dependency>

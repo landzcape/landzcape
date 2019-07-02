@@ -1,0 +1,17 @@
+import io.landzcape.gradle.MergeTask
+
+plugins {
+    id 'io.landzcape.discovery'
+}
+
+task createDemoPackage() {
+    project(':discovery-gradle-plugin').
+    // get angular json
+    // merge them
+    // extract web application
+}
+
+task uploadDemoToFTP() {
+    // upload prepared demo package
+}
+

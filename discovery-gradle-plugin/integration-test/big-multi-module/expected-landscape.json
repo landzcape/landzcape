@@ -323,7 +323,7 @@
       "name": "weather-station-es",
       "group": "com.surfshop",
       "version": "1.0",
-      "label": "Weather Station es",
+      "label": "Weather Station ES",
       "layer": "es",
       "domain": "weather",
       "context": "surfshop",

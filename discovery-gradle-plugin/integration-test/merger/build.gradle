@@ -4,8 +4,6 @@ plugins {
     id 'io.landzcape.discovery'
 }
 
-apply plugin: 'io.landzcape.discovery'
-
 task merge(type: MergeTask) {
     discoveries = ['one.json', 'two.json']
     target = 'landscape.json'

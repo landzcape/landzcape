@@ -1,6 +1,6 @@
 apply plugin: 'java'
 
-description =  'Weather Station es'
+description =  'Weather Station ES'
 
 dependencies {
     compile project(':capabilities:rest-capability')
