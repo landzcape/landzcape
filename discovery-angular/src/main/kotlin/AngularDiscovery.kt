@@ -64,8 +64,20 @@ class AngularDiscovery {
                 value
             }
         }, 2)
-        writeFileSync("landscape.json", serialized)
+        val targetPath = getTargetPath(root)
+        writeFileSync(targetPath, serialized)
+    }
 
+    private fun getTargetPath(root: String): String {
+        val rootJsonPath = "${root}/discover.json"
+        if (existsSync(rootJsonPath)) {
+            val rootJson = parseJson(rootJsonPath)
+            val target = rootJson.target
+            if (target) {
+                return resolve(root, target)
+            }
+        }
+        return "${root}/landscape.json"
     }
 
     private fun isLocalModule(path: String, root: String): Boolean {
@@ -173,7 +185,10 @@ class AngularDiscovery {
 
     private fun getDiscoverJsonObjects(root: String): Map<String, dynamic> {
         val paths = glob.sync("${root}/**/$DISCOVER_JSON", null)
-        val structuresByPath = paths.associateBy({ path.resolve(dirname(it)) }, { JSON.parse<dynamic>(readFileSync(it, "utf-8")) })
+        val structuresByPath = paths.associateBy({ resolve(dirname(it)) }, { parseJson(it) })
         return structuresByPath
     }
+
+    private fun parseJson(fileName: String) = JSON.parse<dynamic>(readFileSync(fileName, "utf-8"))
+
 }

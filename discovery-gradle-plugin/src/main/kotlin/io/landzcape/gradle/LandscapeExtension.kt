@@ -6,7 +6,7 @@ import io.landzcape.discovery.DomainConfiguration
 import io.landzcape.discovery.LayerConfiguration
 
 open class LandscapeExtension {
-
+    var target: String? = null
     var context: String? = null
     var domain: String? = null
     var layer: String? = null

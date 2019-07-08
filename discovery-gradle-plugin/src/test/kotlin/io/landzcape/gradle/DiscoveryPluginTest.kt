@@ -26,7 +26,7 @@ class DiscoveryPluginTest {
                 .withArguments("discover", "--stacktrace")
                 .withPluginClasspath()
                 .build()
-        assertLandscapeJsonIsAsExpected("big-multi-module")
+        assertLandscapeJsonIsAsExpected("big-multi-module", "big-landscape.json")
     }
 
     @Test
@@ -40,8 +40,8 @@ class DiscoveryPluginTest {
         Assertions.assertThat(File("integration-test/extract/the-app","index.html")).exists()
     }
 
-    fun assertLandscapeJsonIsAsExpected(mvnProjectName: String) {
-        val generatedLandscape = File("integration-test/${mvnProjectName}/landscape.json")
+    fun assertLandscapeJsonIsAsExpected(mvnProjectName: String, fileName: String = "landscape.json") {
+        val generatedLandscape = File("integration-test/${mvnProjectName}/${fileName}")
         val expectedLandscape = File("integration-test/${mvnProjectName}/expected-landscape.json")
         Assertions.assertThat(readJson(generatedLandscape))
                 .isEqualTo(readJson(expectedLandscape))

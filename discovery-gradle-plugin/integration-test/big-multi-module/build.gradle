@@ -13,6 +13,8 @@ allprojects {
 }
 
 landscape {
+
+    target = 'big-landscape.json'
     context = 'surfshop'
     domain = 'surfing'
     includes = ['com.surfshop::']

@@ -41,7 +41,7 @@ task integrationTestBigMultiModule(type:Exec, dependsOn: publishToMavenLocal ) {
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()
-        assertLandscapeJsonIsAsExpected("big-multi-module")
+        assertLandscapeJsonIsAsExpected("big-multi-module", "big-landscape.json")
     }
 }
 
@@ -73,9 +73,9 @@ task integrationTestExtractExplorer(type:Exec, dependsOn: publishToMavenLocal ) 
     }
 }
 
-def assertLandscapeJsonIsAsExpected(mvnProjectName) {
+def assertLandscapeJsonIsAsExpected(mvnProjectName, fileName = 'landscape.json') {
     def dir = "${projectDir}/integration-test/${mvnProjectName}"
-    def generatedLandscape = file("${dir}/landscape.json")
+    def generatedLandscape = file("${dir}/${fileName}")
     def expectedLandscape = file("${dir}/expected-landscape.json")
     assert readJson(generatedLandscape) == readJson(expectedLandscape) : "${mvnProjectName}/landscape.json differs from expectation"
 }

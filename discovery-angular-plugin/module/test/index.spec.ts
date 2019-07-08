@@ -15,7 +15,7 @@ describe('Landscape Discovery', () => {
         it('should create the landscape.json', () => {
             discover('integration-test/big-multi-module/tsconfig.json');
             const expected = readFileSync('integration-test/big-multi-module/expected-landscape.json', 'utf8');
-            const generated = readFileSync('landscape.json', 'utf8');
+            const generated = readFileSync('integration-test/big-multi-module/big-landscape.json', 'utf8');
             expect(JSON.parse(generated)).to.deep.equal(JSON.parse(expected));
         }).timeout(10000);
     });

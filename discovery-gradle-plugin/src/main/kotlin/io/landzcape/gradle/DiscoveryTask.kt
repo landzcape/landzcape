@@ -60,9 +60,23 @@ open class DiscoveryTask : DefaultTask() {
         val objectMapper = ObjectMapper()
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         val serialized = objectMapper.writeValueAsString(dto)
-        File(project.projectDir,"landscape.json").printWriter().use { out ->
+        val target = getTargetFile()
+        target.printWriter().use { out ->
             out.print(serialized)
         }
+    }
+
+    private fun getTargetFile(): File {
+        val extension = project.rootProject.extensions.getByName("landscape") as LandscapeExtension?
+        val targetPath = extension?.target
+        if (targetPath != null) {
+            val targetFile = File(targetPath)
+            if (targetFile.isAbsolute) {
+                return targetFile
+            }
+            return File(project.projectDir, targetPath)
+        }
+        return File(project.projectDir, "landscape.json")
     }
 
     private fun isTest(configurationName: String?): Boolean {

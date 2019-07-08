@@ -79,10 +79,25 @@ class MavenDiscoveryMojo : AbstractMojo() {
             val objectMapper = ObjectMapper()
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
             val serialized = objectMapper.writeValueAsString(dto)
-            File("landscape.json").printWriter().use { out ->
+
+            val targetFile = getTargetFile(rootProject)
+            targetFile.printWriter().use { out ->
                 out.print(serialized)
             }
         }
+    }
+
+    private fun getTargetFile(rootProject: MavenProject): File {
+        val rootAccessor = ConfigurationAccessor.fromPluginConfiguration(rootProject)
+        val target = rootAccessor.get("target")
+        if (target != null) {
+            val targetFile = File(target)
+            if (targetFile.isAbsolute) {
+                return targetFile
+            }
+            return File(rootProject.basedir, target)
+        }
+        return File(rootProject.basedir, "landscape.json")
     }
 
     private fun isTest(scope: String?): Boolean {
@@ -124,6 +139,8 @@ class MavenDiscoveryMojo : AbstractMojo() {
     }
 
     // for maven documentation, needs to be in sync with extraction above
+    @Parameter
+    private val target: String? = null
     @Parameter
     private val context: String? = null
     @Parameter
