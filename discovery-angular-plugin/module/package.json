@@ -1,12 +1,18 @@
 {
   "name": "@landzcape/discovery-angular",
-  "version": "0.0.6",
+  "version": "0.0.1",
   "description": "Landscape Discovery for Angular",
-  "main": "discover/index.js",
+  "main": "dist/index.js",
   "author": "Christian Ramseier",
   "license": "GPL",
   "scripts": {
+    "clean": "",
+    "compile": "tsc",
+    "prepare": "npm run compile",
     "test": "mocha -r ts-node/register test/*.spec.ts"
+  },
+  "bin": {
+    "landzcape-discovery-angular": "dist/index.js"
   },
   "dependencies": {
     "glob": "7.1.3",
@@ -28,6 +34,7 @@
     "@types/chai": "^4.1.6",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.11.4",
+    "commander": "2.20.0",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "rxjs": "^6.3.3",
