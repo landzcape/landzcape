@@ -171,6 +171,12 @@ As an example, you could have a `discover.json` in your root directory (next to 
 }
 ```
 
+To start the discovery, invoke this command using a terminal or npm build script:
+
+```landzcape-discovery-angular```
+
+As an optional argument you can specify the location of the projects `tsconfig.json`.
+
 ## Merging
 
 Already discovered `landscape.json` files can be merged for visualization.
