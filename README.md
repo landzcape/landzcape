@@ -250,7 +250,7 @@ You can either use Maven to extract the visualization application ...
                 </execution>
             </executions>
             <configuration>
-                <target>explorer</target>
+                <extractTo>explorer</extractTo>
             </configuration>
         </plugin>
     </plugins>
@@ -265,7 +265,7 @@ import io.landzcape.gradle.ExtractExplorerTask
 apply plugin: 'io.landzcape.discovery'
 
 task extract(type: ExtractExplorerTask) {
-    target = 'explorer'
+    extractTo = 'explorer'
 }
 ```
 

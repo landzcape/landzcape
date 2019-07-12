@@ -26,7 +26,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <target>the-app</target>
+                    <extractTo>the-app</extractTo>
                 </configuration>
             </plugin>
         </plugins>

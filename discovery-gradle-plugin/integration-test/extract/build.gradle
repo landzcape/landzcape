@@ -5,5 +5,5 @@ plugins {
 }
 
 task extract(type: ExtractExplorerTask) {
-    target = 'the-app'
+    extractTo = 'the-app'
 }

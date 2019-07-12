@@ -1,10 +1,5 @@
 package io.landzcape.maven
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import io.landzcape.dto.LandscapeDto
-import io.landzcape.merger.LandscapeMerger
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
@@ -19,7 +14,7 @@ import java.util.zip.ZipFile
 class MavenExtractExplorerMojo : AbstractMojo() {
 
     @Parameter(readonly = true)
-    private val target: String = "landscape-explorer"
+    private val extractTo: String = "landscape-explorer"
 
     @Parameter(defaultValue = "\${project}", readonly = true)
     private val mavenProject: MavenProject? = null
@@ -48,12 +43,12 @@ class MavenExtractExplorerMojo : AbstractMojo() {
     }
 
     private fun getTargetFolder(): File {
-        val targetFolder = File(target)
+        val targetFolder = File(extractTo)
         if(targetFolder.isAbsolute) {
             return targetFolder
         }
         if (mavenProject != null) {
-            return File(mavenProject.basedir, target)
+            return File(mavenProject.basedir, extractTo)
         }
         return targetFolder
     }

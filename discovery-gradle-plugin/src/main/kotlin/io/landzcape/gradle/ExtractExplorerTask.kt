@@ -9,7 +9,7 @@ import java.util.zip.ZipFile
 open class ExtractExplorerTask : DefaultTask() {
 
     @Input
-    var target: String = "landscape-explorer";
+    var extractTo: String = "landscape-explorer";
 
     @TaskAction
     fun extractExplorer() {
@@ -35,10 +35,10 @@ open class ExtractExplorerTask : DefaultTask() {
     }
 
     private fun getTargetFolder(): File {
-        val targetFolder = File(target)
+        val targetFolder = File(extractTo)
         if (targetFolder.isAbsolute) {
             return targetFolder
         }
-        return File(project.projectDir, target)
+        return File(project.projectDir, extractTo)
     }
 }
