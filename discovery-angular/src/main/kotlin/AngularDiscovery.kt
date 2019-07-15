@@ -87,12 +87,16 @@ class AngularDiscovery {
 
     private fun toModuleDependencies(importedModules: Array<ModuleSymbol>, root: String): List<DependencyConfiguration> {
         return importedModules
-                .filter { it -> isLocalModule(it.symbol.filePath, root) }
-                .map { it -> DependencyConfiguration(
-                artifactId = ArtifactId(it.symbol.name, null, null),
-                structural = false,
-                test = false
-        ) }
+                .filterNot { it.symbol == null }
+                .filterNot { it.symbol.name == null }
+                .filter { isLocalModule(it.symbol.filePath, root) }
+                .map {
+                    DependencyConfiguration(
+                            artifactId = ArtifactId(it.symbol.name, null, null),
+                            structural = false,
+                            test = false
+                    )
+                }
     }
 
     private fun findParentInStructure(structuresByPath: Map<String, LandscapeConfiguration>, filePath: String): LandscapeConfiguration? {
