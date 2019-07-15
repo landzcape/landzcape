@@ -26,7 +26,7 @@ class AngularDiscovery {
         val structures: Map<String, LandscapeConfiguration> = getDiscoverJsonStructures(root)
         val symbols = ProjectSymbols(tsConfigPath, reader, errorHandler)
         val modules = symbols.getModules()
-                .filter { isLocalModule(it.symbol.filePath, root) }
+                .filter { isNamedSymbol(it) && isLocalModule(it.symbol.filePath, root) }
                 .associateBy(
                 { module -> path.resolve(module.symbol.filePath) },
                 { module ->
@@ -68,6 +68,10 @@ class AngularDiscovery {
         writeFileSync(targetPath, serialized)
     }
 
+    private fun isNamedSymbol(symbol: ModuleSymbol): Boolean {
+        return symbol?.symbol?.name != null
+    }
+
     private fun getTargetPath(root: String): String {
         val rootJsonPath = "${root}/discover.json"
         if (existsSync(rootJsonPath)) {
@@ -87,9 +91,7 @@ class AngularDiscovery {
 
     private fun toModuleDependencies(importedModules: Array<ModuleSymbol>, root: String): List<DependencyConfiguration> {
         return importedModules
-                .filterNot { it.symbol == null }
-                .filterNot { it.symbol.name == null }
-                .filter { isLocalModule(it.symbol.filePath, root) }
+                .filter { isNamedSymbol(it) && isLocalModule(it.symbol.filePath, root) }
                 .map {
                     DependencyConfiguration(
                             artifactId = ArtifactId(it.symbol.name, null, null),
