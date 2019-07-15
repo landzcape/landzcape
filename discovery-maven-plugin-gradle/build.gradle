@@ -204,3 +204,4 @@ signing {
 
 
 task publishMavenPlugin(dependsOn: publishDiscoveryMavenPluginPublicationToMavenRepository) {}
+task('promoteNexusRelease').mustRunAfter publishMavenPlugin

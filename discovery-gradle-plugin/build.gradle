@@ -106,3 +106,5 @@ signing {
 }
 
 task publishGradlePlugin(dependsOn: publishDiscoveryGradlePluginPublicationToMavenRepository) {}
+
+task('promoteNexusRelease').mustRunAfter publishGradlePlugin
