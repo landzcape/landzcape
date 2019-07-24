@@ -4,6 +4,7 @@ import io.landzcape.domain.*
 
 data class LandscapeConfiguration(
         val id: ArtifactId,
+        val renameTo: String?,
         val includes: List<String>?,
         val excludes: List<String>?,
         val structural: Boolean,
@@ -64,8 +65,20 @@ data class LandscapeConfiguration(
     }
 
     fun getComponentName(): String {
+        val renamed = getRecursiveRenameTo()
+        if (renamed!= null) {
+            return renamed
+        }
         return getValue(id.name, "No artifact name specified")
     }
+
+    private fun getRecursiveRenameTo(): String? {
+        if (renameTo != null) {
+            return renameTo
+        }
+        return parent?.getRecursiveRenameTo()
+    }
+
 
     fun getComponentVersion(): String {
         return getRecursiveVersion()
@@ -224,6 +237,5 @@ data class LandscapeConfiguration(
     fun getComponentId(): ComponentId {
         return ComponentId(getComponentName(), getComponentGroup(), getComponentVersion(), getDomainId())
     }
-
 
 }

@@ -32,6 +32,7 @@ open class DiscoveryTask : DefaultTask() {
                     val interfaces = emptyList<DependencyConfiguration>()
                     LandscapeConfiguration(
                             id = id,
+                            renameTo = extension?.renameTo,
                             includes = extension?.includes,
                             excludes = extension?.excludes,
                             structural = isStructural(project),

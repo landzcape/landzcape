@@ -48,6 +48,7 @@ class MavenDiscoveryMojo : AbstractMojo() {
                         val id = ArtifactId.fromProject(project)
                         val parentId = getParentId(project)
                         val label = project.name
+                        val renameTo = accessor.get("renameTo")
                         val context = accessor.get("context")
                         val domain = accessor.get("domain")
                         val layer = accessor.get("layer")
@@ -61,6 +62,7 @@ class MavenDiscoveryMojo : AbstractMojo() {
                         val interfaces = emptyList<DependencyConfiguration>()
                         LandscapeConfiguration(
                                 id = id,
+                                renameTo = renameTo,
                                 includes = includes,
                                 excludes = excludes,
                                 parentId = parentId,

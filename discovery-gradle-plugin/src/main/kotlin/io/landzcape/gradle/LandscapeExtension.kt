@@ -11,6 +11,7 @@ open class LandscapeExtension {
     var domain: String? = null
     var layer: String? = null
     var type: String? = null
+    var renameTo: String? = null
     var includes: List<String>? = null
     var excludes: List<String>? = null
 

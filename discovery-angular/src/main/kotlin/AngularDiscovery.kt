@@ -32,6 +32,7 @@ class AngularDiscovery {
                 { module ->
                     LandscapeConfiguration(
                             id = ArtifactId(module.symbol.name, null, null),
+                            renameTo = null,
                             includes = null,
                             excludes = null,
                             parentId = null,
@@ -121,6 +122,7 @@ class AngularDiscovery {
             val discover = entry.value
             LandscapeConfiguration(
                     id = ArtifactId(discover.name, discover.group, discover.version),
+                    renameTo = discover.renameTo,
                     includes = toPatterns(discover.includes),
                     excludes = toPatterns(discover.excludes),
                     parentId = null,

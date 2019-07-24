@@ -21,18 +21,6 @@
   ],
   "components": [
     {
-      "name": "ApiModule",
-      "group": "com.surfshop",
-      "version": "1.0",
-      "label": "ApiModule",
-      "layer": "ui",
-      "domain": "surfing",
-      "context": "surfshop",
-      "type": "BUSINESS",
-      "interfaces": [],
-      "dependencies": []
-    },
-    {
       "name": "AppModule",
       "group": "com.surfshop",
       "version": "1.0",
@@ -72,12 +60,12 @@
       "interfaces": [],
       "dependencies": [
         {
-          "component": "ApiModule",
+          "component": "SharedModule",
           "domain": "surfing",
           "context": "surfshop"
         },
         {
-          "component": "SharedModule",
+          "component": "customer-api",
           "domain": "surfing",
           "context": "surfshop"
         }
@@ -118,6 +106,18 @@
       "group": "com.surfshop",
       "version": "1.0",
       "label": "WeatherStationModule",
+      "layer": "ui",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": []
+    },
+    {
+      "name": "customer-api",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "ApiModule",
       "layer": "ui",
       "domain": "surfing",
       "context": "surfshop",
