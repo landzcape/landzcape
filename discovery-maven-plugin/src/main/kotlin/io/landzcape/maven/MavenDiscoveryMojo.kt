@@ -25,11 +25,21 @@ class MavenDiscoveryMojo : AbstractMojo() {
     @Parameter(defaultValue = "\${project}", readonly = true)
     private val mavenProject: MavenProject? = null
 
+    @Parameter(readonly = true)
+    private val skipDiscovery = false
+
     @Throws(MojoExecutionException::class, MojoFailureException::class)
     override fun execute() {
+        if (skipDiscovery) {
+            log.info("Skip discovery")
+        } else {
+            discover()
+        }
+    }
 
+    private fun discover() {
         if (mavenProject != null && !mavenProject.hasParent()) {
-
+            log.info("Start discovery")
             val rootProject = mavenProject
             val allProjects = listOf(rootProject).union(rootProject.collectedProjects)
             val allConfigurations: List<LandscapeConfiguration> = allProjects
@@ -68,7 +78,7 @@ class MavenDiscoveryMojo : AbstractMojo() {
                         )
                     }
             val configurationsById = allConfigurations.associateBy { it.id }
-            allConfigurations.forEach{ project ->
+            allConfigurations.forEach { project ->
                 run {
                     project.parent = configurationsById[project.parentId]
                 }
@@ -84,6 +94,8 @@ class MavenDiscoveryMojo : AbstractMojo() {
             targetFile.printWriter().use { out ->
                 out.print(serialized)
             }
+        } else {
+            log.info("Skip discovery, project is not root project.")
         }
     }
 

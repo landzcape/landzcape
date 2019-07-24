@@ -98,6 +98,8 @@ The plugin's configuration can be overridden in sub-projects. Example:
 </build>
 ```
 
+If you want to skip the discovery process conditionally, use `<skipDiscovery>true</skipDiscoveryskipDiscovery>`.
+
 ### Discovery with Gradle
 
 The discovery plugin needs to be configured in the root `build.gradle` of your multi-module gradle project.
@@ -204,11 +206,15 @@ Already discovered `landscape.json` files can be merged for visualization.
                     <discovery>first/landscape.json</discovery>
                     <discovery>second/landscape.json</discovery>
                 </discoveries>
+                <mergeTo>landscape.json</mergeTo>
             </configuration>
         </plugin>
     </plugins>
 </build>
 ```
+
+If you want to skip the merge conditionally, use `<skipMerge>true</skipMerge>`.
+
 ### Merging with Gradle
 
 ```
@@ -220,7 +226,7 @@ apply plugin: 'io.landzcape.discovery'
 
 task merge(type: MergeTask) {
     discoveries = ['first/landscape.json', 'second/landscape.json']
-    target = 'landscape.json'
+    mergeTo = 'landscape.json'
 }
 ```
 ## Visualization
@@ -268,6 +274,8 @@ task extract(type: ExtractExplorerTask) {
     extractTo = 'explorer'
 }
 ```
+
+If you want to skip the extraction conditionally, use `<skipExtraction>true</skipExtraction>`.
 
 #### 2. Bundle application and landscape with `nginx` 
 

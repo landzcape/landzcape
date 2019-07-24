@@ -21,6 +21,18 @@
   ],
   "components": [
     {
+      "name": "ApiModule",
+      "group": "com.surfshop",
+      "version": "1.0",
+      "label": "ApiModule",
+      "layer": "ui",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": []
+    },
+    {
       "name": "AppModule",
       "group": "com.surfshop",
       "version": "1.0",
@@ -59,6 +71,11 @@
       "type": "BUSINESS",
       "interfaces": [],
       "dependencies": [
+        {
+          "component": "ApiModule",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
         {
           "component": "SharedModule",
           "domain": "surfing",

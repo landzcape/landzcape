@@ -21,17 +21,29 @@ class MavenMergerMojo : AbstractMojo() {
     private val discoveries: List<String> = listOf()
 
     @Parameter(readonly = true)
-    private val target: String = "landscape.json"
+    private val mergeTo: String = "landscape.json"
 
     @Parameter(defaultValue = "\${project}", readonly = true)
     private val mavenProject: MavenProject? = null
 
+    @Parameter(readonly = true)
+    private val skipMerge = false
+
     @Throws(MojoExecutionException::class, MojoFailureException::class)
     override fun execute() {
+        if (skipMerge) {
+           log.info("Skip merge of discoveries")
+        } else {
+            merge()
+        }
+    }
+
+    private fun merge() {
         if (!discoveries.isEmpty()) {
+            log.info("Merge discoveries")
             val inputs = discoveries.map { toFile(it) }
-            val output = toFile(target)
-            if(inputs.contains(output)) {
+            val output = toFile(mergeTo)
+            if (inputs.contains(output)) {
                 throw IllegalArgumentException("Target path must not be one of the discoveries.")
             }
             val mapper = ObjectMapper().registerKotlinModule()
@@ -47,6 +59,8 @@ class MavenMergerMojo : AbstractMojo() {
             output.printWriter().use { out ->
                 out.print(serialized)
             }
+        } else {
+            log.info("No discoveries to merge")
         }
     }
 

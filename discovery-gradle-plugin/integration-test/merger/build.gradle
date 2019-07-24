@@ -6,5 +6,5 @@ plugins {
 
 task merge(type: MergeTask) {
     discoveries = ['one.json', 'two.json']
-    target = 'landscape.json'
+    mergeTo = 'landscape.json'
 }

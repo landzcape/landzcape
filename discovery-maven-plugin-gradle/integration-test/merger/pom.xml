@@ -30,6 +30,7 @@
                         <discovery>one.json</discovery>
                         <discovery>two.json</discovery>
                     </discoveries>
+                    <mergeTo>landscape.json</mergeTo>
                 </configuration>
             </plugin>
         </plugins>

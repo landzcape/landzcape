@@ -16,12 +16,24 @@ class MavenExtractExplorerMojo : AbstractMojo() {
     @Parameter(readonly = true)
     private val extractTo: String = "landscape-explorer"
 
+    @Parameter(readonly = true)
+    private val skipExtraction = false
+
     @Parameter(defaultValue = "\${project}", readonly = true)
     private val mavenProject: MavenProject? = null
 
     @Throws(MojoExecutionException::class, MojoFailureException::class)
     override fun execute() {
+        if (skipExtraction) {
+            log.info("Skip extraction of explorer.")
+        } else {
+            extractExplorer()
+        }
+    }
+
+    private fun extractExplorer() {
         val targetFolder = getTargetFolder()
+        log.info("Extracting explorer to ${targetFolder.absolutePath}")
         val tempFile = File.createTempFile("landscape-explorer", ".zip")
         this.javaClass.classLoader.getResourceAsStream("landscape-explorer.zip")
                 .copyTo(tempFile.outputStream())

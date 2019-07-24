@@ -14,12 +14,12 @@ open class MergeTask : DefaultTask() {
     @Input
     var discoveries: ArrayList<String> = ArrayList()
     @Input
-    var target: String = "landscape.json";
+    var mergeTo: String = "landscape.json";
 
     @TaskAction
     fun assemble() {
             val inputs = discoveries.map { toFile(it) }
-            val output = toFile(target)
+            val output = toFile(mergeTo)
             val mapper = ObjectMapper().registerKotlinModule()
             val landscapes: List<LandscapeDto> = inputs.map { file ->
                 file.reader()
