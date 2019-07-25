@@ -44,7 +44,7 @@
   </svg:g>
 </svg:g>
 <svg:rect appMouseEvent [appPosition]="box"
-          (mouseEnter)="activateComponents()"
+          (mouseOver)="activateComponents()"
           (mouseOut)="deactivateComponents()"
           (click)="togglePinComponents()"
           [attr.width]="box.width"
