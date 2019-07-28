@@ -91,16 +91,29 @@ export class Component {
   }
 
   private getTransitiveDependencies(type: ComponentType) {
-    const transitive = new Set<Component>();
-    this.dependencies
-      .forEach(m => m.getTransitiveDependencies(type)
-        .forEach(c => transitive.add(c))
-      );
+    const transitiveDependenciesRecursive: Set<Component> = this.getTransitiveDependenciesRecursive(c => c.type == type);
+    transitiveDependenciesRecursive.delete(this);
+    return Array.from(transitiveDependenciesRecursive);
+  }
 
-    if (this.type === type) {
-      transitive.add(this);
+  private getTransitiveDependenciesRecursive(
+      filter: (c: Component) => boolean,
+      visited: Set<Component> = new Set<Component>(),
+      dependencies: Set<Component> = new Set<Component>()): Set<Component> {
+    if(!visited.has(this)) {
+      visited.add(this);
+      const transitive = new Set<Component>();
+      this.dependencies
+        .forEach(m => m.getTransitiveDependenciesRecursive(filter, visited, dependencies)
+        );
+
+      if (filter(this)) {
+        dependencies.add(this);
+      }
+    } else {
+      console.log(`Warning: Circular dependency to ${this.id.name} detected.`)
     }
-    return Array.from(transitive);
+    return dependencies;
   }
 }
 

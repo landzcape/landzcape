@@ -41,5 +41,6 @@ yarn.inputs.file 'webapp/package.json'
 yarn.outputs.dir 'webapp/node_modules'
 yarn.outputs.file 'webapp/yarn.lock'
 yarn_build.outputs.dir 'webapp/dist'
+yarn_build.dependsOn(yarn_test)
 yarn_build.dependsOn(yarn)
 processResources.dependsOn(addExplorerPackageToResources)
