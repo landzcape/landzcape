@@ -102,7 +102,6 @@ export class Component {
       dependencies: Set<Component> = new Set<Component>()): Set<Component> {
     if(!visited.has(this)) {
       visited.add(this);
-      const transitive = new Set<Component>();
       this.dependencies
         .forEach(m => m.getTransitiveDependenciesRecursive(filter, visited, dependencies)
         );
