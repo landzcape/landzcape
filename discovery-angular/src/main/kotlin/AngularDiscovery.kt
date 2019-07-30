@@ -1,6 +1,6 @@
-import js.*
 import io.landzcape.discovery.*
 import io.landzcape.mapper.toDto
+import js.*
 import path.dirname
 import path.resolve
 
@@ -38,7 +38,6 @@ class AngularDiscovery {
                             parentId = null,
                             structural = false,
                             dependencies = toModuleDependencies(module.getImportedModules(), root),
-                            interfaces = emptyList(),
                             label = module.symbol.name,
                             context = null,
                             domain = null,
@@ -69,7 +68,7 @@ class AngularDiscovery {
         writeFileSync(targetPath, serialized)
     }
 
-    private fun isNamedSymbol(symbol: ModuleSymbol): Boolean {
+    private fun isNamedSymbol(symbol: ModuleSymbol?): Boolean {
         return symbol?.symbol?.name != null
     }
 
@@ -128,7 +127,6 @@ class AngularDiscovery {
                     parentId = null,
                     structural = true,
                     dependencies = toDependencies(discover.dependencies),
-                    interfaces = toInterfaces(discover.interfaces),
                     label = discover.label,
                     context = discover.context,
                     domain = discover.domain,
@@ -168,10 +166,6 @@ class AngularDiscovery {
             return emptyList()
         }
         return (layers as Array<dynamic>).map { LayerConfiguration(it.name, it.label, it.matching, it.order) }
-    }
-
-    private fun toInterfaces(interfaces: dynamic): List<DependencyConfiguration> {
-        return toDependencyConfigurations(interfaces)
     }
 
     private fun toDependencies(dependencies: dynamic): List<DependencyConfiguration> {

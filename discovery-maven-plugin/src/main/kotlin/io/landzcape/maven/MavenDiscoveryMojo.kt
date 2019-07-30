@@ -59,7 +59,6 @@ class MavenDiscoveryMojo : AbstractMojo() {
                             val artifactId = ArtifactId(dependency.artifactId, dependency.groupId, dependency.version)
                             DependencyConfiguration(artifactId, isStructural(dependency.type), isTest(dependency.scope))
                         }
-                        val interfaces = emptyList<DependencyConfiguration>()
                         LandscapeConfiguration(
                                 id = id,
                                 renameTo = renameTo,
@@ -68,7 +67,6 @@ class MavenDiscoveryMojo : AbstractMojo() {
                                 parentId = parentId,
                                 structural = isStructural(project.artifact.type),
                                 dependencies = dependencies,
-                                interfaces = interfaces,
                                 label = label,
                                 context = context,
                                 domain = domain,

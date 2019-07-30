@@ -65,21 +65,11 @@ class LandscapeBuilder(val configurations: List<LandscapeConfiguration>) {
                         .filterNot { componentsByArtifactId.containsKey(it.artifactId)}
                         .sortedBy { it.artifactId.name }
                         .forEach { component.addExternalDependency(it.artifactId) }
-                val interfaces = configuration.getIncludedInterfaces()
-                if(interfaces.size > 0) {
-                    interfaces
-                            .map { componentsByArtifactId[it.artifactId] }
-                            .filterNotNull()
-                            .forEach { component.addInterface(it) }
-                    interfaces
-                            .filterNot { componentsByArtifactId.containsKey(it.artifactId) }
-                            .forEach { component.addExternalInterface(it.artifactId) }
-                } else {
-                    val defaultInterfaceName = ArtifactId("${component.id.name}-api", component.id.group, component.id.version)
-                    val interfaceComponent = componentsByArtifactId[defaultInterfaceName]
-                    if(interfaceComponent != null) {
-                        component.addInterface(interfaceComponent)
-                    }
+
+                val defaultInterfaceName = ArtifactId("${component.id.name}-api", component.id.group, component.id.version)
+                val interfaceComponent = componentsByArtifactId[defaultInterfaceName]
+                if(interfaceComponent != null) {
+                    component.addInterface(interfaceComponent)
                 }
             }
         }

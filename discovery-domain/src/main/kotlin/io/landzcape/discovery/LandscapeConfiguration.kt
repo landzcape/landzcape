@@ -8,7 +8,6 @@ data class LandscapeConfiguration(
         val includes: List<String>?,
         val excludes: List<String>?,
         val structural: Boolean,
-        val interfaces: List<DependencyConfiguration>,
         val dependencies: List<DependencyConfiguration>,
         val label: String?,
         val context: String?,
@@ -121,11 +120,6 @@ data class LandscapeConfiguration(
     fun getIncludedDependencies(): List<DependencyConfiguration> {
         return dependencies.filter { isIncludedOrNotExcluded(it.artifactId) }
     }
-
-    fun getIncludedInterfaces(): List<DependencyConfiguration> {
-        return interfaces.filter { isIncludedOrNotExcluded(it.artifactId) }
-    }
-
 
     private fun isIncludedOrNotExcluded(artifactId: ArtifactId): Boolean {
         return isOnInclusionList(artifactId) && !isOnExclusionList(artifactId)

@@ -1,7 +1,10 @@
 package io.landzcape.gradle
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
-import io.landzcape.discovery.*
+import io.landzcape.discovery.ArtifactId
+import io.landzcape.discovery.DependencyConfiguration
+import io.landzcape.discovery.LandscapeBuilder
+import io.landzcape.discovery.LandscapeConfiguration
 import io.landzcape.mapper.toDto
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
@@ -29,14 +32,12 @@ open class DiscoveryTask : DefaultTask() {
                                     DependencyConfiguration(artifactId, isStructural(dependency.dependencyProject), isTest(configurationName))
                                 }
                     }
-                    val interfaces = emptyList<DependencyConfiguration>()
                     LandscapeConfiguration(
                             id = id,
                             renameTo = extension?.renameTo,
                             includes = extension?.includes,
                             excludes = extension?.excludes,
                             structural = isStructural(project),
-                            interfaces = interfaces,
                             dependencies = dependencies,
                             label = label,
                             context = extension?.context,

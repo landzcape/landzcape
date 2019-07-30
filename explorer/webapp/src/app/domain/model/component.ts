@@ -103,8 +103,7 @@ export class Component {
     if(!visited.has(this)) {
       visited.add(this);
       this.dependencies
-        .forEach(m => m.getTransitiveDependenciesRecursive(filter, visited, dependencies)
-        );
+        .forEach(m => m.getTransitiveDependenciesRecursive(filter, visited, dependencies));
 
       if (filter(this)) {
         dependencies.add(this);
