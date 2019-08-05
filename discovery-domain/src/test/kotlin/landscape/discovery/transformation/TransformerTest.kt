@@ -59,4 +59,24 @@ class TransformerTest {
         assertThat(transformer.transform("_hello!-World")).isEqualTo("_hello!_world")
     }
 
+    @Test
+    fun givenAKebabCaseString_whenTransformingItToCapital_thenItIsTransformedCorrectly() {
+        val transformer = Transformer("kebab-to-capital")
+        assertThat(transformer.transform("hello-wOrld")).isEqualTo("Hello WOrld")
+        assertThat(transformer.transform("hello-World")).isEqualTo("Hello World")
+        assertThat(transformer.transform("helloworld")).isEqualTo("Helloworld")
+        assertThat(transformer.transform("_hello!-World")).isEqualTo("_hello! World")
+    }
+
+    @Test
+    fun givenAnyCaseString_whenTransformingItToCapital_thenItIsTransformedCorrectly() {
+        val transformer = Transformer("any-to-capital")
+        assertThat(transformer.transform("hello_world")).isEqualTo("Hello World")
+        assertThat(transformer.transform("Hello-World")).isEqualTo("Hello World")
+        assertThat(transformer.transform("hello-world")).isEqualTo("Hello World")
+        assertThat(transformer.transform("HelloWorld")).isEqualTo("Hello World")
+        assertThat(transformer.transform("how_are_you")).isEqualTo("How Are You")
+        assertThat(transformer.transform("i_love_APIs")).isEqualTo("I Love APIs")
+    }
+
 }

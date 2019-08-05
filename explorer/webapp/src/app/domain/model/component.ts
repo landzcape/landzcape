@@ -108,8 +108,6 @@ export class Component {
       if (filter(this)) {
         dependencies.add(this);
       }
-    } else {
-      console.log(`Warning: Circular dependency to ${this.id.name} detected.`)
     }
     return dependencies;
   }

@@ -1,5 +1,6 @@
 package io.landzcape.discovery
 
+import io.landzcape.discovery.transformation.Transformer
 import io.landzcape.domain.*
 
 data class LandscapeConfiguration(
@@ -221,11 +222,12 @@ data class LandscapeConfiguration(
         return emptyList()
     }
 
-    fun getLabelOrComponentName(): String {
-        if(label != null) {
+    fun getLabelOrBeautifiedComponentName(): String {
+        if(!label.isNullOrBlank()) {
             return label
         }
-        return getComponentName()
+        val componentName = getComponentName()
+        return Transformer("any-to-capital").transform(componentName)
     }
 
     fun getComponentId(): ComponentId {

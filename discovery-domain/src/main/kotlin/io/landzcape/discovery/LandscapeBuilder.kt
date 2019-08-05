@@ -35,7 +35,7 @@ class LandscapeBuilder(val configurations: List<LandscapeConfiguration>) {
                                             var layerWithMatcher = getLayerWithMatcher(layers, config)
                                             val component = Component(
                                                     id = config.getComponentId(),
-                                                    label = config.getLabelOrComponentName(),
+                                                    label = config.getLabelOrBeautifiedComponentName(),
                                                     type = config.getComponentType(),
                                                     layer = layerWithMatcher?.layer
                                             )

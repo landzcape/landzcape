@@ -12,7 +12,7 @@ class GenericParser(val splittingFilter: (Char)->Boolean, val keepSplitter: Bool
             if(this.splittingFilter(char)) {
                 val token = builder.toString()
                 if(token.isNotEmpty()) {
-                    result.add(token.toLowerCase())
+                    result.add(token)
                 }
                 builder.clear()
                 if(keepSplitter) {
@@ -22,7 +22,7 @@ class GenericParser(val splittingFilter: (Char)->Boolean, val keepSplitter: Bool
                 builder.append(char)
             }
         }
-        result.add(builder.toString().toLowerCase())
+        result.add(builder.toString())
         return result
     }
 

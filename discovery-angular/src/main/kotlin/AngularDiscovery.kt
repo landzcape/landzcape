@@ -38,7 +38,7 @@ class AngularDiscovery {
                             parentId = null,
                             structural = false,
                             dependencies = toModuleDependencies(module.getImportedModules(), root),
-                            label = module.symbol.name,
+                            label = null,
                             context = null,
                             domain = null,
                             layer = null,
