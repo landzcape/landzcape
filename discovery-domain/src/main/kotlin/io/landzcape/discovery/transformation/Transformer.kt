@@ -52,10 +52,10 @@ class Transformer {
         }
 
         private val PARSERS: Map<String, Parser> = mapOf(
-                Pair("camel", { string -> GenericParser({ c -> Regex("[A-Z]").matches(c.toString()) }, true).parse(string) }),
-                Pair("kebab", { string -> GenericParser({ c -> '-'.equals(c) }, false).parse(string)}),
-                Pair("snake", { string -> GenericParser({ c -> '_'.equals(c) }, false).parse(string)}),
-                Pair("capital", { string -> GenericParser({ c -> ' '.equals(c) }, false).parse(string)})
+                Pair("camel", { string -> GenericParser({ c -> Regex("[A-Z]").matches(c.toString()) }, true, true).parse(string) }),
+                Pair("kebab", { string -> GenericParser({ c -> '-'.equals(c) }).parse(string)}),
+                Pair("snake", { string -> GenericParser({ c -> '_'.equals(c) }).parse(string)}),
+                Pair("capital", { string -> GenericParser({ c -> ' '.equals(c) }).parse(string)})
         )
         private val PLOTTERS: Map<String, Plotter> = mapOf(
                 Pair("camel", { tokens -> tokens.map { it[0].toUpperCase() + it.substring(1) }.joinToString("") }),

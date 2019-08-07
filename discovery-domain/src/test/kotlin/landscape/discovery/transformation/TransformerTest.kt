@@ -71,12 +71,15 @@ class TransformerTest {
     @Test
     fun givenAnyCaseString_whenTransformingItToCapital_thenItIsTransformedCorrectly() {
         val transformer = Transformer("any-to-capital")
+        assertThat(transformer.transform("We_love_APIs")).isEqualTo("We Love APIs")
+        assertThat(transformer.transform("TOPPriorityAPI")).isEqualTo("TOP Priority API")
+        assertThat(transformer.transform("SUPERComponent")).isEqualTo("SUPER Component")
+        assertThat(transformer.transform("SUPERRoutingComponent")).isEqualTo("SUPER Routing Component")
         assertThat(transformer.transform("hello_world")).isEqualTo("Hello World")
         assertThat(transformer.transform("Hello-World")).isEqualTo("Hello World")
         assertThat(transformer.transform("hello-world")).isEqualTo("Hello World")
         assertThat(transformer.transform("HelloWorld")).isEqualTo("Hello World")
         assertThat(transformer.transform("how_are_you")).isEqualTo("How Are You")
-        assertThat(transformer.transform("i_love_APIs")).isEqualTo("I Love APIs")
     }
 
 }
