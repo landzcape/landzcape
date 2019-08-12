@@ -35,6 +35,7 @@ open class DiscoveryTask : DefaultTask() {
                     LandscapeConfiguration(
                             id = id,
                             renameTo = extension?.renameTo,
+                            regroupTo = extension?.regroupTo,
                             includes = extension?.includes,
                             excludes = extension?.excludes,
                             structural = isStructural(project),

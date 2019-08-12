@@ -1,3 +1,4 @@
 {
-  "renameTo": "reservation-api"
+  "renameTo": "reservation-api",
+  "regroupTo": "com.surfshop"
 }

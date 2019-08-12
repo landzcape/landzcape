@@ -125,7 +125,7 @@
     },
     {
       "name": "customer-api",
-      "group": "src/app/customer/api",
+      "group": "com.surfshop",
       "version": "1.0",
       "label": "Customer Api",
       "layer": "ui",
@@ -137,7 +137,7 @@
     },
     {
       "name": "reservation-api",
-      "group": "src/app/reservation/api",
+      "group": "com.surfshop",
       "version": "1.0",
       "label": "Reservation Api",
       "layer": "ui",

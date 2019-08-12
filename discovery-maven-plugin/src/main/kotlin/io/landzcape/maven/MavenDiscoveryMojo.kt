@@ -49,6 +49,7 @@ class MavenDiscoveryMojo : AbstractMojo() {
                         val parentId = getParentId(project)
                         val label = project.name
                         val renameTo = accessor.get("renameTo")
+                        val regroupTo = accessor.get("regroupTo")
                         val context = accessor.get("context")
                         val domain = accessor.get("domain")
                         val layer = accessor.get("layer")
@@ -62,6 +63,7 @@ class MavenDiscoveryMojo : AbstractMojo() {
                         LandscapeConfiguration(
                                 id = id,
                                 renameTo = renameTo,
+                                regroupTo = regroupTo,
                                 includes = includes,
                                 excludes = excludes,
                                 parentId = parentId,

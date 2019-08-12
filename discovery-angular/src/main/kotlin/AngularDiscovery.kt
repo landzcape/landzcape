@@ -33,6 +33,7 @@ class AngularDiscovery {
                     LandscapeConfiguration(
                             id = ArtifactId(module.symbol.name, getGroupName(module.symbol.filePath, root), null),
                             renameTo = null,
+                            regroupTo = null,
                             includes = null,
                             excludes = null,
                             parentId = null,
@@ -130,6 +131,7 @@ class AngularDiscovery {
             LandscapeConfiguration(
                     id = ArtifactId(discover.name, discover.group, discover.version),
                     renameTo = discover.renameTo,
+                    regroupTo = discover.regroupTo,
                     includes = toPatterns(discover.includes),
                     excludes = toPatterns(discover.excludes),
                     parentId = null,

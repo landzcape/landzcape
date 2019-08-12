@@ -6,6 +6,7 @@ import io.landzcape.domain.*
 data class LandscapeConfiguration(
         val id: ArtifactId,
         val renameTo: String?,
+        val regroupTo: String?,
         val includes: List<String>?,
         val excludes: List<String>?,
         val structural: Boolean,
@@ -96,16 +97,31 @@ data class LandscapeConfiguration(
     }
 
     fun getComponentGroup(): String {
+        val renamed = getRecursiveRegroupTo()
+        if(renamed != null) {
+            return renamed
+        }
         return getRecursiveGroup()
+    }
+
+    private fun getRecursiveRegroupTo(): String? {
+        if (regroupTo != null) {
+            return regroupTo
+        }
+        val recursiveRename = parent?.getRecursiveRegroupTo()
+        if(recursiveRename != null){
+            return recursiveRename
+        }
+        return null
     }
 
     private fun getRecursiveGroup(): String {
         if (id.group != null) {
-            return id.group;
+            return id.group
         }
-        val recursiveVersion = parent?.getRecursiveGroup()
-        if(recursiveVersion != null){
-            return recursiveVersion
+        val recursiveGroup = parent?.getRecursiveGroup()
+        if(recursiveGroup != null){
+            return recursiveGroup
         }
         throw IllegalArgumentException("No artifact group specified")
     }
