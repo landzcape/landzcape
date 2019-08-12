@@ -22,7 +22,7 @@
   "components": [
     {
       "name": "AppModule",
-      "group": "com.surfshop",
+      "group": "src/app/app",
       "version": "1.0",
       "label": "App Module",
       "layer": "ui",
@@ -50,7 +50,7 @@
     },
     {
       "name": "CustomerModule",
-      "group": "com.surfshop",
+      "group": "src/app/customer",
       "version": "1.0",
       "label": "Customer Module",
       "layer": "ui",
@@ -73,7 +73,7 @@
     },
     {
       "name": "ReservationModule",
-      "group": "com.surfshop",
+      "group": "src/app/reservation",
       "version": "1.0",
       "label": "Reservation Module",
       "layer": "ui",
@@ -86,12 +86,22 @@
           "component": "SharedModule",
           "domain": "surfing",
           "context": "surfshop"
+        },
+        {
+          "component": "customer-api",
+          "domain": "surfing",
+          "context": "surfshop"
+        },
+        {
+          "component": "reservation-api",
+          "domain": "surfing",
+          "context": "surfshop"
         }
       ]
     },
     {
       "name": "SharedModule",
-      "group": "com.surfshop",
+      "group": "src/app/shared",
       "version": "1.0",
       "label": "Shared Module",
       "layer": "ui",
@@ -103,7 +113,7 @@
     },
     {
       "name": "WeatherStationModule",
-      "group": "com.surfshop",
+      "group": "src/app/weather-station",
       "version": "1.0",
       "label": "Weather Station Module",
       "layer": "ui",
@@ -115,9 +125,21 @@
     },
     {
       "name": "customer-api",
-      "group": "com.surfshop",
+      "group": "src/app/customer/api",
       "version": "1.0",
       "label": "Customer Api",
+      "layer": "ui",
+      "domain": "surfing",
+      "context": "surfshop",
+      "type": "BUSINESS",
+      "interfaces": [],
+      "dependencies": []
+    },
+    {
+      "name": "reservation-api",
+      "group": "src/app/reservation/api",
+      "version": "1.0",
+      "label": "Reservation Api",
       "layer": "ui",
       "domain": "surfing",
       "context": "surfshop",

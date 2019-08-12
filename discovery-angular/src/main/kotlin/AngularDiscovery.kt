@@ -31,7 +31,7 @@ class AngularDiscovery {
                 { module -> path.resolve(module.symbol.filePath) },
                 { module ->
                     LandscapeConfiguration(
-                            id = ArtifactId(module.symbol.name, null, null),
+                            id = ArtifactId(module.symbol.name, getGroupName(module.symbol.filePath, root), null),
                             renameTo = null,
                             includes = null,
                             excludes = null,
@@ -94,11 +94,19 @@ class AngularDiscovery {
                 .filter { isNamedSymbol(it) && isLocalModule(it.symbol.filePath, root) }
                 .map {
                     DependencyConfiguration(
-                            artifactId = ArtifactId(it.symbol.name, null, null),
+                            artifactId = ArtifactId(it.symbol.name, getGroupName(it.symbol.filePath, root), null),
                             structural = false,
                             test = false
                     )
                 }
+    }
+
+    private fun getGroupName(filePath: String, root: String): String? {
+        val resolvedFilePath = path.dirname(resolve(filePath))
+        if (resolvedFilePath.startsWith(root)) {
+            return resolvedFilePath.substring(root.length+1).replace('\\','/')
+        }
+        return null
     }
 
     private fun findParentInStructure(structuresByPath: Map<String, LandscapeConfiguration>, filePath: String): LandscapeConfiguration? {
