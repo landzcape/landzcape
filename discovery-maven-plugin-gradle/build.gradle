@@ -41,7 +41,7 @@ task integrationTestBigMultiModule(type:Exec, dependsOn: publishToMavenLocal ) {
     doLast {
         println standardOutput.toString()
         println errorOutput.toString()
-        assertLandscapeJsonIsAsExpected("big-multi-module", "big-landscape.json")
+        assertLandscapeJsonIsAsExpected("big-multi-module", "backend-landscape.json")
     }
 }
 
@@ -94,6 +94,34 @@ def osAdaptiveCommand(String command, String... parameters) {
     }
     newCommands.addAll(parameters)
     return newCommands
+}
+
+task prepareBackendJson(type: Copy, dependsOn: project(':discovery-gradle-plugin').generateDemo) {
+    from zipTree(project(':discovery-gradle-plugin').generateDemo.outputs.files[0])
+    into "${projectDir}/merge-demo"
+}
+
+task prepareFrontendJson(type: Copy, dependsOn: project(':discovery-angular-plugin').generateDemo) {
+    from zipTree(project(':discovery-angular-plugin').generateDemo.outputs.files[0])
+    into "${projectDir}/merge-demo"
+}
+
+task mergeDemo(type: Exec, dependsOn: [prepareBackendJson, prepareFrontendJson]) {
+    standardOutput = new ByteArrayOutputStream()
+    errorOutput = new ByteArrayOutputStream()
+    workingDir "${projectDir}/merge-demo"
+    commandLine osAdaptiveCommand('mvnw', 'clean', 'verify')
+    doLast {
+        println standardOutput.toString()
+        println errorOutput.toString()
+    }
+}
+
+task generateDemo(type: Zip, dependsOn: mergeDemo) {
+    from("$projectDir/merge-demo") {
+        include "landscape.json"
+    }
+    archiveName 'demo.zip'
 }
 
 

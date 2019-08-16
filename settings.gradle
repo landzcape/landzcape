@@ -1,5 +1,5 @@
 include 'server'
-include 'demo'
+include 'documentation'
 include 'discovery-domain'
 include 'discovery-angular'
 include 'discovery-angular-plugin'

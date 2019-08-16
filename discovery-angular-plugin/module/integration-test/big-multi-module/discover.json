@@ -1,5 +1,5 @@
 {
-  "target" : "big-landscape.json",
+  "target" : "frontend-landscape.json",
   "context": "surfshop",
   "domain": "surfing",
   "layer": "ui"

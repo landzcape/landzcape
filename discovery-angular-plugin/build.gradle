@@ -10,16 +10,23 @@ node {
     workDir = file("${rootProject.buildDir}/nodejs")
     npmWorkDir = file("${rootProject.buildDir}/npm")
     yarnWorkDir = file("${rootProject.buildDir}/yarn")
-    nodeModulesDir = file("${project.projectDir}/module")
+    nodeModulesDir = file("${projectDir}/module")
 }
 
 task angularTest(type: YarnTask) {
-    workingDir = file("${project.projectDir}/module")
+    workingDir = file("${projectDir}/module")
     args = ["test"]
 }
 
+task generateDemo(type: Zip, dependsOn: angularTest) {
+    from("$projectDir/module/integration-test/big-multi-module") {
+        include "frontend-landscape.json"
+    }
+    archiveName 'demo-frontend.zip'
+}
+
 task publishAngularPlugin(type: YarnTask, dependsOn: build) {
-    workingDir = file("${project.projectDir}/module")
+    workingDir = file("${projectDir}/module")
     args = ["publish", "--no-git-tag-version", "--new-version", "${->getNonSnapshotVersion()}", "--access", "public"]
 }
 

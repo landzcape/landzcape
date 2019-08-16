@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.surfshop</groupId>
+    <artifactId>surfshop</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0</version>
+    <name>Surfshop</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.landzcape</groupId>
+                <artifactId>discovery-maven-plugin</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <inherited>false</inherited>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>merge</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <discoveries>
+                        <discovery>frontend-landscape.json</discovery>
+                        <discovery>backend-landscape.json</discovery>
+                    </discoveries>
+                    <mergeTo>landscape.json</mergeTo>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

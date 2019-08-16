@@ -53,6 +53,13 @@ task sourcesJar(type: Jar) {
 processResources.dependsOn('prepareExplorer')
 test.dependsOn(':discovery-domain:install')
 
+task generateDemo(type: Zip, dependsOn: test) {
+    from("$projectDir/integration-test/big-multi-module") {
+        include "backend-landscape.json"
+    }
+    archiveName 'demo-backend.zip'
+}
+
 publishing {
     repositories {
         maven {

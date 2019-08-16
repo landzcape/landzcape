@@ -26,7 +26,7 @@ class DiscoveryPluginTest {
                 .withArguments("discover", "--stacktrace")
                 .withPluginClasspath()
                 .build()
-        assertLandscapeJsonIsAsExpected("big-multi-module", "big-landscape.json")
+        assertLandscapeJsonIsAsExpected("big-multi-module", "backend-landscape.json")
     }
 
     @Test

@@ -1,0 +1,14 @@
+
+clean {
+    delete 'demo'
+}
+
+task generateDemo(type: Copy, dependsOn: [
+        project(':discovery-maven-plugin-gradle').generateDemo,
+        project(':explorer').jar
+]) {
+    from zipTree(project(':discovery-maven-plugin-gradle').generateDemo.outputs.files[0])
+    from zipTree(zipTree(project(':explorer').jar.outputs.files[0]).matching{ include 'landscape-explorer.zip' }.files[0])
+    into "${projectDir}/demo"
+}
+build.dependsOn generateDemo

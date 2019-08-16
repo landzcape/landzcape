@@ -46,7 +46,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <target>big-landscape.json</target>
+                    <target>backend-landscape.json</target>
                     <context>surfshop</context>
                     <domain>surfing</domain>
                     <includes>
