@@ -1,4 +1,4 @@
-package io.landzcape.discovery
+package io.landzcape.util
 
 
 class GlobMatcher(val pattern: String?) {

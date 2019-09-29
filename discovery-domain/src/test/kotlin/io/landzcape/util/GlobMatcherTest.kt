@@ -1,4 +1,4 @@
-package io.landzcape.discovery
+package io.landzcape.util
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

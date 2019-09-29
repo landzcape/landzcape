@@ -2,9 +2,11 @@ package io.landzcape.discovery
 
 import io.landzcape.discovery.transformation.Transformer
 import io.landzcape.domain.*
+import io.landzcape.util.GlobMatcher
 
 data class LandscapeConfiguration(
         val id: ArtifactId,
+        val path: String,
         val renameTo: String?,
         val regroupTo: String?,
         val includes: List<String>?,
@@ -13,7 +15,9 @@ data class LandscapeConfiguration(
         val dependencies: List<DependencyConfiguration>,
         val label: String?,
         val context: String?,
+        val contextDiscovery: PathBasedDiscovery?,
         val domain: String?,
+        val domainDiscovery: PathBasedDiscovery?,
         val layer: String?,
         val type: String?,
         val layers: List<LayerConfiguration>?,
@@ -25,18 +29,23 @@ data class LandscapeConfiguration(
     var parent: LandscapeConfiguration? = null
 
     fun getContextId(): ContextId {
-        val recursiveContextId = getRecursiveContext()
+        val recursiveContextId = getRecursiveContext(path)
         if (recursiveContextId != null) {
             return ContextId(recursiveContextId)
         }
         throw IllegalArgumentException("No context id could be resolved for "+id.name)
     }
 
-    private fun getRecursiveContext(): String? {
+    private fun getRecursiveContext(childPath: String): String? {
+        if (contextDiscovery != null) {
+            if (contextDiscovery.isDiscoveryPossible(path, childPath)) {
+                return contextDiscovery.getName(path, childPath)
+            }
+        }
         if (context != null) {
             return context
         }
-        return parent?.getRecursiveContext()
+        return parent?.getRecursiveContext(path)
     }
 
     fun getLayerName(): String? {
@@ -51,18 +60,23 @@ data class LandscapeConfiguration(
     }
 
     fun getDomainId(): DomainId {
-        var recursiveDomainId = getRecursiveDomain()
+        var recursiveDomainId = getRecursiveDomain(path)
         if(recursiveDomainId != null) {
             return DomainId(recursiveDomainId, getContextId())
         }
         throw IllegalArgumentException("No domain id could be resolved for "+id.name)
     }
 
-    private fun getRecursiveDomain(): String? {
+    private fun getRecursiveDomain(childPath: String): String? {
+        if(domainDiscovery != null) {
+            if(domainDiscovery.isDiscoveryPossible(path, childPath)) {
+                return domainDiscovery.getName(path, childPath)
+            }
+        }
         if (domain != null) {
             return domain
         }
-        return parent?.getRecursiveDomain()
+        return parent?.getRecursiveDomain(path)
     }
 
     fun getComponentName(): String {
@@ -79,7 +93,6 @@ data class LandscapeConfiguration(
         }
         return parent?.getRecursiveRenameTo()
     }
-
 
     fun getComponentVersion(): String {
         return getRecursiveVersion()

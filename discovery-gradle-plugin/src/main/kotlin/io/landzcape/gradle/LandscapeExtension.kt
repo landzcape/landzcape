@@ -1,9 +1,7 @@
 package io.landzcape.gradle
 
 import groovy.lang.Closure
-import io.landzcape.discovery.ContextConfiguration
-import io.landzcape.discovery.DomainConfiguration
-import io.landzcape.discovery.LayerConfiguration
+import io.landzcape.discovery.*
 
 open class LandscapeExtension {
     var target: String? = null
@@ -15,6 +13,9 @@ open class LandscapeExtension {
     var regroupTo: String? = null
     var includes: List<String>? = null
     var excludes: List<String>? = null
+
+    var domainDiscovery: PathBasedDiscovery? = null
+    var contextDiscovery: PathBasedDiscovery? = null
 
     var layers: ArrayList<LayerConfiguration>? = null
     var contexts: ArrayList<ContextConfiguration>? = null
@@ -59,4 +60,18 @@ open class LandscapeExtension {
         contexts?.add(ContextConfiguration(name, label))
     }
 
+    fun domainDiscovery(params: Map<Any, Any>) {
+        domainDiscovery = getPathBasedDiscovery(params)
+    }
+
+    fun contextDiscovery(params: Map<Any, Any>) {
+        contextDiscovery = getPathBasedDiscovery(params)
+    }
+
+    private fun getPathBasedDiscovery(params: Map<Any, Any>): PathBasedDiscovery? {
+        val from = params.get("from")?.toString().orEmpty()
+        val stripPrefix = params.get("stripPrefix")?.toString().orEmpty()
+        val stripSuffix = params.get("stripSuffix")?.toString().orEmpty()
+        return PathBasedDiscovery(PathBasedDiscoverySource.fromString(from), stripPrefix, stripSuffix)
+    }
 }

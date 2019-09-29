@@ -34,6 +34,7 @@ open class DiscoveryTask : DefaultTask() {
                     }
                     LandscapeConfiguration(
                             id = id,
+                            path = project.path,
                             renameTo = extension?.renameTo,
                             regroupTo = extension?.regroupTo,
                             includes = extension?.includes,
@@ -48,6 +49,8 @@ open class DiscoveryTask : DefaultTask() {
                             layers = extension?.layers,
                             domains = extension?.domains,
                             contexts = extension?.contexts,
+                            contextDiscovery = extension?.contextDiscovery,
+                            domainDiscovery = extension?.domainDiscovery,
                             parentId = parentId
                     )
                 }

@@ -7,6 +7,7 @@ import io.landzcape.mapper.toDto
 import io.landzcape.maven.configuration.MavenContext
 import io.landzcape.maven.configuration.MavenDomain
 import io.landzcape.maven.configuration.MavenLayer
+import io.landzcape.maven.configuration.MavenPathBasedDiscovery
 import io.landzcape.maven.util.ConfigurationAccessor
 import org.apache.maven.model.Dependency
 import org.apache.maven.plugin.AbstractMojo
@@ -62,6 +63,7 @@ class MavenDiscoveryMojo : AbstractMojo() {
                         }
                         LandscapeConfiguration(
                                 id = id,
+                                path = project.basedir.absolutePath,
                                 renameTo = renameTo,
                                 regroupTo = regroupTo,
                                 includes = includes,
@@ -76,7 +78,9 @@ class MavenDiscoveryMojo : AbstractMojo() {
                                 type = type,
                                 layers = toLayers(accessor.getChild("layers")),
                                 domains = toDomains(accessor.getChild("domains")),
-                                contexts = toContexts(accessor.getChild("contexts"))
+                                contexts = toContexts(accessor.getChild("contexts")),
+                                domainDiscovery = toPathBasedDiscovery(accessor.getChild("domainDiscovery")),
+                                contextDiscovery = toPathBasedDiscovery(accessor.getChild("contextDiscovery"))
                         )
                     }
             val configurationsById = allConfigurations.associateBy { it.id }
@@ -99,6 +103,16 @@ class MavenDiscoveryMojo : AbstractMojo() {
         } else {
             log.info("Skip discovery, project is not root project.")
         }
+    }
+
+    private fun toPathBasedDiscovery(child: ConfigurationAccessor): PathBasedDiscovery? {
+        if(child.exists()) {
+            val from = PathBasedDiscoverySource.fromString(child.get("from").orEmpty())
+            val stripPrefix = child.get("stripPrefix").orEmpty()
+            val stripSuffix = child.get("stripSuffix").orEmpty()
+            return PathBasedDiscovery(from, stripPrefix, stripSuffix)
+        }
+        return null
     }
 
     private fun getTargetFile(rootProject: MavenProject): File {
@@ -156,6 +170,10 @@ class MavenDiscoveryMojo : AbstractMojo() {
     @Parameter
     private val target: String? = null
     @Parameter
+    private val renameTo: String? = null
+    @Parameter
+    private val regroupTo: String? = null
+    @Parameter
     private val context: String? = null
     @Parameter
     private val domain: String? = null
@@ -173,5 +191,9 @@ class MavenDiscoveryMojo : AbstractMojo() {
     private val domains: List<MavenDomain>? = null
     @Parameter
     private val contexts: List<MavenContext>? = null
+    @Parameter
+    private val domainDiscovery: MavenPathBasedDiscovery? = null
+    @Parameter
+    private val contextDiscovery: MavenPathBasedDiscovery? = null
 
 }

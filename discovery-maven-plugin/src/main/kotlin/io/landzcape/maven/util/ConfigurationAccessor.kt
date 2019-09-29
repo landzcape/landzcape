@@ -5,6 +5,10 @@ import org.codehaus.plexus.util.xml.Xpp3Dom
 
 class ConfigurationAccessor(val root: Xpp3Dom?) {
 
+    fun exists(): Boolean {
+        return root != null
+    }
+
     fun get(propertyName: String): String? {
         if(root != null) {
             val child = root.getChild(propertyName)

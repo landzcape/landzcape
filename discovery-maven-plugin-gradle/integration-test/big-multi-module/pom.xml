@@ -49,6 +49,9 @@
                     <target>backend-landscape.json</target>
                     <context>surfshop</context>
                     <domain>surfing</domain>
+                    <domainDiscovery>
+                        <from>folder</from>
+                    </domainDiscovery>
                     <includes>
                         <include>com.surfshop::</include>
                     </includes>

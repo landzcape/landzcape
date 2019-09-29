@@ -32,6 +32,7 @@ class AngularDiscovery {
                 { module ->
                     LandscapeConfiguration(
                             id = ArtifactId(module.symbol.name, getGroupName(module.symbol.filePath, root), null),
+                            path = path.resolve(module.symbol.filePath),
                             renameTo = null,
                             regroupTo = null,
                             includes = null,
@@ -46,7 +47,9 @@ class AngularDiscovery {
                             type = null,
                             layers = emptyList(),
                             domains = emptyList(),
-                            contexts = emptyList()
+                            contexts = emptyList(),
+                            domainDiscovery = null,
+                            contextDiscovery = null
                     )
                 }
         )
@@ -130,6 +133,7 @@ class AngularDiscovery {
             val discover = entry.value
             LandscapeConfiguration(
                     id = ArtifactId(discover.name, discover.group, discover.version),
+                    path = entry.key,
                     renameTo = discover.renameTo,
                     regroupTo = discover.regroupTo,
                     includes = toPatterns(discover.includes),
@@ -144,10 +148,22 @@ class AngularDiscovery {
                     type = discover.type,
                     layers = toLayers(discover.layers),
                     domains = toDomains(discover.domains),
-                    contexts = toContexts(discover.contexts)
+                    contexts = toContexts(discover.contexts),
+                    domainDiscovery = toPathBasedDiscovery(discover.domainDiscovery),
+                    contextDiscovery = toPathBasedDiscovery(discover.contextDiscovery)
             )
         }
         return byPath
+    }
+
+    private fun toPathBasedDiscovery(config: dynamic): PathBasedDiscovery? {
+        if (!config) {
+            return null
+        }
+        val source = PathBasedDiscoverySource.fromString(config.from ?: "")
+        val stripPrefix = config.stripPrefix ?: ""
+        val stripSuffix = config.stripSuffix ?: ""
+        return PathBasedDiscovery(source, stripPrefix, stripSuffix)
     }
 
     private fun toPatterns(patterns: dynamic): List<String>? {
