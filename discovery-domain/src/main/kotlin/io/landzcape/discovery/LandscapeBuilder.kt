@@ -1,5 +1,6 @@
 package io.landzcape.discovery
 
+import io.landzcape.discovery.transformation.Transformer
 import io.landzcape.domain.*
 
 class LandscapeBuilder(val configurations: List<LandscapeConfiguration>) {
@@ -23,11 +24,11 @@ class LandscapeBuilder(val configurations: List<LandscapeConfiguration>) {
         val contexts = configurations
                 .groupBy { config -> config.getContextId() }
                 .map { (contextId, contextConfigs) ->
-                    val contextLabel = contextLabelsById.getOrElse(contextId) { throw IllegalArgumentException("No configuration for context with id "+contextId.name) }
+                    val contextLabel = contextLabelsById.getOrElse(contextId) { Transformer("any-to-capital").transform(contextId.name) }
                     val domains = contextConfigs
                             .groupBy { config -> config.getDomainId() }
                             .map { (domainId, domainConfigs) ->
-                                val domainLabel = domainLabelsById.getOrElse( domainId) { throw IllegalArgumentException("No configuration for domain with id "+domainId.name+" in context "+domainId.context.name) }
+                                val domainLabel = domainLabelsById.getOrElse( domainId) { Transformer("any-to-capital").transform(domainId.name) }
                                 val components = domainConfigs
                                         .filter { it.isIncluded() }
                                         .filterNot{ it.structural }

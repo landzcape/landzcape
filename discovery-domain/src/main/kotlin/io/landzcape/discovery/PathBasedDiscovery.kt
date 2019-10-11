@@ -12,22 +12,17 @@ class PathBasedDiscovery(
         val sanitizedRootPath = sanitize(rootPath)
         val sanitizedChildPath = sanitize(componentPath)
         assertDiscoveryIsPossible(sanitizedRootPath, sanitizedChildPath)
-        val relativeComponent = sanitizedChildPath.substring(rootPath.length+1)
+        val relativeComponent = sanitizedChildPath.substring(sanitizedRootPath.length)
         val rootFolder = relativeComponent.substringBefore('/')
         val formattedName = formatName(rootFolder)
-        assertNotEmpty(formattedName, componentPath)
+        assertNotEmpty(formattedName, sanitizedChildPath, sanitizedRootPath)
         return formattedName
     }
 
-    private fun assertNotEmpty(formattedName: String, componentPath: String) {
+    private fun assertNotEmpty(formattedName: String, sanitizedChildPath: String, rootPath: String) {
         if (formattedName.isEmpty()) {
-           throw IllegalArgumentException("Discovered name from path $componentPath cannot be empty")
+           throw IllegalArgumentException("Discovered name from path $sanitizedChildPath and $rootPath cannot be empty")
         }
-    }
-
-    fun getLabel(rootPath: String, componentPath: String): String {
-        val name = getName(rootPath, componentPath)
-        return Transformer("any-to-capital").transform(name)
     }
 
     private fun assertDiscoveryIsPossible(rootPath: String, componentPath: String) {

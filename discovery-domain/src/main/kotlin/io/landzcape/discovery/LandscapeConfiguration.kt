@@ -60,7 +60,7 @@ data class LandscapeConfiguration(
     }
 
     fun getDomainId(): DomainId {
-        var recursiveDomainId = getRecursiveDomain(path)
+        val recursiveDomainId = getRecursiveDomain(path)
         if(recursiveDomainId != null) {
             return DomainId(recursiveDomainId, getContextId())
         }
