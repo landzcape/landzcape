@@ -1,14 +1,22 @@
+evaluationDependsOn(':explorer')
+evaluationDependsOn(':discovery-maven-plugin-gradle')
 
 clean {
     delete 'demo'
 }
 
+task extractSiteBundle(type: Copy, dependsOn: [project(':explorer').jar]) {
+    from zipTree(project(':explorer').jar.outputs.files[0]).matching{ include 'landscape-explorer.zip' }
+    into "build/tmp/bundle/"
+}
+
 task generateDemo(type: Copy, dependsOn: [
         project(':discovery-maven-plugin-gradle').generateDemo,
-        project(':explorer').jar
+        extractSiteBundle
 ]) {
     from zipTree(project(':discovery-maven-plugin-gradle').generateDemo.outputs.files[0])
-    from zipTree(zipTree(project(':explorer').jar.outputs.files[0]).matching{ include 'landscape-explorer.zip' }.files[0])
+    from zipTree("build/tmp/bundle/landscape-explorer.zip")
     into "${projectDir}/demo"
 }
+
 build.dependsOn generateDemo

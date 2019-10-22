@@ -29,19 +29,19 @@ class GenericParser(
         result.add(builder.toString())
         if (joinSingleCharacters) {
             val joinedResult = ArrayList<String>()
-            val builder = StringBuilder()
+            val joinBuilder = StringBuilder()
             result.forEach { part ->
                 if(part.length > 1) {
-                    if (builder.length > 0) {
-                        joinedResult.add(builder.toString())
-                        builder.clear()
+                    if (joinBuilder.length > 0) {
+                        joinedResult.add(joinBuilder.toString())
+                        joinBuilder.clear()
                     }
                     joinedResult.add(part)
                 } else {
-                    builder.append(part)
+                    joinBuilder.append(part)
                 }
             }
-            val last = builder.toString()
+            val last = joinBuilder.toString()
             if(last.isNotEmpty()) {
                 joinedResult.add(last)
             }
