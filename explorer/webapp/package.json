@@ -28,7 +28,7 @@
     "@ngrx/store-devtools": "^7.3.0",
     "core-js": "^2.4.1",
     "d3": "5.9.2",
-    "mathjs": "^5.0.1",
+    "mathjs": "^7.5.1",
     "ngrx-store-freeze": "^0.2.4",
     "primeicons": "^1.0.0-beta.10",
     "primeng": "^6.0.2",
